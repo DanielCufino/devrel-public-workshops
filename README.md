@@ -66,7 +66,7 @@ If you can't install the CLI, you can run the project from your forked repo usin
 
 The use case for this workshop is using Airflow to create an automated personalized newsletter. There is an ETL pipeline for retrieving the data, formatting it, and creating the newsletter template. Then there is another pipeline that personalizes the newsletter based on user input. The personalization pipeline is simplified to not require access to external systems - but there is a more complex GenAI version (used in the optional Exercise 5) that shows inference execution with event-driven scheduling and LLM-driven personalization. This exercise requires an AWS account with access to SQS and Bedrock to complete.
 
-ADD SCREENSHOT
+![Demo architecture diagram](img/etl_genai_newsletter_architecture_diagram_bedrock.png)
 
 
 Exercises in this workshop require updating the DAGs in the `dags/` folder of this repo, and focus on newly added features in Airflow 3.0. For more background on these features, use the following resources:
@@ -204,4 +204,3 @@ To try out this example on Astro:
 1. Create a free Astro trial by signing up (here)[FREE TRIAL UTM]
 2. [Create a Deployment](https://www.astronomer.io/docs/astro/create-deployment).
 3. [Deploy your project](https://www.astronomer.io/docs/astro/deploy-code) using the Astro CLI.
- 
