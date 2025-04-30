@@ -134,6 +134,7 @@ In this repo, `raw_zen_quotes` and `selected_quotes` are part of an asset-orient
 
     date_newsletter_path.write_text(newsletter)
     ```
+
 2. Give the asset a schedule. It should run when the `selected_quotes` asset is available.
 3. After you have saved the file, check out your new asset graph in the Airflow UI. You should see your full ETL pipeline with three DAGs and three assets.
 4. Now that your ETL pipeline is complete, take a look at the `personalize_newsletter` DAG. This DAG is currently set to run daily, but it will actually fail if the `formatted_newsletter` asset has not been updated. Change the schedule of `personalize_newsletter` so that it actually runs only when the right data is available.
@@ -141,9 +142,29 @@ In this repo, `raw_zen_quotes` and `selected_quotes` are part of an asset-orient
    - Bonus: try adding additional user files in `include/user_data` and see how that changes the pipeline when it runs.
 6. Run your full pipeline by materializing the `raw_zen_quotes` DAG. This should trigger all downstream assets and tasks to complete. Check that everything worked by reviewing the DAG runs in the Airflow UI, and checking your local `include/newsletter` folder for your personalized newsletter.
 
+> [!TIP]
+> The open-meteo weather API is occasionally flaky. If you get a failure in your `get_weather_info` task, let it retry, it will usually resolve. If you added additional users, you may need to implement a pool so you don't hit API rate limits. Ask one of your workshop leaders for help with this.
+
 ## Exercise 3: Run a Backfill
 
+For ETL pipelines that are time-dependent, like this one in this example, you may occasionally need to reprocess historical data. Backfills are a first-class feature in Airflow 3, and make this easy.
+
+Let's say you just deployed these pipelines, and you need to create newsletters for the past couple of days.
+
+1. Start a backfill of the `raw_zen_quotes` DAG using the UI.
+2. In the `Run Backfill` form, choose a date range and reprocessing behavior that triggers 2 runs.
+3. Start the backfill, and notice the progress bar in the UI (you may need to refresh the page). What is different about these runs in the grid?
+4. Notice what happened to the other downstream DAGs in your environment. Were they triggered as well?
+
 ## Exercise 4: Use DAG versioning
+
+DAG versioning is a new feature in Airflow 3 that allows you to track changes to your DAG code over time in the Airflow UI. DAG versioning using the `LocalDagBundle` is set up automatically.
+
+Changes to your DAG's structure will prompt a new version to be recorded by Airflow. In Exercise 2, you made a change to the `personalize_newsletter` DAG - let's start there.
+
+1. In the Airflow UI, go to the Graph of your `personalize_newsletter` DAG, click on `Options` and notice the Dag Version drop down. How many versions are there?
+2. The change to the schedule doesn't actually change the graph of the DAG, but you can see the change from the code. Look at the `Code` tab for your DAG, and try toggling between the two versions.
+3. Let's make another change. Go to the code for your `personalize_newsletter` DAG and add a comment to the `get_user_info` task. Go back to the UI and refresh - was a new DAG version created?
 
 
 ## (Optional) Exercise 5: Run a GenAI DAG with event-driven scheduling
