@@ -52,14 +52,18 @@ If you can't install the CLI, you can run the project from your forked repo usin
    Once you see the following printed to your terminal, the Airflow environment is ready to use:
 
    ```text
+   ✔ Project image has been updated
    ✔ Project started
-   ➤ Airflow Webserver: http://localhost:8080
+   ➤ Airflow UI: http://localhost:8080
    ➤ Postgres Database: postgresql://localhost:5435/postgres
-   ➤ The default Airflow UI credentials are: admin:admin
    ➤ The default Postgres DB credentials are: postgres:postgres
    ```
 
 6. Once the Airflow project has started, access the Airflow UI by clicking on the Ports tab and opening the forward URL for port `8080`.
+
+> [!TIP]
+> If when accessing the forward URL you get an error like `{"detail":"Invalid or unsafe next URL"}`, you will need to modify the forwarded URL. Delete everything forward of `next=....` (this should be after `/login?`, ). The URL will update, adn then remove `:8080`, so your URL should endd in `.app.github.dev`
+
 7. Log into the Airflow UI using `admin` as both the username and password. It is possible that after logging in you see an error, in this case you have to open the URL again from the ports tab.
 
 # Exercises
