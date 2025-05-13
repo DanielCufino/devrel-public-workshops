@@ -72,7 +72,6 @@ The use case for this workshop is using Airflow to create an automated personali
 
 ![Demo architecture diagram](img/etl_genai_newsletter_architecture_diagram_bedrock.png)
 
-
 Exercises in this workshop require updating the DAGs in the `dags/` folder of this repo, and focus on newly added features in Airflow 3.0. For more background on these features, use the following resources:
 
 - [An Introduction to the Airflow UI](https://www.astronomer.io/docs/learn/airflow-ui/)
@@ -88,9 +87,10 @@ Airflow 3 has a completely refreshed UI that is React-based and easier to naviga
 
 1. Review the new Home page. There won't be much here to start, but you'll change that momentarily!
 2. Explore the Dags and Assets tabs. See if you can get an understanding of the relationship between the DAGs in the environment so far. What dependencies currently exist?
-3. Unpause all of the DAGs, then try running one. Run the `selected_quotes` DAG, either by triggering the DAG, or creating an asset event. Is there a difference between the two methods?
-4. Note what happens after `selected_quotes` has run. Do any other DAGs run?
-5. Switch to dark mode 😎
+3. Unpause the `raw_zen_quotes` and `selected_quotes` DAGs. Run the `raw_zen_quotes` DAG, either by triggering the DAG, or creating an asset event. Is there a difference between the two methods?
+4. Note what happens after `raw_zen_quotes` has run. Do any other DAGs run?
+5. Try unpausing the `personalize_newsletter` DAG. It should run automatically once, but it will fail. The failure is expected, and you will fix it in the next exercise. The Airflow 3 UI makes it easier to navigate to task logs. See if you can figure out what went wrong with `personalize_newsletter`.
+6. Switch to dark mode 😎
 
 
 ## Exercise 2: Use Assets
@@ -101,43 +101,43 @@ In this repo, `raw_zen_quotes` and `selected_quotes` are part of an asset-orient
 
 1. Create a new asset in `create_newsletter.py` called `formatted_newsletter` using the following Python code:
    ```python
-    """
-    Formats the newsletter.
-    """
-    from airflow.io.path import ObjectStoragePath
+   """
+   Formats the newsletter.
+   """
+   from airflow.io.path import ObjectStoragePath
 
-    object_storage_path = ObjectStoragePath(
-        f"{OBJECT_STORAGE_SYSTEM}://{OBJECT_STORAGE_PATH_NEWSLETTER}",
-        conn_id=OBJECT_STORAGE_CONN_ID,
-    )
+   object_storage_path = ObjectStoragePath(
+      f"{OBJECT_STORAGE_SYSTEM}://{OBJECT_STORAGE_PATH_NEWSLETTER}",
+      conn_id=OBJECT_STORAGE_CONN_ID,
+   )
 
-    date = context["dag_run"].run_after.strftime("%Y-%m-%d")
+   date = context["dag_run"].run_after.strftime("%Y-%m-%d")
 
-    selected_quotes = context["ti"].xcom_pull(
-        dag_id="selected_quotes",
-        task_ids=["selected_quotes"],
-        key="return_value",
-        include_prior_dates=True,
-    )
+   selected_quotes = context["ti"].xcom_pull(
+      dag_id="selected_quotes",
+      task_ids=["selected_quotes"],
+      key="return_value",
+      include_prior_dates=True,
+   )
 
-    newsletter_template_path = object_storage_path / "newsletter_template.txt"
+   newsletter_template_path = object_storage_path / "newsletter_template.txt"
 
-    newsletter_template = newsletter_template_path.read_text()
+   newsletter_template = newsletter_template_path.read_text()
 
-    newsletter = newsletter_template.format(
-        quote_text_1=selected_quotes["short_q"]["q"],
-        quote_author_1=selected_quotes["short_q"]["a"],
-        quote_text_2=selected_quotes["median_q"]["q"],
-        quote_author_2=selected_quotes["median_q"]["a"],
-        quote_text_3=selected_quotes["long_q"]["q"],
-        quote_author_3=selected_quotes["long_q"]["a"],
-        date=date,
-    )
+   newsletter = newsletter_template.format(
+      quote_text_1=selected_quotes["short_q"]["q"],
+      quote_author_1=selected_quotes["short_q"]["a"],
+      quote_text_2=selected_quotes["median_q"]["q"],
+      quote_author_2=selected_quotes["median_q"]["a"],
+      quote_text_3=selected_quotes["long_q"]["q"],
+      quote_author_3=selected_quotes["long_q"]["a"],
+      date=date,
+   )
 
-    date_newsletter_path = object_storage_path / f"{date}_newsletter.txt"
+   date_newsletter_path = object_storage_path / f"{date}_newsletter.txt"
 
-    date_newsletter_path.write_text(newsletter)
-    ```
+   date_newsletter_path.write_text(newsletter)
+   ```
 
 2. Give the asset a schedule. It should run when the `selected_quotes` asset is available.
 3. After you have saved the file, check out your new asset graph in the Airflow UI. You should see your full ETL pipeline with three DAGs and three assets.
