@@ -170,8 +170,20 @@ Changes to your DAG's structure will prompt a new version to be recorded by Airf
 2. The change to the schedule doesn't actually change the graph of the DAG, but you can see the change from the code. Look at the `Code` tab for your DAG, and try toggling between the two versions.
 3. Let's make another change. Go to the code for your `personalize_newsletter` DAG and add a comment to the `get_user_info` task. Go back to the UI and refresh - was a new DAG version created?
 
+## (Optional) Exercise 5: Deploy to Astro
 
-## (Optional) Exercise 5: Run a GenAI DAG with event-driven scheduling
+Now that you have working pipelines that create an awesome personalized newsletter, a great next step is deploying to production! (hopefully you aren't running real pipelines on your local computer!)
+
+Astro has full support for Airflow 3, as well as additional features that make running your pipelines in production easier and more scalable.
+
+To try out this example on Astro:
+
+1. Create a free Astro trial by signing up (here)[FREE TRIAL UTM]
+2. [Create a Deployment](https://www.astronomer.io/docs/astro/create-deployment).
+3. [Deploy your project](https://www.astronomer.io/docs/astro/deploy-code) using the Astro CLI.
+
+
+## (Future work) Exercise 6: Run a GenAI DAG with event-driven scheduling
 
 The `personalize_newsletter` pipeline in this workshop is designed to not require connections to any external systems. While this is helpful for workshop participants who may not all use the same tech stack, it is not representative of real-world Airflow usage.
 
@@ -196,15 +208,3 @@ You can run this version of the pipeline yourself if you have access to an AWS a
 6. Check to see that your `personalize_newsletter` DAG started running. Note that you can change the Bedrock model used by the DAG, and you may need to request access to a particular model from within your AWS account if you have not already used it.
 7. Review your personalized newsletter in `include/newsletters`.
 
-
-## (Optional) Exercise 6: Deploy to Astro
-
-Now that you have working pipelines that create an awesome personalized newsletter, a great next step is deploying to production! (hopefully you aren't running real pipelines on your local computer!)
-
-Astro has full support for Airflow 3, as well as additional features that make running your pipelines in production easier and more scalable.
-
-To try out this example on Astro:
-
-1. Create a free Astro trial by signing up (here)[FREE TRIAL UTM]
-2. [Create a Deployment](https://www.astronomer.io/docs/astro/create-deployment).
-3. [Deploy your project](https://www.astronomer.io/docs/astro/deploy-code) using the Astro CLI.
