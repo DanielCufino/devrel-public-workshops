@@ -118,7 +118,8 @@ In this repo, `raw_zen_quotes` and `selected_quotes` are part of an asset-orient
       task_ids=["selected_quotes"],
       key="return_value",
       include_prior_dates=True,
-   )
+   )[0]
+   logger.info("Before selected_quotes %s", selected_quotes)
 
    newsletter_template_path = object_storage_path / "newsletter_template.txt"
 
