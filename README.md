@@ -179,7 +179,7 @@ Astro has full support for Airflow 3, as well as additional features that make r
 
 To try out this example on Astro:
 
-1. Create a free Astro trial by signing up (here)[FREE TRIAL UTM]
+1. Create a free Astro trial by signing up [here](https://www.astronomer.io/lp/signup/)
 2. [Create a Deployment](https://www.astronomer.io/docs/astro/create-deployment).
 3. [Deploy your project](https://www.astronomer.io/docs/astro/deploy-code) using the Astro CLI.
 
