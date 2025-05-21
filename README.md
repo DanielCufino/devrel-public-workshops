@@ -115,7 +115,7 @@ In this repo, `raw_zen_quotes` and `selected_quotes` are part of an asset-orient
 
    selected_quotes = context["ti"].xcom_pull(
       dag_id="selected_quotes",
-      task_ids=["selected_quotes"],
+      task_ids="selected_quotes",
       key="return_value",
       include_prior_dates=True,
    )
