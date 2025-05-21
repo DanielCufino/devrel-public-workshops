@@ -156,10 +156,10 @@ For ETL pipelines that are time-dependent, like this one in this example, you ma
 
 Let's say you just deployed these pipelines, and you need to create newsletters for the past couple of days.
 
-1. Start a backfill of the `raw_zen_quotes` DAG using the UI, by clicking the `Trigger` button and choosing the `Backfill` option.
-2. In the `Backfill` form, choose a date range and reprocessing behavior that triggers 2 runs.
-3. Start the backfill, and notice the progress bar in the UI (you may need to refresh the page). What is different about these runs in the grid?
-4. Notice what happened to the other downstream DAGs in your environment. Were they triggered as well?
+1. Start a backfill of the `raw_zen_quotes` DAG using the UI, by clicking the `Run Backfill` button on the DAG page. Make sure you have the DAG selected and not an individual DAG run.
+3. In the `Backfill` form, choose a date range and reprocessing behavior that triggers 2 runs.
+4. Start the backfill, and notice the progress bar in the UI (you may need to refresh the page). What is different about these runs in the grid?
+5. Notice what happened to the other downstream DAGs in your environment. Were they triggered as well?
 
 ## Exercise 4: Use DAG versioning
 
