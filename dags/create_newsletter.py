@@ -44,7 +44,7 @@ def selected_quotes(context: dict) -> dict:
         include_prior_dates=True,
     )
 
-    logger.info("Before quote_character_counts", raw_zen_quotes)
+    logger.info("Before quote_character_counts %s", raw_zen_quotes)
     quotes_character_counts = [int(quote["c"]) for quote in raw_zen_quotes]
     median = np.median(quotes_character_counts)
 
