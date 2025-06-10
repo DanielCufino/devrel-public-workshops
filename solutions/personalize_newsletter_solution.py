@@ -182,5 +182,11 @@ def personalize_newsletter():
         user=_get_weather_info
     )
 
+    @task
+    def add_a_task():
+        return 2 + 2
+
+    add_a_task()
+
 
 personalize_newsletter()

@@ -157,9 +157,9 @@ For ETL pipelines that are time-dependent, like this one in this example, you ma
 Let's say you just deployed these pipelines, and you need to create newsletters for the past couple of days.
 
 1. Start a backfill of the `raw_zen_quotes` DAG using the UI, by clicking the blue `Trigger` button and selecting `Backfill`. (see: [Backfill](https://www.astronomer.io/docs/learn/rerunning-dags#backfill))
-3. In the `Backfill` form, choose a date range and reprocessing behavior that triggers 2 runs.
-4. Start the backfill, and notice the progress bar in the UI (you may need to refresh the page). What is different about these runs in the grid?
-5. Notice what happened to the other downstream DAGs in your environment. Were they triggered as well?
+2. In the `Backfill` form, choose a date range and reprocessing behavior that triggers 2 runs.
+3. Start the backfill, and notice the progress bar in the UI (you may need to refresh the page). What is different about these runs in the grid?
+4. Notice what happened to the other downstream DAGs in your environment. Were they triggered as well?
 
 ## Exercise 4: Use DAG versioning
 
@@ -169,7 +169,10 @@ Changes to your DAG's structure will prompt a new version to be recorded by Airf
 
 1. In the Airflow UI, go to the Graph of your `personalize_newsletter` DAG, click on `Options` and notice the Dag Version drop down. How many versions are there?
 2. The change to the schedule doesn't actually change the graph of the DAG, but you can see the change from the code. Look at the `Code` tab for your DAG, and try toggling between the two versions.
-3. Let's make another change. Go to the code for your `personalize_newsletter` DAG and add a comment to the `get_user_info` task. Go back to the UI and refresh - was a new DAG version created?
+3. Let's make another change. Go to the code for your `personalize_newsletter` DAG and add a task using the `@task` decorator that does anything (some simple math will work for this purpose). Go back to the UI and rerun the DAG - was a new DAG version created?
+
+> [!TIP]
+> New DAG versions are only created when the DAG's structure changes. Making a change to the task code will not prompt a new version.
 
 ## (Optional) Exercise 5: Deploy to Astro
 

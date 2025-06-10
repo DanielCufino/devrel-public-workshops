@@ -74,13 +74,14 @@ from airflow.sdk import dag
     start_date=datetime(2025, 3, 1),
     schedule="@daily",
     default_args={
-        "retries": 2,
+        "retries": 0,
         "retry_delay": duration(minutes=3),
     },  
 )
 def personalize_newsletter():
     @task
     def get_user_info() -> list[dict]:
+        #comment on what this task does
         import json
 
         from airflow.sdk import ObjectStoragePath
