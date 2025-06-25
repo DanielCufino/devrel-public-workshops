@@ -99,7 +99,7 @@ In the previous exercise, you explored the UI and saw that in your current Airfl
 
 In this repo, `raw_zen_quotes` and `selected_quotes` are part of an asset-oriented ETL pipeline that create the general newsletter template by retrieving data from an API, formatting the data, and bringing the data together in the template. You'll notice that the "load" step to bring the template together is missing. Let's fix that.
 
-1. Create a new asset in `create_newsletter.py` called `formatted_newsletter` using the following Python code:
+1. Create a new asset in `create_newsletter.py` called `formatted_newsletter`. Use the following Python code as the _body_ of the asset:
    ```python
    """
    Formats the newsletter.
