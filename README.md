@@ -28,8 +28,9 @@ To set up a local Airflow environment you have two options, you can either use t
 
    ![Forking the repository](img/fork_repo.png)
 
-4. Run `astro dev start` in the root of the cloned repository to start the Airflow environment.
-5. Access the Airflow UI at `localhost:8080` in your browser. Log in using `admin` as both the username and password.
+4. Clone the repository and run `git checkout airflow-3-0` to switch to the airflow 3 branch
+5. Run `astro dev start` in the root of the cloned repository to start the Airflow environment.
+6. Access the Airflow UI at `localhost:8080` in your browser. Log in using `admin` as both the username and password.
 
 #### Option 2: GitHub Codespaces
 
