@@ -125,8 +125,10 @@ def personalize_newsletter():
     ) -> None:
         from airflow.sdk import ObjectStoragePath
 
-        date = context["dag_run"].run_after.strftime(
-            "%Y-%m-%d"
+        # fetch the run date of the pipeline from the triggering asset event
+        run_date = (
+            context["triggering_asset_events"][Asset("formatted_newsletter")][0]
+            .extra["run_date"]
         )
 
         id = user["id"]
@@ -158,7 +160,7 @@ def personalize_newsletter():
 
         daily_newsletter_path = (
             object_storage_path
-            / f"{date}_newsletter.txt"
+            / f"{run_date}_newsletter.txt"
         )
 
         generic_content = (
@@ -172,7 +174,7 @@ def personalize_newsletter():
 
         personalized_newsletter_path = (
             object_storage_path
-            / f"{date}_newsletter_userid_{id}.txt"
+            / f"{run_date}_newsletter_userid_{id}.txt"
         )
 
         personalized_newsletter_path.write_text(

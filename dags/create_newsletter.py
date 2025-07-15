@@ -1,7 +1,6 @@
-import logging
 import os
 
-from airflow.sdk import asset
+from airflow.sdk import asset, Asset, Metadata
 
 
 # set these enviroment variables in order to store the newsletter 
@@ -14,11 +13,9 @@ OBJECT_STORAGE_PATH_NEWSLETTER = os.getenv(
 )
 
 
-logger = logging.getLogger(__name__)
-
 
 @asset(schedule="@daily")
-def raw_zen_quotes() -> list[dict]:
+def raw_zen_quotes(context: dict):
     """
     Extracts a random set of quotes.
     """
@@ -27,11 +24,16 @@ def raw_zen_quotes() -> list[dict]:
     r = requests.get("https://zenquotes.io/api/quotes/random")
     quotes = r.json()
 
+    run_date = context["dag_run"].logical_date.strftime("%Y-%m-%d")
+
+    # attach the run date to the asset event
+    yield Metadata(Asset("raw_zen_quotes"), {"run_date": run_date})
+
     return quotes
 
 
 @asset(schedule=[raw_zen_quotes])
-def selected_quotes(context: dict) -> dict:
+def selected_quotes(context: dict):
     """
     Transforms the extracted raw_zen_quotes.
     """
@@ -44,7 +46,6 @@ def selected_quotes(context: dict) -> dict:
         include_prior_dates=True,
     )
 
-    logger.info("Before quote_character_counts %s", raw_zen_quotes)
     quotes_character_counts = [int(quote["c"]) for quote in raw_zen_quotes]
     median = np.median(quotes_character_counts)
 
@@ -55,6 +56,14 @@ def selected_quotes(context: dict) -> dict:
     raw_zen_quotes.pop(raw_zen_quotes.index(median_quote))
     short_quote = [quote for quote in raw_zen_quotes if int(quote["c"]) < median][0]
     long_quote = [quote for quote in raw_zen_quotes if int(quote["c"]) > median][0]
+
+    # fetch the run date of the pipeline
+    run_date = context["triggering_asset_events"][Asset("raw_zen_quotes")][0].extra[
+        "run_date"
+    ]
+
+    # attach the run date to the asset event
+    yield Metadata(Asset("selected_quotes"), {"run_date": run_date})
 
     return {
         "median_q": median_quote,
