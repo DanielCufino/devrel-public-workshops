@@ -10,7 +10,6 @@ OBJECT_STORAGE_PATH_NEWSLETTER = os.getenv(
     default="include/newsletter",
 )
 
-
 @asset(schedule="@daily")
 def raw_zen_quotes(context: dict):
     """

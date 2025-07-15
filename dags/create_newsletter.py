@@ -1,4 +1,3 @@
-import logging
 import os
 
 from airflow.sdk import asset, Asset, Metadata
@@ -13,8 +12,6 @@ OBJECT_STORAGE_PATH_NEWSLETTER = os.getenv(
     default="include/newsletter",
 )
 
-
-logger = logging.getLogger(__name__)
 
 
 @asset(schedule="@daily")
@@ -36,7 +33,7 @@ def raw_zen_quotes(context: dict):
 
 
 @asset(schedule=[raw_zen_quotes])
-def selected_quotes(context: dict) -> dict:
+def selected_quotes(context: dict):
     """
     Transforms the extracted raw_zen_quotes.
     """
@@ -49,7 +46,6 @@ def selected_quotes(context: dict) -> dict:
         include_prior_dates=True,
     )
 
-    logger.info("Before quote_character_counts %s", raw_zen_quotes)
     quotes_character_counts = [int(quote["c"]) for quote in raw_zen_quotes]
     median = np.median(quotes_character_counts)
 
