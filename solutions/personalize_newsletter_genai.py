@@ -223,7 +223,11 @@ def personalize_newsletter_genai():
 
         from airflow.io.path import ObjectStoragePath
 
-        date = context["dag_run"].run_after.strftime("%Y-%m-%d")
+        # fetch the run date of the pipeline from the triggering asset event
+        run_date = (
+            context["triggering_asset_events"][Asset("formatted_newsletter")][0]
+            .extra["run_date"]
+        )
 
         id = user["id"]
         name = user["name"]
@@ -248,7 +252,7 @@ def personalize_newsletter_genai():
             conn_id=OBJECT_STORAGE_CONN_ID,
         )
 
-        daily_newsletter_path = object_storage_path / f"{date}_newsletter.txt"
+        daily_newsletter_path = object_storage_path / f"{run_date}_newsletter.txt"
 
         generic_content = daily_newsletter_path.read_text()
 
@@ -269,7 +273,7 @@ def personalize_newsletter_genai():
         )
 
         personalized_newsletter_path = (
-            object_storage_path / f"{date}_newsletter_userid_{id}.txt"
+            object_storage_path / f"{run_date}_newsletter_userid_{id}.txt"
         )
 
         personalized_newsletter_path.write_text(updated_content)
