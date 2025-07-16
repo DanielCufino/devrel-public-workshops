@@ -1,20 +1,19 @@
-# Airflow 3 Workshop
+# Intro to Airflow and Astro Workshop
 
 Welcome! 🚀
 
-This is the repository for Astronomer's Discover Airflow 3 hands-on workshop. The workshop is designed to get you familiar with some of the biggest new features in Airflow 3.0.
+This is the repository for Astronomer's Discover intro to Airflow and Astro hands-on workshop. The workshop is designed to get you familiar with how to write basic data pipelines with Apache Airflow, and how to deploy them to run in production on Astro.
 
 
 ## How to use this repo
 
-Set up your environment by following the instructions in the [Setup](#setup) section below. All DAGs in this repository can be run locally and on Astro without connecting to external systems. The exercises are designed to get you exposure to new features in Airflow 3. There are also optional exercises that require an AWS account.
+Set up your environment by following the instructions in the [Setup](#setup) section below. All DAGs in this repository can be run locally and on Astro without connecting to external systems.
 
-Sample solutions for DAG-writing related exercises can be found in the [`dags/solutions`](/solutions/) folder of the repo, note that some exercises can be solved in multiple ways.
+Sample solutions for DAG-writing related exercises can be found in the [`solutions/`](/solutions/) folder of the repo, note that some exercises can be solved in multiple ways.
 
 > [!TIP]
 > Consider using [Ask Astro](ask.astronomer.io) if you need additional guidance with any of the exercises.
 
-For additional Airflow 3.0 examples, see [our repo](https://github.com/astronomer/airflow-3-demos).
 
 ### Setup
 
@@ -28,7 +27,7 @@ To set up a local Airflow environment you have two options, you can either use t
 
    ![Forking the repository](img/fork_repo.png)
 
-4. Clone the repository and run `git checkout airflow-3-0` to switch to the airflow 3 branch
+4. Clone the repository and run `git checkout intro-to-airflow-astro` to switch to the correct workshop branch.
 5. Run `astro dev start` in the root of the cloned repository to start the Airflow environment.
 6. Access the Airflow UI at `localhost:8080` in your browser. Log in using `admin` as both the username and password.
 
@@ -40,7 +39,7 @@ If you can't install the CLI, you can run the project from your forked repo usin
 
    ![Forking the repository](img/fork_repo.png)
 
-2. Make sure you are on the `airflow-3-0` branch.
+2. Make sure you are on the `intro-to-airflow-astro` branch.
 3. Click on the green "Code" button and select the "Codespaces" tab. 
 4. Click on the 3 dots and then `+ New with options...` to create a new Codespace with a configuration, make sure to select a Machine type of at least `4-core`.
 
@@ -67,149 +66,144 @@ If you can't install the CLI, you can run the project from your forked repo usin
 
 7. Log into the Airflow UI using `admin` as both the username and password. It is possible that after logging in you see an error, in this case you have to open the URL again from the ports tab.
 
-# Exercises
+# Exercises Part 1: Introduction to Airflow
 
-The use case for this workshop is using Airflow to create an automated personalized newsletter. There is an ETL pipeline for retrieving the data, formatting it, and creating the newsletter template. Then there is another pipeline that personalizes the newsletter based on user input. The personalization pipeline is simplified to not require access to external systems - but there is a more complex GenAI version (used in the optional Exercise 5) that shows inference execution with event-driven scheduling and LLM-driven personalization. This exercise requires an AWS account with access to SQS and Bedrock to complete.
+Part 1 of this workshop focuses on getting you familiar with Airflow - writing and running DAGs, and using the UI. The use case is using Airflow to run ETL and analytics pipelines. You will work with an ETL DAG that retrieves information about galaxies, transforms the data, and loads it into a DuckDB instance. You will also create a second DAG that analyzes the data. No connections to external systems are required for this workshop.
 
-![Demo architecture diagram](img/etl_genai_newsletter_architecture_diagram_bedrock.png)
+Consider using the following guides to help with the exercises:
 
-Exercises in this workshop require updating the DAGs in the `dags/` folder of this repo, and focus on newly added features in Airflow 3.0. For more background on these features, use the following resources:
-
-- [An Introduction to the Airflow UI](https://www.astronomer.io/docs/learn/airflow-ui/)
-- [Assets and Data-Aware Scheduling in Airflow](https://www.astronomer.io/docs/learn/airflow-datasets/)
-- [DAG Versioning and DAG Bundles](https://www.astronomer.io/docs/learn/airflow-dag-versioning/)
-- [Rerun Airflow DAGs and Tasks](https://www.astronomer.io/docs/learn/rerunning-dags/)
-- [Event-Driven Scheduling](https://www.astronomer.io/docs/learn/airflow-event-driven-scheduling/)
+- [The Airflow UI](https://www.astronomer.io/docs/learn/airflow-ui)
+- [Introduction to Airflow DAGs](https://www.astronomer.io/docs/learn/dags)
+- [Schedule DAGs](https://www.astronomer.io/docs/learn/scheduling-in-airflow)
+- [Rerun DAGs and tasks](https://www.astronomer.io/docs/learn/rerunning-dags)
+- [Assets and data-aware scheduling](https://www.astronomer.io/docs/learn/airflow-datasets)
 
 
-## Exercise 1: Explore the new UI
+## Exercise 1: Explore the Airflow UI
 
-Airflow 3 has a completely refreshed UI that is React-based and easier to navigate. Once you have started Airflow, explore the new UI to develop your workflow.
+Most Airflow users will use the UI to monitor their pipelines. Exploring the UI is the easiest way to get familiar with how Airflow works. If you completed the setup steps above, you should have Airflow running locally at `localhost:8080`, or in GitHub codespaces. Go the UI, and start exploring!
 
-1. Review the new Home page. There won't be much here to start, but you'll change that momentarily!
-2. Explore the Dags and Assets tabs. See if you can get an understanding of the relationship between the DAGs in the environment so far. What dependencies currently exist?
-3. Unpause the `raw_zen_quotes` and `selected_quotes` DAGs. Run the `raw_zen_quotes` DAG, either by triggering the DAG, or creating an asset event. Is there a difference between the two methods?
-4. Note what happens after `raw_zen_quotes` has run. Do any other DAGs run?
-5. Try unpausing the `personalize_newsletter` DAG. It should run automatically once, but it will fail. The failure is expected, and you will fix it in the next exercise. The Airflow 3 UI makes it easier to navigate to task logs. See if you can figure out what went wrong with `personalize_newsletter`.
-6. Switch to dark mode 😎
+1. Review the Home page. There won't be much here to start, but you'll change that momentarily!
+2. You should see a Dag import error. Review the error, and see if you can match that to an issue with a Dag in your `dags/` folder. Note that the error is expected, and you will fix it in a later exercise - you don't need to do anything right now!
+3. Look at the Dags page - you should see one `etl_galaxies` Dag. You'll look at that more in the next exercise.
+4. Review the options in the admin tab. You won't need these for this workshop - but they are often used for real-world Airflow pipelines. Make note of any questions you have about these, and ask about them during the Q&A portion of the workshop!
+5. Switch to dark mode 😎
 
 
-## Exercise 2: Use Assets
+## Exercise 2: Review Dags and tasks
 
-In the previous exercise, you explored the UI and saw that in your current Airflow environment, you have three DAGs, and three assets (`raw_zen_quotes`, `selected_quotes`, and `personalized_newsletters`). Conceptually, assets are the next evolution of Airflow datasets: they represent a collection of logically related data. You can have asset-oriented DAGs (`raw_zen_quotes`, `selected_quotes`), or task-oriented DAGs (`personalize_newsletter`). Every asset you define will create one DAG, but tasks can still produce assets and task-oriented DAGs can be scheduled on asset updates.
+Let's dig into Dags and tasks in more detail.
 
-In this repo, `raw_zen_quotes` and `selected_quotes` are part of an asset-oriented ETL pipeline that create the general newsletter template by retrieving data from an API, formatting the data, and bringing the data together in the template. You'll notice that the "load" step to bring the template together is missing. Let's fix that.
+1. Go back to the Dags page and click on the `etl_galaxies` Dag.
+2. This Dag does not currently have a schedule, but you can trigger it manually using the blue `Trigger` button in the upper right corner.
+   - When you trigger the Dag, a window pops up with some options. Choose `Single Run`, and keep the Run Parameters to the default for now.
+   - You can also leave teh `Unpause etl_galaxies on trigger` box checked - this will unpause the Dag so it will run normally going forward.
+3. After you trigger the Dag, notice what happens in the grid. You should see a successful run, with green boxes for each task instance. 
+4. Click on the `print_loaded_galaxies` task instance - you should see the logs, with a printout of the data you just loaded.
+5. Take a closer look at the structure and code of this Dag. Review the graph and the code in the Airflow UI, and see if you can understand how the Dag works. Every Python function in the code decorated with `@task` corresponds to a node in the graph. The code you see in the `Code` tab in the UI should match what is in your `dags/` folder in the `etl_galaxies.py` file.
 
-1. Create a new asset in `create_newsletter.py` called `formatted_newsletter`. Use the following Python code as the _body_ of the asset:
+## Exercise 3: Use basic orchestration functionality
+
+Now let's get hands-on and make some changes to the `etl_galaxies` Dag. This Dag is already implementing an ETL pipeline, but there is some basic orchestration functionality that it is not currently leveraging.
+
+Note that while in the last exercise you were reviewing the Dag code in the Airflow UI, the code can only be changed directly in the Python files in your Airflow project (i.e. the UI is view-only).
+
+1. The `etl_galaxies` Dag currently does not have a schedule - let's change that! Update the Dag so that it will run daily at midnight.
+2. You can have Airflow manage retrying any tasks that fail by using retries. The Dag currently has one retry set as the default for every task, but you can override this if you want a particular task to have different retry settings. Update the `create_galaxy_table_in_duckdb` task to retry 3 times in case of failure.
+3. Dependency management is another bread and butter feature of Airflow. Right now, the `transform_galaxy_data` task is dependent on the `create_galaxy_table_in_duckdb` task. But this isn't actually a real dependency for this pipeline. Adjust the dependencies in the Dag so `create_galaxy_table_in_duckdb` comes before `load_galaxy_data`, instead of before `transform_galaxy_data`. Your graph should look like this:
+
+   ![Updated graph](img/exercise_3_graph.png)
+
+4. Since you changed the structure of the Dag in Step 3, you will now have multiple versions of this Dag. In the Airflow UI, toggle between V1 and V2 and see how the graph changes.
+
+
+## Exercise 4: Create a new DAG using Assets
+
+In the previous exercise, you updated an ETL Dag that uses the `@task` decorator to turn Python functions into Airflow tasks. This is one was of defining Dags, but you can also use Assets. Conceptually, assets represent a collection of logically related data. You can have asset-oriented DAGs, or task-oriented DAGs (like `etl_galaxies`)). Every asset you define will create one DAG, but tasks can still produce assets and task-oriented DAGs can be scheduled on asset updates.
+
+Next, you will create an analytics Dag that will analyze your galaxy data using assets.
+
+1. In your `dags/` folder, go to the `galaxy_analytics.py` file. Remember this is the Dag that currently has an import error - you're about to fix that! Review the existing code.
+2. Create your `galaxy_analytics` Dag by using the following Python function under the `@asset` decorator.
+
    ```python
-   """
-   Formats the newsletter.
-   """
-   from airflow.io.path import ObjectStoragePath
+   def analyze_galaxies(
+    duckdb_instance_name: str = _DUCKDB_INSTANCE_NAME,
+    table_name: str = _DUCKDB_TABLE_NAME,
+   ) -> None:
+    """
+    Analyze the galaxy data by creating an analytics
+    table (in the logs!) with the count of galaxies
+    by type.
 
-   object_storage_path = ObjectStoragePath(
-      f"{OBJECT_STORAGE_SYSTEM}://{OBJECT_STORAGE_PATH_NEWSLETTER}",
-      conn_id=OBJECT_STORAGE_CONN_ID,
-   )
+    In production, you would write this data to a 
+    persistent table somewhere and perhaps use it
+    in an analytics dashboard.
+    """
+    import duckdb
+    from tabulate import tabulate
 
-   date = context["dag_run"].run_after.strftime("%Y-%m-%d")
+    cursor = duckdb.connect(duckdb_instance_name)
 
-   selected_quotes = context["ti"].xcom_pull(
-      dag_id="selected_quotes",
-      task_ids="selected_quotes",
-      key="return_value",
-      include_prior_dates=True,
-   )
-   logger.info("Before selected_quotes %s", selected_quotes)
+    query = f"""
+        SELECT type_of_galaxy, COUNT(*) AS count
+        FROM {_DUCKDB_TABLE_NAME}
+        GROUP BY type_of_galaxy
+        ORDER BY count DESC
+    """
 
-   newsletter_template_path = object_storage_path / "newsletter_template.txt"
+    galaxy_analysis_df = cursor.sql(query).df()
+    t_log.info(tabulate(galaxy_analysis_df, headers="keys", tablefmt="pretty"))
+    cursor.close()
 
-   newsletter_template = newsletter_template_path.read_text()
+    return galaxy_analysis_df
+    ```
+3. The analytics Dag should not run until all of the galaxy data is available (i.e. after the ETL Dag has completed). To implement this dependency, you need to do two things:
+   - Modify the `etl_galaxies` Dag so that the `print_loaded_galaxies` task produces an asset called `galaxy_data` (remember you can do this with the "outlets" parameter).
+   - Add a schedule to the `galaxy_analytics` Dag so it runs when the `galaxy_data` asset has been updated.
 
-   newsletter = newsletter_template.format(
-      quote_text_1=selected_quotes["short_q"]["q"],
-      quote_author_1=selected_quotes["short_q"]["a"],
-      quote_text_2=selected_quotes["median_q"]["q"],
-      quote_author_2=selected_quotes["median_q"]["a"],
-      quote_text_3=selected_quotes["long_q"]["q"],
-      quote_author_3=selected_quotes["long_q"]["a"],
-      date=date,
-   )
-
-   date_newsletter_path = object_storage_path / f"{date}_newsletter.txt"
-
-   date_newsletter_path.write_text(newsletter)
-   ```
-
-2. Give the asset a schedule. It should run when the `selected_quotes` asset is available.
-3. After you have saved the file, check out your new asset graph in the Airflow UI. You should see your full ETL pipeline with three DAGs and three assets.
-4. Now that your ETL pipeline is complete, take a look at the `personalize_newsletter` DAG. This DAG is currently set to run daily, but it will actually fail if the `formatted_newsletter` asset has not been updated. Change the schedule of `personalize_newsletter` so that it actually runs only when the right data is available.
-5. This pipeline will generate a newsletter with motivational quotes and personalized weather information. In the `include/user_data` folder, update `user_100.json` to include your own name and location.
-   - Bonus: try adding additional user files in `include/user_data` and see how that changes the pipeline when it runs.
-6. Run your full pipeline by materializing the `raw_zen_quotes` DAG. This should trigger all downstream assets and tasks to complete. Check that everything worked by reviewing the DAG runs in the Airflow UI, and checking your local `include/newsletter` folder for your personalized newsletter.
-
-> [!TIP]
-> The open-meteo weather API is occasionally flaky. If you get a failure in your `get_weather_info` task, let it retry, it will usually resolve. If you added additional users, you may need to implement a pool so you don't hit API rate limits. Ask one of your workshop leaders for help with this.
-
-## Exercise 3: Run a Backfill
-
-For ETL pipelines that are time-dependent, like this one in this example, you may occasionally need to reprocess historical data. Backfills are a first-class feature in Airflow 3, and make this easy.
-
-Let's say you just deployed these pipelines, and you need to create newsletters for the past couple of days.
-
-1. Start a backfill of the `raw_zen_quotes` DAG using the UI, by clicking the blue `Trigger` button and selecting `Backfill`. (see: [Backfill](https://www.astronomer.io/docs/learn/rerunning-dags#backfill))
-2. In the `Backfill` form, choose a date range and reprocessing behavior that triggers 2 runs.
-3. Start the backfill, and notice the progress bar in the UI (you may need to refresh the page). What is different about these runs in the grid?
-4. Notice what happened to the other downstream DAGs in your environment. Were they triggered as well?
-
-## Exercise 4: Use DAG versioning
-
-DAG versioning is a new feature in Airflow 3 that allows you to track changes to your DAG code over time in the Airflow UI. DAG versioning using the `LocalDagBundle` is set up automatically.
-
-Changes to your DAG's structure will prompt a new version to be recorded by Airflow. In Exercise 2, you made a change to the `personalize_newsletter` DAG - let's start there.
-
-1. In the Airflow UI, go to the Graph of your `personalize_newsletter` DAG, click on `Options` and notice the Dag Version drop down. How many versions are there?
-2. The change to the schedule doesn't actually change the graph of the DAG, but you can see the change from the code. Look at the `Code` tab for your DAG, and try toggling between the two versions.
-3. Let's make another change. Go to the code for your `personalize_newsletter` DAG and add a task using the `@task` decorator that does anything (some simple math will work for this purpose). Go back to the UI and rerun the DAG - was a new DAG version created?
-
-> [!TIP]
-> New DAG versions are only created when the DAG's structure changes. Making a change to the task code will not prompt a new version.
-
-## (Optional) Exercise 5: Deploy to Astro
-
-Now that you have working pipelines that create an awesome personalized newsletter, a great next step is deploying to production! (hopefully you aren't running real pipelines on your local computer!)
-
-Astro has full support for Airflow 3, as well as additional features that make running your pipelines in production easier and more scalable.
-
-To try out this example on Astro:
-
-1. Create a free Astro trial by signing up [here](https://www.astronomer.io/lp/signup/)
-2. [Create a Deployment](https://www.astronomer.io/docs/astro/create-deployment).
-3. [Deploy your project](https://www.astronomer.io/docs/astro/deploy-code) using the Astro CLI.
+4. In the Airflow UI, review the assets page to see whether your changes successfully implemented a dependency between `etl_galaxies` and `galaxy_analytics`.
+5. Trigger the `etl_galaxy` Dag again, and you should see `galaxy_analytics` run as well. Check the task logs for `analyze_galaxies` to see the results of your analysis. 
 
 
-## (Future work) Exercise 6: Run a GenAI DAG with event-driven scheduling
+# Exercises Part 2: Running in production on Astro
 
-The `personalize_newsletter` pipeline in this workshop is designed to not require connections to any external systems. While this is helpful for workshop participants who may not all use the same tech stack, it is not representative of real-world Airflow usage.
+Now that you have a working ETL and analytics pipeline, the next step is to deploy it to production! You will do this using Astro, Astronomer's managed DataOps platform. If you do not already have an Astro account, a free trial link will be given during the workshop.
 
-To demonstrate a more realistic version of this pipeline, we have also included a version that personalizes the newsletter quotes by sending user input to an LLM through Amazon Bedrock, and runs when a message arrives in SQS. This simulates event-driven scheduling, that you might expect if you offered an on-demand newsletter to customers - so your pipeline runs as soon as users input their information.
+## Exercise 5: Create a new Deployment
 
-You can run this version of the pipeline yourself if you have access to an AWS account:
+In Astro, create a new Airflow Deployment. You can use `Hosted Execution` mode, a `Standard Cluster`, and choose the cloud provider and region that you prefer. Under `Execution` settings, make sure to choose Astro Runtime `3.0-5 (based on Airflow v3.0.3)`. For now, you can leave all other settings at their defaults.
 
-1. Replace the contents of `dags/personalize_newsletter.py` with the code in `solutions/personalize_newsletter_genai.py` (this will create a new DAG version!). 
-2. Add the contents of `.env_example` to `.env`, making sure to update `AIRFLOW_CONN_AWS_DEFAULT` with the credentials for your AWS account.
-3. Create a new SQS queue, and add the URL to `SQS_QUEUE_URL` in your `.env` file.
-4. Restart your Airflow project with `astro dev restart` for the `.env` changes to take effect.
-5. Run the new `personalize_newsletter` DAG by adding a message to your SQS queue with the following format:
-   ```
-   {
-    "id": 300,
-    "name": "Kenten",
-    "location": "Seattle",
-    "motivation": "Finding my way.",
-    "favorite_sci_fi_character": "Spock (Star Trek)"
-   }
-   ```
-6. Check to see that your `personalize_newsletter` DAG started running. Note that you can change the Bedrock model used by the DAG, and you may need to request access to a particular model from within your AWS account if you have not already used it.
-7. Review your personalized newsletter in `include/newsletters`.
+If you need help, see [Create a Deployment](https://www.astronomer.io/docs/astro/create-deployment).
+
+Check that your Deployment spins up and reaches a `Healthy` status.
+
+## Exercise 6: Set up a worker queue
+
+One of the benefits of Astro is you can use worker queues to distribute your Airflow tasks amongst workers that are properly sized, allowing for greater resource optimization. For this use case, let's say the `transform_galaxy_data` task in `etl_galaxies` might require more compute than your other tasks. You don't want to assign every task to a bigger worker (that would be wasteful!), but you want to ensure that task has the resources required to run successfully.
+
+For this, you will add a worker queue to your Deployment and assign that task to it. Note that you can also create a worker queue at the time you create your Deployment, but here we will add it to an existing one.
+
+1. Go to the Deployment you created in Exercise 6, go to the `Details` tab, and under `Execution`, click `Edit`.
+2. Under `Worker Queues` click `Add Queue`. Give it a name, and choose a worker type. Note that for this workshop the load data task is actually quite small, so you can choose a small worker type.
+3. Click `Update Deployment` to add the worker queue to your Deployment.
+4. Go to your `dags` folder and open the `etl_galaxies.py` file. In the `transform_galaxy_data`, add `queue='<name-of-your-new-queue>'` to the `@task()` decorator. For an example, see [Assign a task to a worker queue](https://www.astronomer.io/docs/astro/configure-worker-queues/#step-2-assign-the-task-in-your-dag-code).
+
+
+## Exercise 7: Deploy your project
+
+Now your project is ready to deploy using the Astro CLI!
+
+1. From your terminal, make sure you are logged in to Astro using `astro login`. Confirm you have selected the right workspace with `astro workspace list`.
+2. Deploy your project using `astro deploy -f`. You might be asked to choose which Deployment - make sure to select the one you created in Exercise 5.
+3. Confirm your deploy was successful by checking the Deploy History in the Astro UI. Open Airflow and you should see the Dags you just worked on locally!
+
+## Exercise 8: Add an environment variable
+
+Another great feature of Astro is the environment manager, which makes it easier to manage environment variables and connections across your Airflow Deployments. For this workshop, no connections are required, but the `etl_galaxies` Dag does use several environment variables. The "NUM_GALAXIES_TOTAL" variable controls how many galaxies are ingested into your database. The default is set to 10, but we can actually make this higher!
+
+1. In your Astro Deployment, go to the Environment tab, then Environment Variables, and click `+ Environment Variable`.
+2. Add a new variable with the key "NUM_GALAXIES_TOTAL", and value 20. You do not need to make it a secret.
+3. Click `Update Environment Variables`, then wait a couple of minutes for it to be applied to your Airflow instance.
+4. In Airflow, rerun the `etl_galaxies` DAG and review the logs of the `print_loaded_galaxies` task. You should see more data here than when you ran locally, since more galaxies are now being ingested.
 
