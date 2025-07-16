@@ -2,7 +2,7 @@
 
 Welcome! 🚀
 
-This is the repository for Astronomer's Discover intro to Airflow and Astro hands-on workshop. The workshop is designed to get you familiar with how to write basic data pipelines with Apache Airflow, and how to deploy them to run in production on Astro.
+This is the repository for Astronomer's Intro to Airflow and Astro hands-on workshop. The workshop is designed to help you become familiar with how to write basic data pipelines with Apache Airflow, and how to deploy them to run in production on Astro.
 
 
 ## How to use this repo
@@ -12,7 +12,7 @@ Set up your environment by following the instructions in the [Setup](#setup) sec
 Sample solutions for DAG-writing related exercises can be found in the [`solutions/`](/solutions/) folder of the repo, note that some exercises can be solved in multiple ways.
 
 > [!TIP]
-> Consider using [Ask Astro](ask.astronomer.io) if you need additional guidance with any of the exercises.
+> Consider using [Ask Astro](https://ask.astronomer.io/) if you need additional guidance with any of the exercises.
 
 
 ### Setup
@@ -23,13 +23,13 @@ To set up a local Airflow environment you have two options, you can either use t
 
 1. Make sure you have [Docker](https://docs.docker.com/get-docker/) or Podman installed and running on your machine.
 2. Install the free [Astro CLI](https://www.astronomer.io/docs/astro/cli/install-cli).
-3. Fork this repository and clone it to your local machine. Make sure you uncheck the `Copy the main branch only` option when forking.
+3. [Fork](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/working-with-forks/fork-a-repo) this repository and [clone](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository) it to your local machine. Make sure you uncheck the `Copy the main branch only` option when forking as shown in the screenshot below.
 
    ![Forking the repository](img/fork_repo.png)
 
 4. Clone the repository and run `git checkout intro-to-airflow-astro` to switch to the correct workshop branch.
 5. Run `astro dev start` in the root of the cloned repository to start the Airflow environment.
-6. Access the Airflow UI at `localhost:8080` in your browser. Log in using `admin` as both the username and password.
+6. Access the Airflow UI at `localhost:8080` in your browser.
 
 #### Option 2: GitHub Codespaces
 
@@ -62,13 +62,13 @@ If you can't install the CLI, you can run the project from your forked repo usin
 6. Once the Airflow project has started, access the Airflow UI by clicking on the Ports tab and opening the forward URL for port `8080`.
 
 > [!TIP]
-> If when accessing the forward URL you get an error like `{"detail":"Invalid or unsafe next URL"}`, you will need to modify the forwarded URL. Delete everything forward of `next=....` (this should be after `/login?`, ). The URL will update, adn then remove `:8080`, so your URL should endd in `.app.github.dev`
+> If, when accessing the forward URL, you get an error like `{"detail":"Invalid or unsafe next URL"}`, you will need to modify the forwarded URL. Delete everything forward of `next=....` (this should be after `/login?`). The URL will update. After the URL has updated, remove `:8080`, so your URL ends in `.app.github.dev`. Now you should be able to access it.
 
-7. Log into the Airflow UI using `admin` as both the username and password. It is possible that after logging in you see an error, in this case you have to open the URL again from the ports tab.
+7. It is possible that instead of the Airflow UI you see an error, in this case you have to open the URL again from the ports tab.
 
 # Exercises Part 1: Introduction to Airflow
 
-Part 1 of this workshop focuses on getting you familiar with Airflow - writing and running DAGs, and using the UI. The use case is using Airflow to run ETL and analytics pipelines. You will work with an ETL DAG that retrieves information about galaxies, transforms the data, and loads it into a DuckDB instance. You will also create a second DAG that analyzes the data. No connections to external systems are required for this workshop.
+Part 1 of this workshop focuses on helping you become familiar with Airflow - writing and running DAGs, and using the UI. The use case is using Airflow to run ETL and analytics pipelines. You will work with an ETL DAG that retrieves information about galaxies, transforms the data, and loads it into a DuckDB instance. You will also create a second DAG that analyzes the data. No connections to external systems are required for this workshop.
 
 Consider using the following guides to help with the exercises:
 
@@ -81,94 +81,101 @@ Consider using the following guides to help with the exercises:
 
 ## Exercise 1: Explore the Airflow UI
 
-Most Airflow users will use the UI to monitor their pipelines. Exploring the UI is the easiest way to get familiar with how Airflow works. If you completed the setup steps above, you should have Airflow running locally at `localhost:8080`, or in GitHub codespaces. Go the UI, and start exploring!
+Most Airflow users use the UI to monitor their pipelines. Exploring the UI is the easiest way to become familiar with how Airflow works. If you completed the setup steps above, you should have Airflow running locally at `localhost:8080`, or in GitHub codespaces at your forwarded URL. Go the UI, and start exploring!
 
 1. Review the Home page. There won't be much here to start, but you'll change that momentarily!
-2. You should see a Dag import error. Review the error, and see if you can match that to an issue with a Dag in your `dags/` folder. Note that the error is expected, and you will fix it in a later exercise - you don't need to do anything right now!
-3. Look at the Dags page - you should see one `etl_galaxies` Dag. You'll look at that more in the next exercise.
-4. Review the options in the admin tab. You won't need these for this workshop - but they are often used for real-world Airflow pipelines. Make note of any questions you have about these, and ask about them during the Q&A portion of the workshop!
+2. You should see a `Dag import error`. Review the error, by clicking on the red icon showing a file with an `!` and a `1` beside it, and see if you can match the error message to an issue with a dag in your `dags/` folder. Note that the error is expected, and you will fix it in a later exercise - you don't need to do anything right now!
+3. Look at the Dags page - you should see one `etl_galaxies` dag. You'll look at that more in the next exercise.
+4. Review the options in the admin tab. You won't need these for this workshop - but they are often used for real-world Airflow pipelines. Make note of any questions you have about these, and ask them during the Q&A portion of the workshop!
 5. Switch to dark mode 😎
 
 
-## Exercise 2: Review Dags and tasks
+## Exercise 2: Review dags and tasks
 
-Let's dig into Dags and tasks in more detail.
+Let's dig into dags and tasks in more detail.
 
-1. Go back to the Dags page and click on the `etl_galaxies` Dag.
-2. This Dag does not currently have a schedule, but you can trigger it manually using the blue `Trigger` button in the upper right corner.
-   - When you trigger the Dag, a window pops up with some options. Choose `Single Run`, and keep the Run Parameters to the default for now.
-   - You can also leave teh `Unpause etl_galaxies on trigger` box checked - this will unpause the Dag so it will run normally going forward.
-3. After you trigger the Dag, notice what happens in the grid. You should see a successful run, with green boxes for each task instance. 
-4. Click on the `print_loaded_galaxies` task instance - you should see the logs, with a printout of the data you just loaded.
-5. Take a closer look at the structure and code of this Dag. Review the graph and the code in the Airflow UI, and see if you can understand how the Dag works. Every Python function in the code decorated with `@task` corresponds to a node in the graph. The code you see in the `Code` tab in the UI should match what is in your `dags/` folder in the `etl_galaxies.py` file.
+1. Go back to the Dags page and click on the `etl_galaxies` dag.
+2. This dag does not currently have a schedule, but you can trigger it manually using the blue `Trigger` button in the upper right corner.
+   - When you trigger the dag, a window pops up with some options. Choose `Single Run`, and keep the Run Parameters to the default for now.
+   - You also need to leave the `Unpause etl_galaxies on trigger` box checked - this will unpause the dag so it can complete its manual run and will run based on any scheduled provided going forward until you manually pause it again.
+3. After you trigger the dag, notice what happens in the grid to the left side of the dag overview. After a few seconds you should see a successful run as a green bar, with green boxes for each sucessfully completed task instance. (A task instance is a run of a task in a specific dag run.)
+4. Click on the green box for the latest `print_loaded_galaxies` task instance - you should see the logs, with a printout of the galaxy data you just loaded.
+5. Take a closer look at the structure and code of this dag. Review the graph and the code in the Airflow UI, and see if you can understand how the dag works. 
+
+![Screenshot of the Airflow UI showing how to access the dag graph and dag code](/img/switch_view.png)
+
+Every Python function in the code decorated with `@task` corresponds to a node in the graph. The code you see in the `Code` tab in the UI should match what is in your `dags/` folder in the `etl_galaxies.py` file.
 
 ## Exercise 3: Use basic orchestration functionality
 
-Now let's get hands-on and make some changes to the `etl_galaxies` Dag. This Dag is already implementing an ETL pipeline, but there is some basic orchestration functionality that it is not currently leveraging.
+Now let's get hands-on and make some changes to the `etl_galaxies` dag. This dag is already implementing an ETL pipeline, but there is some basic orchestration functionality that it is not currently leveraging.
 
-Note that while in the last exercise you were reviewing the Dag code in the Airflow UI, the code can only be changed directly in the Python files in your Airflow project (i.e. the UI is view-only).
+Note that while in the last exercise you were reviewing the dag code in the Airflow UI, the code can only be changed directly in the Python files in your Airflow project (i.e. the UI is view-only).
 
-1. The `etl_galaxies` Dag currently does not have a schedule - let's change that! Update the Dag so that it will run daily at midnight.
-2. You can have Airflow manage retrying any tasks that fail by using retries. The Dag currently has one retry set as the default for every task, but you can override this if you want a particular task to have different retry settings. Update the `create_galaxy_table_in_duckdb` task to retry 3 times in case of failure.
-3. Dependency management is another bread and butter feature of Airflow. Right now, the `transform_galaxy_data` task is dependent on the `create_galaxy_table_in_duckdb` task. But this isn't actually a real dependency for this pipeline. Adjust the dependencies in the Dag so `create_galaxy_table_in_duckdb` comes before `load_galaxy_data`, instead of before `transform_galaxy_data`. Your graph should look like this:
+1. The `etl_galaxies` dag currently does not have a schedule - let's change that! Update the dag so that it will run daily at midnight.
+2. You can have Airflow manage retrying any tasks that fail by using retries. The dag currently has one retry set as the default for every task (based on the value provided to all tasks using the `default_args` parameter of the dag decorator), but you can override this if you want a particular task to have different retry settings. Update the `create_galaxy_table_in_duckdb` task to retry 3 times in case of failure. 
+3. Dependency management is another bread and butter feature of Airflow. Right now, the `transform_galaxy_data` task is dependent on the `create_galaxy_table_in_duckdb` task. But this isn't actually a real dependency for this pipeline. Adjust the dependencies in the dag so `create_galaxy_table_in_duckdb` comes before `load_galaxy_data`, instead of before `transform_galaxy_data`. Your graph should look like this:
 
    ![Updated graph](img/exercise_3_graph.png)
 
-4. Since you changed the structure of the Dag in Step 3, you will now have multiple versions of this Dag. In the Airflow UI, toggle between V1 and V2 and see how the graph changes.
+4. Since you changed the structure of the dag in Step 3, you will now have multiple versions of this dag. In the Airflow UI, toggle between V1 and V2 and see how the graph changes.
 
 
-## Exercise 4: Create a new DAG using Assets
+## Exercise 4: Create a new DAG using @asset
 
-In the previous exercise, you updated an ETL Dag that uses the `@task` decorator to turn Python functions into Airflow tasks. This is one was of defining Dags, but you can also use Assets. Conceptually, assets represent a collection of logically related data. You can have asset-oriented DAGs, or task-oriented DAGs (like `etl_galaxies`)). Every asset you define will create one DAG, but tasks can still produce assets and task-oriented DAGs can be scheduled on asset updates.
+In the previous exercise, you updated an ETL dag that uses the `@task` decorator to turn Python functions into Airflow tasks. This is one way to define dags, but you can also use @asset. Conceptually, in Airflow, Assets represent a collection of logically related data. You can have asset-oriented dags, or task-oriented dags (like `etl_galaxies`). 
 
-Next, you will create an analytics Dag that will analyze your galaxy data using assets.
+Every @asset you define will create one DAG, with one task that produces updates to one Asset. Tasks in dag written with the task-oriented approach can also produce updates to Assets (via the `outlets` parameters) and task-oriented DAGs can be scheduled to run based on Asset updates.
 
-1. In your `dags/` folder, go to the `galaxy_analytics.py` file. Remember this is the Dag that currently has an import error - you're about to fix that! Review the existing code.
-2. Create your `galaxy_analytics` Dag by using the following Python function under the `@asset` decorator.
+Next, you will create an analytics dag that will analyze your galaxy data using the asset-oriented way to define dags.
+
+1. In your `dags/` folder, go to the `galaxy_analytics.py` file. Remember this is the dag that currently has an import error - you're about to fix that! Review the existing code.
+2. Create your `galaxy_analytics` dag by using the following Python function under the `@asset` decorator.
 
    ```python
    def analyze_galaxies(
-    duckdb_instance_name: str = _DUCKDB_INSTANCE_NAME,
-    table_name: str = _DUCKDB_TABLE_NAME,
+      duckdb_instance_name: str = _DUCKDB_INSTANCE_NAME,
+      table_name: str = _DUCKDB_TABLE_NAME,
    ) -> None:
-    """
-    Analyze the galaxy data by creating an analytics
-    table (in the logs!) with the count of galaxies
-    by type.
+      """
+      Analyze the galaxy data by creating an analytics
+      table (in the logs!) with the count of galaxies
+      by type.
 
-    In production, you would write this data to a 
-    persistent table somewhere and perhaps use it
-    in an analytics dashboard.
-    """
-    import duckdb
-    from tabulate import tabulate
+      In production, you would write this data to a 
+      persistent table somewhere and perhaps use it
+      in an analytics dashboard.
+      """
+      import duckdb
+      from tabulate import tabulate
 
-    cursor = duckdb.connect(duckdb_instance_name)
+      cursor = duckdb.connect(duckdb_instance_name)
 
-    query = f"""
-        SELECT type_of_galaxy, COUNT(*) AS count
-        FROM {_DUCKDB_TABLE_NAME}
-        GROUP BY type_of_galaxy
-        ORDER BY count DESC
-    """
+      query = f"""
+         SELECT type_of_galaxy, COUNT(*) AS count
+         FROM {_DUCKDB_TABLE_NAME}
+         GROUP BY type_of_galaxy
+         ORDER BY count DESC
+      """
 
-    galaxy_analysis_df = cursor.sql(query).df()
-    t_log.info(tabulate(galaxy_analysis_df, headers="keys", tablefmt="pretty"))
-    cursor.close()
+      galaxy_analysis_df = cursor.sql(query).df()
+      t_log.info(tabulate(galaxy_analysis_df, headers="keys", tablefmt="pretty"))
+      cursor.close()
 
-    return galaxy_analysis_df
-    ```
-3. The analytics Dag should not run until all of the galaxy data is available (i.e. after the ETL Dag has completed). To implement this dependency, you need to do two things:
-   - Modify the `etl_galaxies` Dag so that the `print_loaded_galaxies` task produces an asset called `galaxy_data` (remember you can do this with the "outlets" parameter).
-   - Add a schedule to the `galaxy_analytics` Dag so it runs when the `galaxy_data` asset has been updated.
+      return galaxy_analysis_df
+   ```
 
-4. In the Airflow UI, review the assets page to see whether your changes successfully implemented a dependency between `etl_galaxies` and `galaxy_analytics`.
-5. Trigger the `etl_galaxy` Dag again, and you should see `galaxy_analytics` run as well. Check the task logs for `analyze_galaxies` to see the results of your analysis. 
+3. The analytics dag should not run until all of the galaxy data is available (i.e. after the ETL dag has completed). To implement this dependency, you need to do two things:
+   - Modify the `etl_galaxies` dag so that the `print_loaded_galaxies` task produces to an Asset called `galaxy_data` (remember you can do this with the `outlets` parameter).
+   - Add a schedule to the `galaxy_analytics` dag so it runs when the `galaxy_data` Asset has been updated.
+
+4. In the Airflow UI, review the Assets page to see whether your changes successfully implemented a dependency between `etl_galaxies` and `galaxy_analytics`.
+5. Trigger the `etl_galaxy` dag again, and you should see `galaxy_analytics` run as well, as soon as the `etl_galaxy` dag has completed successfully. Check the task logs for `analyze_galaxies` to see the results of your analysis. 
 
 
 # Exercises Part 2: Running in production on Astro
 
-Now that you have a working ETL and analytics pipeline, the next step is to deploy it to production! You will do this using Astro, Astronomer's managed DataOps platform. If you do not already have an Astro account, a free trial link will be given during the workshop.
+Now that you have a working ETL and analytics pipeline, the next step is to deploy it to production! You will do this using Astro, Astronomer's managed DataOps platform. If you do not already have an Astro account, a free trial link will be provided during the workshop.
 
 ## Exercise 5: Create a new Deployment
 
@@ -196,11 +203,11 @@ Now your project is ready to deploy using the Astro CLI!
 
 1. From your terminal, make sure you are logged in to Astro using `astro login`. Confirm you have selected the right workspace with `astro workspace list`.
 2. Deploy your project using `astro deploy -f`. You might be asked to choose which Deployment - make sure to select the one you created in Exercise 5.
-3. Confirm your deploy was successful by checking the Deploy History in the Astro UI. Open Airflow and you should see the Dags you just worked on locally!
+3. Confirm your deploy was successful by checking the Deploy History in the Astro UI. Open Airflow and you should see the dags you just worked on locally!
 
 ## Exercise 8: Add an environment variable
 
-Another great feature of Astro is the environment manager, which makes it easier to manage environment variables and connections across your Airflow Deployments. For this workshop, no connections are required, but the `etl_galaxies` Dag does use several environment variables. The "NUM_GALAXIES_TOTAL" variable controls how many galaxies are ingested into your database. The default is set to 10, but we can actually make this higher!
+For this workshop, no connections are required, but the `etl_galaxies` dag does use several environment variables. The "NUM_GALAXIES_TOTAL" variable controls how many galaxies are ingested into your database. The default is set to 10, but we can actually make this higher!
 
 1. In your Astro Deployment, go to the Environment tab, then Environment Variables, and click `+ Environment Variable`.
 2. Add a new variable with the key "NUM_GALAXIES_TOTAL", and value 20. You do not need to make it a secret.
