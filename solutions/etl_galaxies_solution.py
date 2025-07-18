@@ -33,7 +33,7 @@ _CLOSENESS_THRESHOLD_LY_PARAMETER_NAME = "closeness_threshold_light_years"
 
 @dag(
     start_date=datetime(2025, 4, 1),
-    schedule='@daily'
+    schedule='@daily',
     max_consecutive_failed_dag_runs=5,
     max_active_runs=1,
     doc_md=__doc__,
