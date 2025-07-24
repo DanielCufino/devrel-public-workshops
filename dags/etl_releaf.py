@@ -10,10 +10,10 @@ import os
 t_log = logging.getLogger("airflow.task")
 
 # Define variables used in the DAG
-INCLUDE_PATH = (Path(__file__).parent.parent / "include").resolve().as_posix()
-_DUCKDB_INSTANCE_NAME = f"{INCLUDE_PATH}/releaf.db"
-USER_NAME = os.getenv("USER_NAME", "Kenten")
-USER_LOCATION = os.getenv("USER_LOCATION", "Seattle, WA, USA")
+_INCLUDE_PATH = Path(os.getenv("AIRFLOW_HOME")) / "include"
+_DUCKDB_INSTANCE_NAME = os.getenv("DUCKDB_INSTANCE_NAME", f"{_INCLUDE_PATH}/releaf.db")
+_USER_NAME = os.getenv("USER_NAME", "Kenten")
+_USER_LOCATION = os.getenv("USER_LOCATION", "Seattle, WA, USA")
 
 
 @dag(
@@ -26,13 +26,13 @@ USER_LOCATION = os.getenv("USER_LOCATION", "Seattle, WA, USA")
     },
     params={
         "user_name": Param(
-            USER_NAME,
+            _USER_NAME,
             type="string",
             title="User Name",
             description="Full name of the user to onboard (e.g., 'Jane Smith')",
         ),
         "user_location": Param(
-            USER_LOCATION,
+            _USER_LOCATION,
             type="string",
             title="User Location",
             description="User's location for tree recommendations (e.g., 'Austin, TX, USA' or 'London, UK')",

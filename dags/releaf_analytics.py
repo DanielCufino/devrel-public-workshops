@@ -2,19 +2,19 @@ from airflow.sdk import asset
 import duckdb
 import logging
 from pathlib import Path
+import os
 
 t_log = logging.getLogger("airflow.task")
 
-# Define path variables for relative paths
-INCLUDE_PATH = (Path(__file__).parent.parent / "include").resolve().as_posix()
-SQL_PATH = (Path(__file__).parent.parent / "include" / "sql").resolve().as_posix()
-_DUCKDB_INSTANCE_NAME = f"{INCLUDE_PATH}/releaf.db"
+# Define variables used in the DAG
+_INCLUDE_PATH = Path(os.getenv("AIRFLOW_HOME")) / "include"
+_DUCKDB_INSTANCE_NAME = os.getenv("DUCKDB_INSTANCE_NAME", f"{_INCLUDE_PATH}/releaf.db")
 
 
 @asset(schedule=None)
 def releaf_analytics():
 
-    sql_file_path = f"{SQL_PATH}/releaf_analytics.sql"
+    sql_file_path = f"{_INCLUDE_PATH}/sql/releaf_analytics.sql"
 
     with open(sql_file_path, "r") as file:
         analytics_query = file.read()

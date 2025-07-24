@@ -1,7 +1,9 @@
 from airflow.sdk import dag, task, Param
 from pathlib import Path
+import os
 
-INCLUDE_PATH = (Path(__file__).parent.parent / "include").resolve().as_posix()
+# Define variables used in the DAG
+_INCLUDE_PATH = Path(os.getenv("AIRFLOW_HOME")) / "include"
 
 
 @dag(
@@ -127,7 +129,7 @@ def genai_releaf():
         user_name = context["params"]["user_name"]
         ds = context["ds"]
 
-        file_name = f"{INCLUDE_PATH}/garden_descriptions/{ds}_{user_name}_garden_description.txt"
+        file_name = f"{_INCLUDE_PATH}/garden_descriptions/{ds}_{user_name}_garden_description.txt"
 
         with open(file_name, "w") as f:
             f.write("")
