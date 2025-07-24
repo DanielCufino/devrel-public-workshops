@@ -8,4 +8,7 @@ airflow-webserver.pid
 webserver_config.py
 airflow.cfg
 airflow.db
-include/astronomy.db
+include/releaf.db
+include/garden_descriptions/
+include/data/locations.json
+.env

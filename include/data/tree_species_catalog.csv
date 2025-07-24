@@ -1,0 +1,284 @@
+species_id,species_name,common_name,min_zone,max_zone,ideal_soil,drought_tolerant,max_height_m,growth_rate,canopy_spread_m
+666e3b90-74d4-4c1b-8344-e1dfffedcd9f,Quercus alba,White Oak,3,9,well-drained loam,True,25.0,slow,25.0
+8c1af409-c97c-4795-bf43-7c33fe38185c,Acer saccharum,Sugar Maple,3,8,moist well-drained,False,30.0,slow,20.0
+89e9ce70-0a4e-4802-8b20-66001b3c8af1,Pinus strobus,Eastern White Pine,3,8,sandy loam,False,35.0,medium,8.0
+067f6ac3-cf84-4937-b713-1f637d8da0ec,Betula nigra,River Birch,4,9,moist acidic,False,18.0,fast,15.0
+c324cc7b-438b-4bf2-897b-a90052b0a6dd,Fagus grandifolia,American Beech,3,9,well-drained,False,24.0,slow,20.0
+0e6fa1ae-48ef-499a-931d-0b11ce0979cd,Tsuga canadensis,Eastern Hemlock,3,7,moist acidic,False,30.0,slow,10.0
+913fa3ce-7dd3-49df-9c3c-c96f8c240e94,Quercus rubra,Red Oak,3,8,well-drained,True,25.0,medium,22.0
+771ed6c0-0200-43a0-9142-59c5ba4da3e8,Acer rubrum,Red Maple,3,9,moist to wet,False,20.0,fast,15.0
+42fb1297-4ecb-4d52-8c25-9f11c93bea15,Picea glauca,White Spruce,1,6,moist well-drained,False,20.0,medium,6.0
+e38192a0-1a46-4e28-acd2-f0a78af0724f,Fraxinus americana,White Ash,3,9,moist well-drained,False,25.0,fast,15.0
+6ca1ed9b-b4b2-4c14-8c2d-f29a42e47a34,Carya ovata,Shagbark Hickory,4,8,well-drained,True,27.0,slow,20.0
+d8ac5621-d15d-458c-abdf-61d8d3fc7eea,Ulmus americana,American Elm,2,9,moist well-drained,False,30.0,fast,25.0
+4893fab0-5fa6-4c41-842b-cf74ccca5e80,Juglans nigra,Black Walnut,4,9,deep well-drained,False,30.0,fast,25.0
+f86ac080-1f15-4f01-9496-5c61130dc9e1,Liriodendron tulipifera,Tulip Tree,4,9,moist well-drained,False,35.0,fast,15.0
+1ae141dc-a38c-477a-9c63-8cb93526596d,Platanus occidentalis,American Sycamore,4,9,moist to wet,False,30.0,fast,20.0
+313ed045-a26c-438e-ae9e-34421fbb12a9,Liquidambar styraciflua,Sweet Gum,5,9,moist acidic,False,25.0,medium,15.0
+4f1d8470-cfdb-423e-b391-c9b5c876c956,Nyssa sylvatica,Black Gum,4,9,moist acidic,False,15.0,slow,12.0
+50b634f4-d4fd-4ac9-bc6e-4a3261a676ab,Catalpa bignonioides,Southern Catalpa,5,9,well-drained,True,18.0,fast,15.0
+ba2a54f7-c59f-4546-9b1c-7922cfc78d56,Robinia pseudoacacia,Black Locust,3,8,well-drained,True,25.0,fast,12.0
+2caa5345-6941-4274-883c-d1e10ec0d559,Gleditsia triacanthos,Honey Locust,3,9,adaptable,True,20.0,fast,15.0
+ab929fc7-7e1e-496a-b2a3-f770da98441d,Celtis occidentalis,Hackberry,2,9,adaptable,True,18.0,medium,15.0
+84f653f6-489b-4cda-8628-0a3e407eeb50,Tilia americana,American Basswood,2,8,moist well-drained,False,25.0,medium,15.0
+04f81172-de92-4940-bca2-43e682364c8f,Abies balsamea,Balsam Fir,3,5,moist acidic,False,20.0,slow,5.0
+08095c22-6e13-4962-9b0f-195ad439bb6d,Larix laricina,Tamarack,1,4,wet acidic,False,20.0,medium,6.0
+78710ab7-fbd9-4a77-a387-6f649450a4af,Thuja occidentalis,Eastern White Cedar,2,7,moist alkaline,False,15.0,slow,4.0
+9a683e65-bcda-4652-bf1f-52cd25e8e78f,Juniperus virginiana,Eastern Red Cedar,2,9,well-drained,True,15.0,slow,8.0
+623c8146-9d4a-4d82-9e58-160ea4a926bd,Populus tremuloides,Quaking Aspen,1,6,well-drained,False,20.0,fast,6.0
+b22212ea-05ab-4003-9c47-7f06b9fb33a9,Populus deltoides,Eastern Cottonwood,2,9,moist to wet,False,30.0,fast,20.0
+01dfc520-4d9e-46f7-85ac-01914c6f0954,Salix nigra,Black Willow,2,8,wet,False,15.0,fast,15.0
+aef310c8-7419-40a5-aff5-e54d0da39523,Prunus serotina,Black Cherry,3,9,well-drained,False,20.0,medium,12.0
+2a359353-8a99-4c58-bb26-f0c2288b6d7a,Amelanchier canadensis,Serviceberry,4,8,well-drained,True,8.0,medium,6.0
+5d3b2920-4789-4534-a59f-49c0a4cd3223,Cornus florida,Flowering Dogwood,5,9,moist acidic,False,8.0,slow,8.0
+bb89cba4-d7a6-4929-b716-223b9554c88e,Cercis canadensis,Eastern Redbud,4,9,well-drained,True,9.0,medium,8.0
+8282137f-1684-4584-a93a-f92a213318f4,Magnolia grandiflora,Southern Magnolia,7,9,moist acidic,False,25.0,slow,15.0
+6f04ff19-2182-4844-b241-108f387a6923,Magnolia stellata,Star Magnolia,4,8,moist acidic,False,5.0,slow,4.0
+34f3a46f-f155-4723-a459-02c4045f707e,Aesculus hippocastanum,Horse Chestnut,3,7,moist well-drained,False,20.0,medium,15.0
+62cf86d6-7594-42bb-b5bc-8b97c6b98c72,Castanea dentata,American Chestnut,4,8,well-drained acidic,False,30.0,fast,20.0
+5cbb8433-882c-49b5-9c87-41c944963fca,Ostrya virginiana,American Hornbeam,3,9,well-drained,True,12.0,slow,8.0
+0b4a66e6-b97e-4a86-9750-a388476b12d2,Carpinus caroliniana,Blue Beech,3,9,moist well-drained,False,10.0,slow,8.0
+9e6803e1-1ba0-4cf4-ae71-bed6e65f38da,Diospyros virginiana,American Persimmon,4,9,well-drained,True,15.0,medium,10.0
+60bab9eb-bfc7-4cde-a409-ecd2ba4937c7,Morus rubra,Red Mulberry,4,8,moist well-drained,True,12.0,fast,12.0
+1cbb427c-ee59-43de-a874-f64e4025f75e,Maclura pomifera,Osage Orange,4,9,adaptable,True,15.0,medium,12.0
+bae26ae2-7fa4-431c-8e89-ad80b29e7959,Sassafras albidum,Sassafras,4,9,well-drained acidic,True,18.0,medium,8.0
+5624d373-38bd-414f-bf7c-a30abfe42ba9,Oxydendrum arboreum,Sourwood,5,9,moist acidic,False,9.0,slow,6.0
+93715cee-61e2-4eb8-8978-68de58cfd07e,Halesia tetraptera,Carolina Silverbell,4,8,moist acidic,False,12.0,medium,8.0
+2b76e418-24b3-4404-b1f1-ed172725e4e2,Quercus virginiana,Live Oak,8,10,well-drained,True,20.0,slow,30.0
+d588cf57-0b9d-4388-9569-a9676d522355,Quercus phellos,Willow Oak,5,9,moist well-drained,False,20.0,fast,12.0
+45a65710-8daa-4f39-9d36-e69a25321814,Quercus lyrata,Overcup Oak,5,9,wet,False,20.0,slow,15.0
+e9c5a783-897d-4f4f-b251-845ec4dcb26e,Quercus nigra,Water Oak,6,9,moist to wet,False,20.0,fast,15.0
+b65b5501-633e-4872-9e2e-c3bf33fea491,Taxodium distichum,Bald Cypress,4,10,wet,False,35.0,medium,8.0
+53371d0e-f699-4f1d-9b37-b2a021aafa78,Pinus taeda,Loblolly Pine,6,9,moist well-drained,False,30.0,fast,8.0
+5acbe55d-2485-4313-8924-f98f28078546,Pinus echinata,Shortleaf Pine,6,9,well-drained,True,25.0,medium,6.0
+c4070275-2fc1-4db2-935b-b7c35a4bbd76,Pinus palustris,Longleaf Pine,7,10,sandy well-drained,True,35.0,slow,6.0
+548a0e28-cd3f-490d-ae11-b8681cb5065f,Pinus virginiana,Virginia Pine,4,8,well-drained,True,18.0,medium,6.0
+1924e353-3a23-4632-9fdd-c795a7ec9e3b,Juniperus ashei,Ashe Juniper,7,9,rocky alkaline,True,8.0,slow,5.0
+3b89fe8d-bc20-4aa4-869b-35bb7f40cdc7,Carya illinoinensis,Pecan,6,9,deep well-drained,False,35.0,medium,25.0
+4440e705-f7fa-4dbe-aa8b-d025d1a93881,Celtis laevigata,Sugarberry,5,9,adaptable,True,18.0,fast,15.0
+517a73f6-951f-40b1-9076-000f5f643c0e,Planera aquatica,Water Elm,5,9,wet,False,12.0,medium,10.0
+82e13885-8f2e-4369-a0a8-d331ebde06b2,Persea borbonia,Red Bay,8,10,moist well-drained,False,15.0,slow,8.0
+df5a7901-5953-4204-9a80-432a079cff23,Magnolia virginiana,Sweet Bay,5,9,moist acidic,False,18.0,medium,6.0
+f2748fff-f1f0-4741-a028-d620bdd481eb,Ilex opaca,American Holly,5,9,moist acidic,False,15.0,slow,8.0
+a52349e0-2195-4e81-a342-611240ca80e9,Acer negundo,Box Elder,2,9,moist well-drained,True,15.0,fast,12.0
+051c64da-e274-40f9-a578-f66fdf8d3a74,Acer saccharinum,Silver Maple,3,9,moist to wet,False,25.0,fast,15.0
+122e2e51-6a56-458f-8ee0-a54c287f6b83,Fraxinus pennsylvanica,Green Ash,3,9,moist well-drained,True,18.0,fast,12.0
+34afdaad-2cf2-4128-ac0a-a1caca2df023,Populus grandidentata,Bigtooth Aspen,1,5,well-drained,False,18.0,fast,8.0
+4a9e9a64-4a75-45c5-93a6-4ff35bb3df1f,Prunus americana,American Plum,3,8,well-drained,True,6.0,medium,6.0
+4251a00c-bdf9-4c7b-8ceb-937edb1f8484,Crataegus mexicana,Mexican Hawthorn,4,8,well-drained,True,8.0,medium,6.0
+8becbd21-8c9d-4c20-b9a0-e6804d0695b5,Viburnum prunifolium,Blackhaw,3,9,well-drained,True,5.0,slow,4.0
+d5f0ab10-1018-4bcf-b846-6da6a01ae620,Asimina triloba,Pawpaw,5,8,moist well-drained,False,8.0,slow,6.0
+927a703c-cf80-4bf2-8a10-e89806c0b284,Sambucus canadensis,American Elder,4,9,moist well-drained,False,4.0,fast,4.0
+451dcebb-9e75-4fd5-ae88-f86124487c5d,Rhamnus purshiana,Cascara Buckthorn,6,9,moist well-drained,False,10.0,medium,8.0
+93978be7-83f8-4689-837f-5654dea63a59,Alnus incana,Speckled Alder,2,6,wet,False,8.0,fast,6.0
+fc085dbb-dcc2-4385-8a0c-906621e9fc06,Betula papyrifera,Paper Birch,2,6,moist well-drained,False,20.0,medium,10.0
+900cc6ea-ad6b-4c7d-842a-3f90ed3032c6,Populus balsamifera,Balsam Poplar,1,5,moist well-drained,False,25.0,fast,8.0
+2b6447b7-3f47-4ceb-9949-45f1c620cd08,Abies concolor,White Fir,3,7,moist well-drained,False,25.0,slow,6.0
+3fa70c69-591b-4d9c-9682-6abdb0238356,Pseudotsuga menziesii,Douglas Fir,4,7,well-drained,False,60.0,medium,8.0
+3408b6d5-eba1-4c47-8db0-e0ec1b1150e6,Pinus ponderosa,Ponderosa Pine,3,7,well-drained,True,45.0,medium,8.0
+3ff16ba3-d545-46da-8aa4-97fbaafe2495,Pinus flexilis,Limber Pine,3,7,rocky well-drained,True,15.0,slow,6.0
+d147e909-16bb-4782-a52f-fa91bd2c3f8f,Picea engelmannii,Engelmann Spruce,1,5,moist well-drained,False,30.0,slow,5.0
+fb3453c8-ec11-494e-9eec-ac00a68c6ca3,Picea pungens,Blue Spruce,2,7,moist well-drained,False,20.0,slow,6.0
+2b09dba6-4843-4a16-9310-0a3684f5e111,Abies lasiocarpa,Subalpine Fir,1,6,moist well-drained,False,30.0,slow,4.0
+ea40f170-dbe5-445f-9a3e-9e44eb13ede5,Larix occidentalis,Western Larch,3,6,moist well-drained,False,45.0,medium,6.0
+d3ca9906-e78e-45a3-aa82-2252a13c69b7,Thuja plicata,Western Red Cedar,5,7,moist well-drained,False,60.0,medium,8.0
+7644bdaf-7e87-4cb1-8b8b-f4e086a3cec8,Tsuga heterophylla,Western Hemlock,6,7,moist acidic,False,50.0,medium,8.0
+68ea4f53-5550-4289-9ac5-a53e7d25ad44,Chamaecyparis nootkatensis,Alaska Cedar,4,7,moist well-drained,False,30.0,slow,5.0
+d1f25432-4c03-4ef2-bb88-dc938bf698bb,Calocedrus decurrens,Incense Cedar,5,8,well-drained,True,35.0,slow,6.0
+6b6b72eb-3395-41c3-8529-45b79149fd55,Sequoiadendron giganteum,Giant Sequoia,6,8,well-drained,False,80.0,medium,10.0
+4761bf82-3b47-4e22-9892-4e072ceac5ef,Sequoia sempervirens,Coast Redwood,7,9,moist well-drained,False,100.0,fast,8.0
+63b0cbc2-a43a-4301-b1c5-8f92d10d5c91,Cupressus macrocarpa,Monterey Cypress,7,10,well-drained,True,25.0,fast,8.0
+87df2bef-acda-416b-a3dd-dbcd37a624f3,Umbellularia californica,California Bay Laurel,7,10,well-drained,True,25.0,medium,15.0
+4f4b627a-5ea2-47f5-a87a-2ac7b949ffed,Arbutus menziesii,Pacific Madrone,7,9,well-drained,True,30.0,slow,12.0
+a94c43f3-d4b4-4364-817a-f90a91b94228,Aesculus californica,California Buckeye,7,10,well-drained,True,8.0,medium,8.0
+50d2b9c2-7335-4660-a48d-1ddcb8fe8d7b,Quercus agrifolia,Coast Live Oak,9,10,well-drained,True,25.0,slow,25.0
+a6c3cb28-b43a-4a27-9ef2-dba94f7acb64,Quercus lobata,Valley Oak,7,10,deep well-drained,True,30.0,slow,25.0
+7c45ca52-885e-492c-8665-8a7826585111,Quercus kelloggii,California Black Oak,5,8,well-drained,True,25.0,medium,15.0
+8f29a08a-661c-4d86-8017-ea9706351ede,Platanus racemosa,California Sycamore,7,10,moist well-drained,False,25.0,fast,20.0
+c38e1523-5c0d-472e-a858-2d8b7161949b,Juglans californica,California Black Walnut,8,10,well-drained,True,18.0,medium,15.0
+c5ecdcea-5c42-43bf-9d21-e3d5f5c8524f,Acer macrophyllum,Bigleaf Maple,6,9,moist well-drained,False,30.0,medium,15.0
+ce8f7e01-a97b-4051-9e69-6e6c661e3ce7,Alnus rubra,Red Alder,6,7,moist well-drained,False,25.0,fast,8.0
+00f919ab-7510-4585-9691-92f2d8b010ad,Populus trichocarpa,Black Cottonwood,3,9,moist well-drained,False,40.0,fast,15.0
+d4d7da7c-390d-4e9c-bf41-c9648df8addc,Cornus nuttallii,Pacific Dogwood,7,9,moist acidic,False,20.0,slow,8.0
+ef816954-3c6d-4a30-98f9-cabbd6268314,Malus domestica,Apple,4,8,well-drained,False,8.0,medium,8.0
+da29636a-51d2-4fc6-a381-95f1289d382e,Prunus avium,Sweet Cherry,5,9,well-drained,False,20.0,medium,10.0
+1c44e4ee-de86-485a-ac28-84c36278271c,Prunus persica,Peach,5,9,well-drained,False,8.0,fast,8.0
+e96a90c9-25ff-4f24-a702-c2436400f009,Pyrus communis,Pear,4,8,well-drained,False,12.0,medium,8.0
+d82349fc-6937-4107-8dd1-3035d4382443,Citrus sinensis,Sweet Orange,9,11,well-drained,False,8.0,medium,6.0
+a5327e6e-96a2-4db8-958f-b74440d82168,Citrus limon,Lemon,9,11,well-drained,False,6.0,medium,6.0
+a60ead3e-08c8-4a03-88a4-60df3fe62984,Ficus carica,Common Fig,7,10,well-drained,True,8.0,fast,8.0
+0d94f124-d27a-4d0d-bba8-cf7fdd9c5796,Fagus sylvatica,European Beech,4,7,moist well-drained,False,30.0,slow,20.0
+0fd2c63c-12b2-4741-9c8c-03ee426b1a35,Quercus robur,English Oak,4,8,well-drained,True,25.0,slow,25.0
+fbd4d4ea-b336-4794-9327-7331fad76445,Quercus petraea,Sessile Oak,4,8,well-drained,True,30.0,slow,20.0
+b6696322-b71c-438e-bfbf-7ab71f458fb8,Castanea sativa,Sweet Chestnut,5,8,well-drained acidic,False,25.0,medium,15.0
+a73f9daf-8529-447c-8d45-c5f067814d8d,Carpinus betulus,European Hornbeam,4,8,well-drained,False,20.0,slow,12.0
+bb77ad19-c706-4af2-84b3-b9b1ee58fbc9,Corylus avellana,European Hazel,4,8,moist well-drained,False,6.0,fast,5.0
+fc056fe5-d100-4383-97fa-7e830690bddf,Fraxinus excelsior,European Ash,4,8,moist well-drained,False,30.0,fast,15.0
+9b8d01e9-a1b4-42e7-bf18-3868f3f714e2,Acer platanoides,Norway Maple,3,7,well-drained,False,25.0,medium,15.0
+b9f2e528-3c06-409c-a1d8-46b6aeaf31b2,Acer pseudoplatanus,Sycamore Maple,4,7,moist well-drained,False,30.0,fast,15.0
+68f657d2-4a14-4475-b4da-b75eb1f0dc24,Tilia cordata,Small-leaved Lime,3,8,moist well-drained,False,25.0,medium,12.0
+f2389ba6-6824-4fc9-9d73-6cc3c195be1f,Betula pendula,Silver Birch,2,6,well-drained,False,20.0,fast,8.0
+5a91c854-6d6c-4547-b52d-3bdefa040991,Alnus glutinosa,Black Alder,3,7,wet,False,20.0,fast,8.0
+c045f429-2c79-4585-9b37-3a468313766c,Populus nigra,Black Poplar,4,9,moist well-drained,False,30.0,fast,15.0
+acd05dcd-38c8-4215-94d1-e074892a4c3b,Salix alba,White Willow,2,8,wet,False,20.0,fast,10.0
+2c2f7d3d-6a61-4a77-9381-9e8cdc560837,Ulmus glabra,Wych Elm,4,7,moist well-drained,False,25.0,medium,20.0
+75bc78fb-7de0-47d5-ab42-0e997a5e009b,Sorbus aucuparia,Mountain Ash,3,6,well-drained,False,12.0,medium,6.0
+a906fae2-3289-47ec-99e0-cd09f64d3ea7,Prunus avium subsp. avium,European Wild Cherry,4,8,well-drained,False,20.0,medium,10.0
+5c0684ab-2eaf-4747-b841-c86e14038cd2,Malus sylvestris,Crab Apple,4,8,well-drained,True,8.0,medium,8.0
+109df9e3-b8cd-4263-8855-203c8609b4c2,Crataegus monogyna,Common Hawthorn,4,8,well-drained,True,8.0,medium,6.0
+2a4eda40-836b-4857-8650-d6cec40883e2,Ilex aquifolium,European Holly,6,9,moist well-drained,False,10.0,slow,6.0
+bbed4ba9-ab71-436c-a678-8154178e9389,Taxus baccata,European Yew,6,7,well-drained,False,15.0,slow,8.0
+8b498399-ae98-4214-aa16-64985ac21a66,Picea abies,Norway Spruce,2,7,moist well-drained,False,35.0,medium,6.0
+86814eaa-02d0-4fd4-8599-e5a802d7f576,Pinus sylvestris,Scots Pine,2,7,well-drained,True,25.0,medium,6.0
+3df83380-7a40-4e0e-af3b-7fc16cb338d0,Abies alba,Silver Fir,4,6,moist well-drained,False,40.0,slow,6.0
+0d47d623-030d-42ab-b08f-6be1deafb12c,Larix decidua,European Larch,2,6,moist well-drained,False,35.0,fast,6.0
+0a9fc00f-d331-4d03-80e5-3b36c7baef5d,Juniperus communis,Common Juniper,2,6,well-drained,True,6.0,slow,3.0
+fdf4bd14-e28a-4d51-befa-a96c56dfc561,Pinus pinea,Stone Pine,7,10,well-drained,True,15.0,slow,12.0
+aee9179e-0613-455f-86c1-dab04264ec37,Pinus pinaster,Maritime Pine,6,9,sandy well-drained,True,25.0,fast,8.0
+177bea24-6fd5-4544-a92c-ac3bdad8f308,Quercus ilex,Holm Oak,7,10,well-drained,True,15.0,slow,15.0
+a0d923f8-80cc-4d0b-8e27-d6e21f2aa5ab,Quercus suber,Cork Oak,7,10,well-drained,True,15.0,slow,12.0
+18cff5d4-841f-4144-bd52-f824ca61a8da,Olea europaea,Olive Tree,8,10,well-drained,True,8.0,slow,8.0
+4b8e3272-519d-4a20-94f4-ccc2f7c5e3cc,Ceratonia siliqua,Carob Tree,9,11,well-drained,True,10.0,slow,8.0
+6a102422-c29e-4a5e-a516-d1a99b74671b,Arbutus unedo,Strawberry Tree,7,9,well-drained,True,8.0,slow,6.0
+970b48ee-f6e2-4dd2-b4f7-ff9221dd8460,Laurus nobilis,Bay Laurel,8,10,well-drained,True,12.0,slow,8.0
+eb3e5f1f-0b0b-47fe-b68b-6fbb496ca937,Platanus orientalis,Oriental Plane,6,9,moist well-drained,False,25.0,fast,20.0
+b584d60d-fec6-4e8c-bd8a-88b868b6e5d1,Ginkgo biloba,Maidenhair Tree,4,8,well-drained,True,25.0,slow,8.0
+9c8fbc36-b948-4653-9da6-2b77487d6e7c,Paulownia tomentosa,Empress Tree,5,9,well-drained,False,15.0,fast,10.0
+fc4e9a93-7526-4964-be83-ab526fa068a7,Ailanthus altissima,Tree of Heaven,4,8,adaptable,True,18.0,fast,8.0
+2bfdec31-5100-41f6-8fe0-d3e425882dd5,Morus alba,White Mulberry,4,8,well-drained,True,12.0,fast,10.0
+58d3e601-fcf3-4a74-9aac-72d86af95bf8,Juglans regia,English Walnut,4,9,deep well-drained,False,25.0,medium,15.0
+a52359c4-22eb-4b6a-bec6-5c7985580939,Prunus dulcis,Almond,7,9,well-drained,True,8.0,medium,6.0
+4fffc6a6-b172-41e2-b179-5cc7368a1766,Ficus religiosa,Sacred Fig,10,12,well-drained,False,20.0,medium,15.0
+3331bc2d-23c6-41ac-8346-67ff271bf7b1,Mangifera indica,Mango,10,12,well-drained,False,15.0,medium,10.0
+04a16e5a-5abc-48d3-8c43-708cf3953c06,Cocos nucifera,Coconut Palm,10,12,sandy well-drained,True,25.0,medium,6.0
+2425820f-ce38-4722-be35-98ea1778ad85,Phoenix dactylifera,Date Palm,9,11,well-drained,True,20.0,slow,6.0
+d10635f0-600b-40a4-bdff-40e30b77db14,Cedrus libani,Lebanon Cedar,5,9,well-drained,True,35.0,slow,8.0
+be57a1a4-f5cd-46e9-83c6-866b0d95d82e,Cedrus atlantica,Atlas Cedar,6,9,well-drained,True,30.0,slow,8.0
+d0e092c0-d056-47c0-96cf-43a649707d84,Cedrus deodara,Deodar Cedar,7,9,well-drained,False,50.0,medium,8.0
+319d5298-d71d-4620-a0b7-bfa96892ae91,Pinus halepensis,Aleppo Pine,8,10,well-drained,True,15.0,medium,6.0
+f11f534a-8e93-4fae-b246-d8249324cf9e,Cupressus sempervirens,Italian Cypress,7,10,well-drained,True,20.0,medium,3.0
+eca1ce4d-dd02-4b93-9b23-2cd1569f9120,Eucalyptus globulus,Blue Gum,8,10,well-drained,True,35.0,fast,8.0
+950f2aa9-621d-454f-a55c-61b873844217,Eucalyptus camaldulensis,River Red Gum,8,11,moist well-drained,True,30.0,fast,15.0
+6ed2be5a-7d89-4b1b-9d4b-193b83b26148,Eucalyptus ficifolia,Red Flowering Gum,9,11,well-drained,True,12.0,medium,8.0
+160e2292-82bf-4e70-81a9-da96da067a69,Acacia melanoxylon,Blackwood,8,10,well-drained,True,20.0,fast,8.0
+2952758e-fd2a-4cd8-99fd-2c4a71d2f704,Acacia dealbata,Silver Wattle,8,10,well-drained,True,15.0,fast,8.0
+e7fa93d9-8339-4f64-94e4-c9d995db8371,Melaleuca quinquenervia,Broad-leaved Paperbark,9,11,wet,False,15.0,fast,6.0
+677472ec-fcec-469d-ad7f-07b654dbe586,Casuarina equisetifolia,Australian Pine,9,11,sandy well-drained,True,20.0,fast,4.0
+a0823e2c-3b75-4932-a83a-132a6aebcabf,Grevillea robusta,Silky Oak,9,11,well-drained,True,25.0,fast,6.0
+a12e6848-8424-459e-8f87-413a51321c69,Nothofagus cunninghamii,Myrtle Beech,8,9,moist well-drained,False,35.0,slow,12.0
+973ee6c8-daef-4d6a-9d25-56998eced815,Araucaria heterophylla,Norfolk Island Pine,9,11,well-drained,True,50.0,medium,4.0
+67c28fff-61b4-4286-a5a3-34395c82136d,Macadamia integrifolia,Macadamia Nut,9,11,well-drained,False,12.0,slow,8.0
+8210f267-e716-4ff7-9f18-65247d649155,Banksia serrata,Old Man Banksia,8,10,well-drained,True,8.0,slow,6.0
+fd2f670e-5a7e-4c4a-a337-4fa55f578441,Allocasuarina verticillata,Drooping Sheoak,8,10,well-drained,True,8.0,medium,4.0
+a2a2e66d-1c74-40b9-aab9-7bf06163bd3d,Metrosideros excelsa,New Zealand Christmas Tree,9,10,moist well-drained,False,15.0,medium,10.0
+dfcc8d63-7a32-4571-a03b-42467b9f9864,Nothofagus solandri,Black Beech,7,9,well-drained,False,25.0,slow,8.0
+4e0b4933-565d-494d-b789-4c6d935d6b3e,Podocarpus totara,Totara,8,10,moist well-drained,False,30.0,slow,6.0
+c01ada13-7675-4805-81e0-454a043af225,Agathis australis,Kauri,9,10,moist well-drained,False,40.0,slow,8.0
+d2765442-a774-486d-bbf8-de8184257cba,Cordyline australis,Cabbage Tree,8,10,well-drained,True,8.0,medium,3.0
+0adc1977-7f54-4234-811c-e0d3e3fae3c8,Knightia excelsa,Rewarewa,9,10,moist well-drained,False,25.0,medium,6.0
+0bb7c2b0-0375-4f7b-85ad-5cf8573193ca,Zelkova serrata,Japanese Zelkova,5,8,well-drained,False,20.0,medium,15.0
+ce779260-61d5-4ef1-adcb-c5dcd18ce40a,Acer palmatum,Japanese Maple,5,8,moist well-drained,False,8.0,slow,6.0
+bff19e49-7adf-4391-b778-0aff5b8164aa,Prunus serrulata,Japanese Cherry,5,8,well-drained,False,8.0,medium,8.0
+d3834177-6db1-47a0-acce-473420e8ae82,Cryptomeria japonica,Japanese Cedar,5,8,moist well-drained,False,35.0,medium,6.0
+e2950d0b-2335-4bc8-a876-237b273af033,Chamaecyparis obtusa,Hinoki Cypress,4,8,moist well-drained,False,25.0,slow,4.0
+bc6837c2-4c19-4b41-80f0-037c6b66db1a,Pinus densiflora,Japanese Red Pine,4,7,well-drained,True,20.0,medium,6.0
+44766504-8793-4e92-8ca8-4639981b2171,Fagus crenata,Japanese Beech,4,7,moist well-drained,False,25.0,slow,15.0
+cb2d5c24-50a0-4297-8e78-23549fc73dbd,Quercus acutissima,Sawtooth Oak,5,9,well-drained,True,15.0,fast,12.0
+c62d5b78-7539-4763-b4f3-17560defebc1,Castanea crenata,Japanese Chestnut,4,8,well-drained,False,15.0,medium,10.0
+f2d016d3-7404-46cf-9404-5ea055a0efe3,Magnolia kobus,Kobus Magnolia,4,7,moist acidic,False,12.0,medium,8.0
+ac2d6aa8-028d-40f4-9a52-106e778e6bfa,Cercidiphyllum japonicum,Katsura Tree,4,8,moist well-drained,False,20.0,medium,8.0
+50cea211-99ce-43bb-9d8d-2201286e8688,Stewartia pseudocamellia,Japanese Stewartia,5,7,moist acidic,False,12.0,slow,6.0
+4c757591-ba53-4c47-a5d1-b33f177e3e39,Metasequoia glyptostroboides,Dawn Redwood,4,8,moist well-drained,False,35.0,fast,6.0
+0e1b1ca8-39e4-420d-b7bf-05a47de98b19,Sophora japonica,Japanese Pagoda Tree,4,8,well-drained,True,15.0,medium,12.0
+8283b891-23e3-48d8-b2b3-1cb1e33845a9,Lagerstroemia indica,Crape Myrtle,7,9,well-drained,True,6.0,medium,4.0
+1e0914a3-1911-4b42-b5cc-d3ed85199245,Cinnamomum camphora,Camphor Tree,8,10,well-drained,True,15.0,medium,12.0
+02372c07-0377-4658-a18a-f464131d0ac8,Diospyros kaki,Persimmon,7,10,well-drained,True,8.0,medium,6.0
+e9494364-521f-44c8-95e8-819526e273e6,Eriobotrya japonica,Loquat,7,10,well-drained,True,8.0,medium,6.0
+fbd33baf-cf23-4aa5-bca7-b2b3c599831d,Firmiana simplex,Chinese Parasol Tree,6,10,well-drained,False,12.0,fast,8.0
+5617ed41-251f-42b1-8c04-fb55ae262089,Koelreuteria paniculata,Golden Rain Tree,5,9,well-drained,True,10.0,medium,8.0
+1c2519db-ae81-4532-bbc7-7aab2c42adbf,Melia azedarach,Chinaberry,7,11,well-drained,True,12.0,fast,8.0
+0b8987a6-4a30-4f41-9720-157ab5f70e85,Pistacia chinensis,Chinese Pistache,6,9,well-drained,True,12.0,medium,8.0
+285d8be5-c646-4b94-97f5-6555fb37e342,Ulmus parvifolia,Chinese Elm,5,9,adaptable,True,15.0,fast,12.0
+21c3df4b-1596-468d-83e3-256afc7e4501,Celtis sinensis,Chinese Hackberry,6,9,well-drained,True,12.0,medium,10.0
+d7c5d7c8-5597-4d36-9f8d-b343e3660bfd,Albizia julibrissin,Silk Tree,6,9,well-drained,True,8.0,fast,10.0
+8b15225b-f96c-4066-b077-faf8d47a61dd,Toona sinensis,Chinese Mahogany,5,9,well-drained,False,15.0,fast,8.0
+e978f46f-170f-446e-82ed-e9ae7e85b6fb,Liquidambar formosana,Formosan Sweet Gum,6,9,moist well-drained,False,20.0,medium,12.0
+941e0f0f-f374-4794-9bb6-fcaaaf095a5e,Cunninghamia lanceolata,China Fir,7,9,moist well-drained,False,30.0,medium,6.0
+0f841197-94e1-443e-b516-f87b1d12adf3,Pinus massoniana,Masson Pine,7,10,well-drained,True,25.0,medium,6.0
+44b5d140-70ec-4bc1-95e2-a9cc308b7b73,Tectona grandis,Teak,9,12,well-drained,False,30.0,medium,8.0
+51a1b8d8-17f4-4c59-a55b-bcfb91609c9f,Dalbergia sissoo,Indian Rosewood,9,11,well-drained,True,15.0,fast,12.0
+fe1dd394-e739-4da5-b51d-cb3158d37d6f,Azadirachta indica,Neem,9,12,well-drained,True,12.0,medium,8.0
+31328e2d-64f2-4a5a-a71d-b184c436e1de,Tamarindus indica,Tamarind,10,12,well-drained,True,15.0,slow,12.0
+5bffea87-aaf5-48fc-b833-31ef4345ffc9,Ficus benghalensis,Banyan Tree,10,12,well-drained,False,25.0,medium,30.0
+8af2100d-3ba6-43ff-95b5-eb8245d8de56,Bombax ceiba,Red Silk Cotton,9,12,well-drained,True,20.0,fast,15.0
+4ce339d2-8947-40bc-add0-452933862d00,Delonix regia,Flame Tree,10,12,well-drained,True,10.0,fast,12.0
+66f4bfd4-99cc-4416-a26d-ee69501587fe,Polyalthia longifolia,False Ashoka,10,12,moist well-drained,False,12.0,medium,4.0
+792f06dd-107a-4883-9b19-9f6e378de836,Cassia fistula,Golden Shower,9,11,well-drained,True,8.0,medium,6.0
+7d1325c0-04a1-4b59-ac80-3b36b83a015b,Bauhinia variegata,Orchid Tree,9,11,well-drained,True,8.0,medium,6.0
+fc2aea97-2dd8-472e-bd8e-b696b518f5fb,Spathodea campanulata,African Tulip Tree,10,12,moist well-drained,False,15.0,fast,8.0
+62fb2bfb-c357-4ced-bf33-5d74f8ecfe8f,Jacaranda mimosifolia,Jacaranda,9,11,well-drained,True,12.0,medium,8.0
+e19e3024-6bb0-4bd7-bf53-d24665d2c55b,Grevillea banksii,Red Silky Oak,9,11,well-drained,True,6.0,fast,4.0
+d47ed7c3-0201-4506-a60a-f36e85e896f7,Erythrina indica,Indian Coral Tree,10,12,well-drained,True,8.0,fast,8.0
+e9e8cb36-cce4-40d3-afbc-d48806e70baa,Terminalia catappa,Tropical Almond,10,12,sandy well-drained,True,15.0,medium,10.0
+a62b7d09-8126-4f88-b063-a47ebcded587,Swietenia mahagoni,West Indian Mahogany,10,12,well-drained,False,20.0,slow,12.0
+55b42bb1-1d33-4f9f-8e6e-a1df329f67d8,Ceiba pentandra,Kapok Tree,10,12,well-drained,True,40.0,fast,15.0
+c34c57a1-a7ec-4427-ac6a-961c711bad17,Araucaria bidwillii,Bunya Pine,9,11,well-drained,False,35.0,slow,8.0
+922e9934-eda3-403d-a8cf-e56a1264582f,Araucaria columnaris,Cook Pine,10,11,well-drained,True,40.0,medium,4.0
+3eda6a92-1c4c-460b-a41a-bbcffd971803,Casuarina cunninghamiana,River Oak,8,11,moist well-drained,True,20.0,fast,4.0
+66f8fff0-7fd8-47e9-8054-92bb5645dc50,Callistemon viminalis,Weeping Bottlebrush,8,11,moist well-drained,True,6.0,fast,4.0
+2c73b949-1af3-4182-8e82-3d5401147239,Pittosporum undulatum,Sweet Pittosporum,8,10,well-drained,False,8.0,medium,6.0
+1b407065-f5cd-43e8-ad14-30a225f31330,Schinus molle,Pepper Tree,8,11,well-drained,True,8.0,fast,8.0
+2083afdd-60f4-40cc-a339-edb2a062df90,Tipuana tipu,Tipu Tree,9,11,well-drained,True,15.0,fast,12.0
+2abae759-8877-4039-bc13-8f32297e75c4,Chorisia speciosa,Silk Floss Tree,9,11,well-drained,True,15.0,medium,8.0
+e7b52e45-5d97-457f-ba37-4d037bd83486,Enterolobium cyclocarpum,Elephant Ear Tree,10,12,well-drained,True,25.0,fast,20.0
+488dd4c1-b471-40ac-836d-d2a7d9946a72,Tabebuia impetiginosa,Pink Trumpet Tree,9,11,well-drained,True,12.0,medium,6.0
+48af5d0a-b9c0-4ddf-a905-9013f4a5943a,Caesalpinia pulcherrima,Pride of Barbados,9,11,well-drained,True,3.0,fast,3.0
+136975e8-dfdf-4c4e-a190-1956069bdf06,Albizia lebbeck,Woman's Tongue,10,12,well-drained,True,15.0,fast,15.0
+e2547d54-5666-431c-8f42-e90d31b5b780,Calophyllum inophyllum,Alexandrian Laurel,10,12,sandy well-drained,True,12.0,slow,8.0
+9022dee6-4665-4402-9bf1-995b4463d672,Peltophorum pterocarpum,Yellow Flame Tree,10,12,well-drained,True,12.0,fast,8.0
+8acc39cb-efc6-4c9e-b2e3-114a8a14cf70,Samanea saman,Rain Tree,10,12,well-drained,True,20.0,fast,25.0
+6db2fe6e-9bb0-45d2-a02b-09b072f4fe88,Cassia grandis,Pink Shower,10,12,well-drained,True,12.0,medium,8.0
+6c9e4b6b-3ce7-4adc-965b-571a59a14f6e,Aleurites moluccanus,Candlenut,10,12,well-drained,False,15.0,medium,8.0
+62eb2a43-71d7-4d65-9bac-2ebdeeaff392,Artocarpus heterophyllus,Jackfruit,10,12,well-drained,False,15.0,medium,8.0
+1fa1100d-d3f4-436f-9313-3effaf08b5c1,Artocarpus altilis,Breadfruit,11,12,well-drained,False,12.0,medium,8.0
+52f19b85-4c15-4e84-be27-90292542b54f,Moringa oleifera,Drumstick Tree,9,12,well-drained,True,8.0,fast,4.0
+d3bbdce8-3c5e-4a92-b30f-94453af9b306,Kigelia africana,Sausage Tree,9,11,well-drained,False,12.0,medium,8.0
+1e951621-e018-48c7-93e6-3674b41419cf,Adansonia digitata,Baobab,9,11,well-drained,True,20.0,slow,15.0
+bf7db2bc-0b38-4a2f-9efa-a369b1b99429,Acacia senegal,Gum Arabic,9,11,well-drained,True,8.0,medium,6.0
+6a387167-7fbf-41aa-a506-1149bc58b726,Boswellia sacra,Frankincense,9,11,well-drained,True,6.0,slow,4.0
+5fd500f5-f3fb-44d4-a50f-1f18d73c6347,Commiphora myrrha,Myrrh,9,11,well-drained,True,4.0,slow,3.0
+d430dfaf-40b6-4dc0-a315-38e48b6117cf,Hyphaene thebaica,Doum Palm,9,11,well-drained,True,12.0,slow,4.0
+ee695708-c402-43ce-9117-43822ba9a410,Parkia biglobosa,African Locust Bean,9,11,well-drained,True,15.0,medium,12.0
+b461df3a-8cb6-4edc-8563-e66a5e11c641,Vitellaria paradoxa,Shea Tree,9,11,well-drained,True,12.0,slow,8.0
+9ec02bba-a051-4c7f-a6dd-18d1e80c1f10,Cecropia peltata,Trumpet Tree,10,12,moist well-drained,False,15.0,fast,6.0
+c96da47b-95eb-4582-9cc3-fdbf0ea53bf6,Ochroma pyramidale,Balsa,10,12,moist well-drained,False,20.0,fast,8.0
+dc60184d-275e-4c3d-aebc-05582ad00616,Hevea brasiliensis,Rubber Tree,10,12,well-drained,False,25.0,fast,8.0
+af669394-1940-436b-ae47-dabf33f87523,Theobroma cacao,Cacao,10,12,moist well-drained,False,8.0,medium,4.0
+77b5a13b-53b5-4097-9ad2-843cbb7c3137,Bertholletia excelsa,Brazil Nut,10,12,well-drained,False,40.0,slow,15.0
+6dda51ad-6668-4ebd-879e-fc6d542bf7b3,Cedrela odorata,Spanish Cedar,9,12,well-drained,False,25.0,fast,12.0
+595f21c6-b63a-4276-b688-b19b407bb8e9,Inga edulis,Ice Cream Bean,10,12,moist well-drained,False,15.0,fast,8.0
+201bee1c-efbb-4cb2-bf5f-6ba8f34bf09f,Brosimum alicastrum,Maya Nut,10,12,well-drained,False,20.0,medium,12.0
+6b8e2838-a4f1-421d-9d4d-dd882011fd96,Spondias mombin,Yellow Mombin,10,12,well-drained,True,15.0,fast,10.0
+1809b1d4-f590-49b6-ab50-40546b526659,Astronium graveolens,Aroeira,9,11,well-drained,True,15.0,medium,8.0
+777b703b-049f-432d-87f0-8a070db9b7bd,Handroanthus impetiginosus,Pink Lapacho,9,11,well-drained,True,12.0,medium,6.0
+d4ec27f6-2959-4582-90de-588de2180b69,Anadenanthera colubrina,Cebil,9,11,well-drained,True,15.0,fast,10.0
+df93380d-f8a4-4a24-bb27-48d698d8947b,Erythrina crista-galli,Cockspur Coral Tree,7,10,well-drained,True,6.0,fast,6.0
+dc129416-356a-4066-8aa7-2dfa2f70ecbd,Araucaria angustifolia,Parana Pine,7,10,well-drained,False,30.0,slow,6.0
+a7c5d514-d8af-4b88-bede-21858abab690,Nothofagus obliqua,Southern Beech,6,9,moist well-drained,False,25.0,medium,12.0
+9c2c6622-c890-4785-93c1-006da3c733c3,Nothofagus pumilio,Lenga Beech,4,7,moist well-drained,False,20.0,slow,8.0
+e7a028a4-4b4a-472b-b85a-e3b01df4d4b8,Fitzroya cupressoides,Alerce,6,8,moist well-drained,False,40.0,slow,4.0
+b02a7fda-db15-4b33-b205-d06160a878ae,Austrocedrus chilensis,Chilean Cedar,6,9,well-drained,True,15.0,slow,4.0
+52724481-c18a-4451-afc6-9022c7b955d2,Maytenus boaria,Mayten Tree,7,9,well-drained,True,12.0,medium,6.0
+bdd51cd2-cc8b-4cee-8759-5722d02306b8,Quillaja saponaria,Soap Bark Tree,7,9,well-drained,True,12.0,medium,6.0
+156fb6b4-44a4-4b23-814c-f3b4403dc561,Luma apiculata,Chilean Myrtle,8,9,moist well-drained,False,8.0,slow,4.0
+86495776-acdb-47a6-bb36-405405cf69da,Podocarpus salignus,Willow Podocarp,8,10,moist well-drained,False,15.0,slow,4.0
+75305a2f-06ef-4c40-b1ab-afcff092d144,Embothrium coccineum,Chilean Firebush,7,9,moist acidic,False,8.0,medium,4.0
+b9be40d3-520c-4182-b1bd-9eaa6904b06a,Drimys winteri,Winter's Bark,7,9,moist well-drained,False,12.0,medium,6.0
+b47fee5b-c9fc-4a7e-862e-aeb468723ccb,Gevuina avellana,Chilean Hazel,8,9,moist well-drained,False,15.0,medium,6.0
+3f603454-db71-4be5-989e-ec14f438d9b7,Cryptocarya alba,Peumo,8,9,well-drained,True,12.0,slow,8.0
+b83c8486-83c1-44d8-be3d-f4990319c36e,Persea lingue,Lingue,8,9,moist well-drained,False,20.0,medium,8.0
+af304cd5-b87a-4b1b-bff7-687c68594197,Laurelia sempervirens,Chilean Laurel,8,9,moist well-drained,False,15.0,medium,6.0
+33b7c41a-9b69-4a79-9e60-352e208c339e,Weinmannia trichosperma,Tineo,8,9,moist well-drained,False,20.0,medium,8.0
+82d64dd9-06ba-4fa2-a818-d0fc237f37ed,Aextoxicon punctatum,Olivillo,8,9,moist well-drained,False,15.0,slow,6.0
+e999aaa1-e44e-4f35-9fff-60d87ee6985e,Eucryphia cordifolia,Ulmo,8,9,moist acidic,False,25.0,medium,6.0
+a4c91470-549d-4240-9c06-2b1705d10b7d,Crinodendron hookerianum,Chilean Lantern Tree,8,9,moist acidic,False,8.0,slow,4.0
