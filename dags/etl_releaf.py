@@ -184,12 +184,17 @@ def etl_releaf():
     _summarize_onboarding = summarize_onboarding(_load_user_data)
 
     chain(
-        _check_tables_exist,
+        # _check_tables_exist,
         _extract_user_data,
         _transform_user_data,
         _generate_tree_recommendations,
         _load_user_data,
         _summarize_onboarding,
+    )
+
+    chain(
+        _check_tables_exist,
+        _load_user_data,
     )
 
 

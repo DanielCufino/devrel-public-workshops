@@ -122,9 +122,15 @@ Note that while in the last exercise you were reviewing the dag code in the Airf
 
 1. The `etl_releaf` dag currently does not have a schedule - let's change that! Update the dag so that it will run daily at midnight.
 2. You can have Airflow manage retrying any tasks that fail by using retries. The dag currently has one retry set as the default for every task (based on the value provided to all tasks using the `default_args` parameter of the dag decorator), but you can override this if you want a particular task to have different retry settings. Update the `check_tables_exist` task to retry 3 times in case of failure. 
-3. Dependency management is another bread and butter feature of Airflow. The current task dependencies in the pipeline flow logically from extraction to transformation to loading. Review the current dependencies in the dag and observe `check_tables_exist` needs to complete successfully before `extract_user_data` runs, which allows `transform_user_data`, `generate_tree_recommendations`, `load_user_data` and finally `summarize_onboarding` to run. Your graph should look like this:
+3. Dependency management is another bread and butter feature of Airflow. Review the current dependencies in the dag and observe `check_tables_exist` needs to complete successfully before `extract_user_data` runs, which allows `transform_user_data`, `generate_tree_recommendations`, `load_user_data` and finally `summarize_onboarding` to run. Your graph should look like this:
 
-   ![Updated graph](img/exercise_3_graph.png)
+   ![Dependency graph](img/exercise_3_graph.png)
+
+   But the `check_tables_exist` task does not need to be first, it just needs to run before data is loaded to the duckdb instance. Change the dependency of the `check_tables_exist` task to be directly before the `load_user_data` to get a graph like this:
+
+   ![Updated graph](img/updated_dag.png)
+
+   Changing the dependency structure of a DAG is a structural change that creates a new DAG version. Click on **Options** indicated by the arrow in the screenshot above to be able to select different versions of your DAG and see their graphs.
 
 4. Since you changed the structure of the dag in Step 3, you will now have multiple versions of this dag. In the Airflow UI, toggle between V1 and V2 and see how the graph changes.
 
