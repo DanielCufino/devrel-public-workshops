@@ -7,7 +7,6 @@ import os
 import pandas as pd
 from pathlib import Path
 
-# Use the Airflow task logger to log information to the task logs
 t_log = logging.getLogger("airflow.task")
 
 # Define variables used in the DAG
@@ -34,9 +33,6 @@ def releaf_database_setup():
 
     @task
     def create_users_table(duckdb_instance_name: str = _DUCKDB_INSTANCE_NAME) -> None:
-        """
-        Create the users table in DuckDB to store user information.
-        """
         t_log.info("Creating users table in DuckDB.")
 
         os.makedirs(os.path.dirname(duckdb_instance_name), exist_ok=True)
@@ -66,9 +62,6 @@ def releaf_database_setup():
     def create_locations_table(
         duckdb_instance_name: str = _DUCKDB_INSTANCE_NAME,
     ) -> None:
-        """
-        Create the locations table in DuckDB to store location data.
-        """
         t_log.info("Creating locations table in DuckDB.")
 
         cursor = duckdb.connect(duckdb_instance_name)
@@ -99,9 +92,6 @@ def releaf_database_setup():
     def create_tree_species_catalog_table(
         duckdb_instance_name: str = _DUCKDB_INSTANCE_NAME,
     ) -> None:
-        """
-        Create the tree_species_catalog table in DuckDB to store tree species information.
-        """
         t_log.info("Creating tree_species_catalog table in DuckDB.")
 
         cursor = duckdb.connect(duckdb_instance_name)
@@ -130,9 +120,6 @@ def releaf_database_setup():
     def create_tree_recommendations_table(
         duckdb_instance_name: str = _DUCKDB_INSTANCE_NAME,
     ) -> None:
-        """
-        Create the tree_recommendations table in DuckDB to store tree recommendations.
-        """
         t_log.info("Creating tree_recommendations table in DuckDB.")
 
         cursor = duckdb.connect(duckdb_instance_name)
@@ -153,13 +140,11 @@ def releaf_database_setup():
         cursor.close()
         t_log.info("Tree recommendations table created successfully.")
 
-    @task()
+    @task
     def load_tree_species_catalog(
         duckdb_instance_name: str = _DUCKDB_INSTANCE_NAME,
     ) -> None:
-        """
-        Load tree species catalog data from CSV into the database.
-        """
+
         t_log.info("Loading tree species catalog data...")
 
         csv_path = f"{_DATA_PATH}/tree_species_catalog.csv"
@@ -180,27 +165,20 @@ def releaf_database_setup():
             f"Tree species catalog now has {count} total records (duplicates skipped if any)."
         )
 
-    @task()
+    @task
     def load_users_data(duckdb_instance_name: str = _DUCKDB_INSTANCE_NAME) -> None:
-        """
-        Load users data from CSV into the database.
-        """
         t_log.info("Loading users data...")
 
-        # Load CSV data
         csv_path = f"{_DATA_PATH}/users.csv"
         users_df = pd.read_csv(csv_path)
 
-        # Convert datetime columns
         users_df["created_at"] = pd.to_datetime(users_df["created_at"])
         users_df["last_login"] = pd.to_datetime(users_df["last_login"], errors="coerce")
 
-        # Connect to database and load data
         cursor = duckdb.connect(duckdb_instance_name)
         cursor.register("users_df", users_df)
         cursor.execute("INSERT OR IGNORE INTO users SELECT * FROM users_df")
 
-        # Get count to verify
         count = cursor.execute("SELECT COUNT(*) FROM users").fetchone()[0]
         cursor.close()
 
@@ -208,23 +186,17 @@ def releaf_database_setup():
             f"Users table now has {count} total records (duplicates skipped if any)."
         )
 
-    @task()
+    @task
     def load_locations_data(duckdb_instance_name: str = _DUCKDB_INSTANCE_NAME) -> None:
-        """
-        Load locations data from CSV into the database.
-        """
         t_log.info("Loading locations data...")
 
-        # Load CSV data
         csv_path = f"{_DATA_PATH}/locations.csv"
         locations_df = pd.read_csv(csv_path)
 
-        # Connect to database and load data
         cursor = duckdb.connect(duckdb_instance_name)
         cursor.register("locations_df", locations_df)
         cursor.execute("INSERT OR IGNORE INTO locations SELECT * FROM locations_df")
 
-        # Get count to verify
         count = cursor.execute("SELECT COUNT(*) FROM locations").fetchone()[0]
         cursor.close()
 
@@ -232,32 +204,25 @@ def releaf_database_setup():
             f"Locations table now has {count} total records (duplicates skipped if any)."
         )
 
-    @task()
+    @task
     def load_recommendations_data(
         duckdb_instance_name: str = _DUCKDB_INSTANCE_NAME,
     ) -> None:
-        """
-        Load tree recommendations data from CSV into the database.
-        """
         t_log.info("Loading tree recommendations data...")
 
-        # Load CSV data
         csv_path = f"{_DATA_PATH}/tree_recommendations.csv"
         recommendations_df = pd.read_csv(csv_path)
 
-        # Convert datetime column
         recommendations_df["generated_at"] = pd.to_datetime(
             recommendations_df["generated_at"]
         )
 
-        # Connect to database and load data
         cursor = duckdb.connect(duckdb_instance_name)
         cursor.register("recommendations_df", recommendations_df)
         cursor.execute(
             "INSERT OR IGNORE INTO tree_recommendations SELECT * FROM recommendations_df"
         )
 
-        # Get count to verify
         count = cursor.execute("SELECT COUNT(*) FROM tree_recommendations").fetchone()[
             0
         ]
@@ -267,26 +232,20 @@ def releaf_database_setup():
             f"Tree recommendations table now has {count} total records (duplicates skipped if any)."
         )
 
-    @task()
+    @task
     def verify_data_loaded(duckdb_instance_name: str = _DUCKDB_INSTANCE_NAME) -> None:
-        """
-        Verify that all data was loaded successfully and show summary statistics.
-        """
         t_log.info("Verifying all data was loaded successfully...")
 
         cursor = duckdb.connect(duckdb_instance_name)
 
-        # Check table counts
         tables = ["users", "locations", "tree_species_catalog", "tree_recommendations"]
 
         for table in tables:
             count = cursor.execute(f"SELECT COUNT(*) FROM {table}").fetchone()[0]
             t_log.info(f"✓ Table '{table}': {count} records")
 
-        # Show some sample data relationships
         t_log.info("\n=== Sample Data Relationships ===")
 
-        # Users by type
         user_types = cursor.execute(
             """
             SELECT user_type, COUNT(*) as count 
@@ -297,7 +256,6 @@ def releaf_database_setup():
         ).fetchall()
         t_log.info(f"User types: {dict(user_types)}")
 
-        # Locations per user (avg)
         avg_locations = cursor.execute(
             """
             SELECT AVG(location_count) as avg_locations
@@ -310,7 +268,6 @@ def releaf_database_setup():
         ).fetchone()[0]
         t_log.info(f"Average locations per user: {avg_locations:.1f}")
 
-        # Recommendations per location (avg)
         avg_recommendations = cursor.execute(
             """
             SELECT AVG(rec_count) as avg_recs
@@ -323,7 +280,6 @@ def releaf_database_setup():
         ).fetchone()[0]
         t_log.info(f"Average recommendations per location: {avg_recommendations:.1f}")
 
-        # Top recommended species
         top_species = cursor.execute(
             """
             SELECT tsc.species_name, tsc.common_name, COUNT(*) as recommendation_count

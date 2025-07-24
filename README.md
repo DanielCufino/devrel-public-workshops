@@ -108,7 +108,7 @@ Let's dig into dags and tasks in more detail.
    - You also need to leave the `Unpause etl_releaf on trigger` box checked - this will unpause the dag so it can complete its manual run and will run based on any scheduled provided going forward until you manually pause it again.
 3. After you trigger the dag, notice what happens in the grid to the left side of the dag overview. After a few seconds you should see a successful run as a green bar, with green boxes for each sucessfully completed task instance. (A task instance is a run of a task in a specific dag run.)
 4. Click on the green box for the latest `summarize_onboarding` task instance - you should see the logs, with a summary of the user onboarding and tree recommendations you just created.
-5. Take a closer look at the structure and code of this dag. Review the graph and the code in the Airflow UI, and see if you can understand how the dag works. 
+5. Take a closer look at the structure and code of this dag. Review the graph and the code in the Airflow UI, and see if you can understand how the dag works. The screenshot below shows you how to navigate the Airflow UI to switch to the DAG graph (1), see the logs of an individalual task instance (2) and view the code of the DAG (3).
 
 ![Screenshot of the Airflow UI showing how to access the dag graph and dag code](/img/switch_view.png)
 
@@ -121,8 +121,8 @@ Now let's get hands-on and make some changes to the `etl_releaf` dag. This dag i
 Note that while in the last exercise you were reviewing the dag code in the Airflow UI, the code can only be changed directly in the Python files in your Airflow project (i.e. the UI is view-only).
 
 1. The `etl_releaf` dag currently does not have a schedule - let's change that! Update the dag so that it will run daily at midnight.
-2. You can have Airflow manage retrying any tasks that fail by using retries. The dag currently has one retry set as the default for every task (based on the value provided to all tasks using the `default_args` parameter of the dag decorator), but you can override this if you want a particular task to have different retry settings. Update the `extract_user_data` task to retry 3 times in case of failure. 
-3. Dependency management is another bread and butter feature of Airflow. The current task dependencies in the pipeline flow logically from extraction to transformation to loading. Review the current dependencies in the dag and observe how `extract_user_data` flows through `transform_user_data`, `generate_tree_recommendations`, `load_user_data`, and finally `summarize_onboarding`. Your graph should look like this:
+2. You can have Airflow manage retrying any tasks that fail by using retries. The dag currently has one retry set as the default for every task (based on the value provided to all tasks using the `default_args` parameter of the dag decorator), but you can override this if you want a particular task to have different retry settings. Update the `check_tables_exist` task to retry 3 times in case of failure. 
+3. Dependency management is another bread and butter feature of Airflow. The current task dependencies in the pipeline flow logically from extraction to transformation to loading. Review the current dependencies in the dag and observe `check_tables_exist` needs to complete successfully before `extract_user_data` runs, which allows `transform_user_data`, `generate_tree_recommendations`, `load_user_data` and finally `summarize_onboarding` to run. Your graph should look like this:
 
    ![Updated graph](img/exercise_3_graph.png)
 

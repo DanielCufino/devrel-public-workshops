@@ -41,7 +41,7 @@ _USER_LOCATION = os.getenv("USER_LOCATION", "Seattle, WA, USA")
 )
 def etl_releaf():
 
-    @task
+    @task()
     def check_tables_exist(duckdb_instance_name: str = _DUCKDB_INSTANCE_NAME) -> bool:
         cursor = duckdb.connect(duckdb_instance_name)
         tables = cursor.sql("SHOW TABLES").fetchall()
@@ -59,7 +59,7 @@ def etl_releaf():
                 )
         cursor.close()
 
-    @task()
+    @task
     def extract_user_data(**context) -> dict:
         user_name = context["params"]["user_name"].strip()
         user_location = context["params"]["user_location"].strip()
