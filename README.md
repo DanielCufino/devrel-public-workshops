@@ -177,6 +177,8 @@ If you need help, see [Create a Deployment](https://www.astronomer.io/docs/astro
 
 Check that your Deployment spins up and reaches a `Healthy` status.
 
+Note that you will get an import error for the `genai_releaf` DAG even if you have added your `OPENAI_API_KEY` to `.env`, since the content of `.env` are _not_ pushed to Astro. You will need to set the environment variable on your deployment, see [Exercise 8](#exercise-8-add-an-environment-variable). 
+
 ## Exercise 6: Set up a worker queue
 
 One of the benefits of Astro is you can use worker queues to distribute your Airflow tasks amongst workers that are properly sized, allowing for greater resource optimization. For this use case, let's say the `generate_tree_recommendations` task in `etl_releaf` might require more compute than your other tasks. You don't want to assign every task to a bigger worker (that would be wasteful!), but you want to ensure that task has the resources required to run successfully.
@@ -199,10 +201,10 @@ Now your project is ready to deploy using the Astro CLI!
 
 ## Exercise 8: Add an environment variable
 
-For this workshop, no connections are required, and the reforestation DAGs are designed to work with user parameters and generated data. The `etl_releaf` dag uses parameters like `user_name` and `user_location` that are provided when triggering the DAG manually.
+For this workshop, no connections are required, and the reforestation DAGs are designed to work with user parameters and generated data. The `etl_releaf` dag uses parameters like `USER_NAME` and `USER_LOCATION` where the default can be changed based on an environment variable. Additionally the `genai_releaf` DAG requires the `OPENAI_API_KEY` environment variable to be set to function.
 
 1. In your Astro Deployment, go to the Environment tab, then Environment Variables, and click `+ Environment Variable`.
-2. You can add environment variables if needed for your specific deployment, but none are required for the basic reforestation pipeline to function.
+2. You can add environment variables if needed for your specific deployment, but none are required for the basic reforestation pipeline to function. If you are adding your `OPENAI_API_KEY` make sure to mark the environment variable as secret!
 3. Click `Update Environment Variables`, then wait a couple of minutes for it to be applied to your Airflow instance.
-4. In Airflow, trigger the `etl_releaf` DAG with different user parameters and review the logs of the `summarize_onboarding` task. You should see personalized tree recommendations generated for each user location you provide.
+4. In Airflow, trigger the `etl_releaf` DAG with different user parameters and review the logs of the `summarize_onboarding` task. You should see personalized tree recommendations generated for the user and user location you provided.
 
