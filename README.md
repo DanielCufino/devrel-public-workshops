@@ -1,10 +1,12 @@
-# Intro to Airflow and Astro Workshop
+# Airflow Quickstart - Complete version
 
 Welcome! 🚀
 
-This is the repository for Astronomer's Intro to Airflow and Astro hands-on workshop. The workshop is designed to help you become familiar with how to write basic data pipelines with Apache Airflow, and how to deploy them to run in production on Astro.
+This is the repository for Astronomer's Airflow Quickstart. 
 
-In this example use case you are a data engineer at the start up **ReLeaf** which offers hyper-local and personalized recommendations for the ideal tree to plant to its customers. From individuals looking to get some nice lasting shade in their backyard to large cooperations adding relaxation and relief to store locations to attract more customers to government entities planning whole-city reforestation - ReLeaf knows which trees will thrive for any location! 🌲🌳🌴  
+This quickstart contains a fully functional Airflow project for **ReLeaf**, a company offering hyper-local and personalized recommendations for the ideal tree to plant to its customers. From individuals looking to get some nice lasting shade in their backyard to large cooperations adding relaxation and relief to store locations to attract more customers to government entities planning whole-city reforestation - ReLeaf knows which trees will thrive for any location 🌲🌳🌴! 
+
+Optionall, you can chose to use the [workshop version](https://github.com/astronomer/devrel-public-workshops/tree/airflow-quickstart-workshop) of this quickstart in which you can complete exercises to learn more about key Airflow features.
 
 ## How to use this repo
 

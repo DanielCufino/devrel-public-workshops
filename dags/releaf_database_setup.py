@@ -1,4 +1,4 @@
-from airflow.sdk import dag, task
+from airflow.sdk import dag, task, Asset    
 from airflow.models.baseoperator import chain
 import duckdb
 import logging
@@ -21,13 +21,12 @@ _DUCKDB_INSTANCE_NAME = os.getenv("DUCKDB_INSTANCE_NAME", f"{_INCLUDE_PATH}/rele
     max_active_runs=1,
     max_active_tasks=1,
     max_consecutive_failed_dag_runs=5,
-    doc_md=__doc__,
     default_args={
         "owner": "Astro",
         "retries": 1,
         "retry_delay": duration(seconds=30),
     },
-    tags=["setup", "releaf", "database"],
+    tags=["Run this DAG first!"]
 )
 def releaf_database_setup():
 
@@ -232,7 +231,7 @@ def releaf_database_setup():
             f"Tree recommendations table now has {count} total records (duplicates skipped if any)."
         )
 
-    @task
+    @task(outlets=[Asset(name="database_setup_complete")])
     def verify_data_loaded(duckdb_instance_name: str = _DUCKDB_INSTANCE_NAME) -> None:
         t_log.info("Verifying all data was loaded successfully...")
 

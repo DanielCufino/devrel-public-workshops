@@ -1,4 +1,4 @@
-from airflow.sdk import asset
+from airflow.sdk import asset, Asset
 import duckdb
 import logging
 from pathlib import Path
@@ -11,7 +11,7 @@ _INCLUDE_PATH = Path(os.getenv("AIRFLOW_HOME")) / "include"
 _DUCKDB_INSTANCE_NAME = os.getenv("DUCKDB_INSTANCE_NAME", f"{_INCLUDE_PATH}/releaf.db")
 
 
-@asset(schedule=None)
+@asset(schedule=[Asset(name="etl_complete")])
 def releaf_analytics():
 
     sql_file_path = f"{_INCLUDE_PATH}/sql/releaf_analytics.sql"

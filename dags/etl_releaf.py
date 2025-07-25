@@ -1,8 +1,8 @@
-from airflow.sdk import dag, task, Param
+from airflow.sdk import dag, task, Param, Asset
 from airflow.models.baseoperator import chain
 import duckdb
 import logging
-from pendulum import duration
+from pendulum import duration, datetime
 import uuid
 from pathlib import Path
 import os
@@ -17,6 +17,8 @@ _USER_LOCATION = os.getenv("USER_LOCATION", "Seattle, WA, USA")
 
 
 @dag(
+    start_date=datetime(2025, 7, 1),
+    schedule=[Asset(name="database_setup_complete")],
     max_consecutive_failed_dag_runs=5,
     max_active_runs=1,
     default_args={
@@ -151,7 +153,7 @@ def etl_releaf():
 
         return final_data
 
-    @task
+    @task(outlets=[Asset(name="etl_complete")])
     def summarize_onboarding(final_data: dict, **context):
         user_name = context["params"]["user_name"]
         user_location = context["params"]["user_location"]
@@ -184,7 +186,6 @@ def etl_releaf():
     _summarize_onboarding = summarize_onboarding(_load_user_data)
 
     chain(
-        # _check_tables_exist,
         _extract_user_data,
         _transform_user_data,
         _generate_tree_recommendations,
