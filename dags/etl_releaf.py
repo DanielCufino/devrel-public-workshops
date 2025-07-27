@@ -65,18 +65,26 @@ def etl_releaf():
     def extract_user_data(**context) -> dict:
         user_name = context["params"]["user_name"].strip()
         user_location = context["params"]["user_location"].strip()
+        ts = context["ts"]
 
-        t_log.info(f"Onboarding user: {user_name}")
-        t_log.info(f"Location: {user_location}")
+        return {"user_name": user_name, "user_location": user_location, "ts": ts}
 
+    @task
+    def transform_user_data(user_data: dict) -> dict:
         from include.custom_functions.releaf_utils import (
+            create_user_record,
+            create_location_record,
             get_coordinates_for_location,
             get_hardiness_zone_for_location,
         )
 
+        user_name = user_data["user_name"]
+        user_location = user_data["user_location"]
+        ts = user_data["ts"]
+
         coordinates = get_coordinates_for_location(user_location)
 
-        user_data = {
+        enriched_user_data = {
             "user_id": str(uuid.uuid4()),
             "name": user_name,
             "location_string": user_location,
@@ -87,23 +95,10 @@ def etl_releaf():
             ),
         }
 
-        return user_data
+        user_record = create_user_record(enriched_user_data, ts)
+        location_record = create_location_record(enriched_user_data)
 
-    @task
-    def transform_user_data(user_data: dict, **context) -> dict:
-        from include.custom_functions.releaf_utils import (
-            create_user_record,
-            create_location_record,
-        )
-
-        ts = context["ts"]
-
-        user_record = create_user_record(user_data, ts)
-        location_record = create_location_record(user_data)
-
-        transformed_data = {"user": user_record, "location": location_record}
-
-        return transformed_data
+        return {"user": user_record, "location": location_record}
 
     @task
     def generate_tree_recommendations(transformed_data: dict, **context) -> dict:
