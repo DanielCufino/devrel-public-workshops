@@ -4,40 +4,215 @@ Welcome! 🚀
 
 This is the repository for Astronomer's Airflow Quickstart. 
 
-This quickstart contains a fully functional Airflow project for **ReLeaf**, a company offering hyper-local and personalized recommendations for the ideal tree to plant to its customers. From individuals looking to get some nice lasting shade in their backyard to large cooperations adding relaxation and relief to store locations to attract more customers to government entities planning whole-city reforestation - ReLeaf knows which trees will thrive for any location 🌲🌳🌴! 
+This quickstart contains a fully functional Airflow project for **ReLeaf**, a personalized tree recommendation service. The project demonstrates an ETL (extract-transform-load) pattern to generate tree planting recommendations for anyone from individuals to large cooperations 🌲🌳🌴!
 
-Optionall, you can chose to use the [workshop version](https://github.com/astronomer/devrel-public-workshops/tree/airflow-quickstart-workshop) of this quickstart in which you can complete exercises to learn more about key Airflow features.
+![Screenshot of the Airflow UI showing the ETL DAG contained in this Quickstart](/img/tutorials/3-0_airflow-quickstart-etl_full_dag.png)
 
-## How to use this repo
+Optionally, you can chose to use the [workshop version](https://github.com/astronomer/devrel-public-workshops/tree/airflow-quickstart-workshop) of this quickstart with hands-on exercises to learn more about key Airflow features.
 
-Set up your environment by following the instructions in the [Setup](#setup) section below. Most DAGs in this repository can be run locally and on Astro without connecting to external systems.
+## Time to complete
 
-Optionally, if you'd like to run the `genai_releaf` DAG, you will need to provide your `OPENAI_API_KEY` in a `.env` file at the root of the repository.
+This quickstart takes approximately 15 minutes to complete.
 
-Sample solutions for DAG-writing related exercises can be found in the [`solutions/`](/solutions/) folder of the repo, note that some exercises can be solved in multiple ways.
+## Assumed knowledge
 
-> [!TIP]
-> Consider using [Ask Astro](https://ask.astronomer.io/) if you need additional guidance with any of the exercises.
+To get the most out of this quickstart, make sure you have an understanding of:
 
-### Setup
+- Basic Airflow concepts. See [Introduction to Apache Airflow](intro-to-airflow.md).
+- Basic Python. See the [Python Documentation](https://docs.python.org/3/tutorial/index.html).
 
-To set up a local Airflow environment you have two options, you can either use the Astro CLI or GitHub Codespaces.
+## Prerequisites
 
-#### Option 1: Astro CLI
+- [Homebrew](https://brew.sh/) installed on your local machine. 
+- An integrated development environment (IDE) for Python development, such as [Visual Studio Code](https://code.visualstudio.com/).
+- (Optional) A local installation of [Python 3](https://www.python.org/downloads/) to improve your Python developer experience.
 
-1. Make sure you have [Docker](https://docs.docker.com/get-docker/) or Podman installed and running on your machine.
-2. Install the free [Astro CLI](https://www.astronomer.io/docs/astro/cli/install-cli).
-3. [Fork](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/working-with-forks/fork-a-repo) this repository and [clone](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository) it to your local machine. Make sure you uncheck the `Copy the main branch only` option when forking as shown in the screenshot below.
+## Step 1: Install the Astro CLI
 
-   ![Forking the repository](img/fork_repo.png)
+The free Astro CLI is the easiest way to run Airflow locally in a containerized environment. Follow the instructions in this step to install the Astro CLI on a Mac using [Homebrew](https://brew.sh/), for other installation options and operating systems see [Install the Astro CLI](https://www.astronomer.io/docs/astro/cli/install-cli).
 
-4. Clone the repository and run `git checkout intro-to-airflow-astro` to switch to the correct workshop branch.
-5. (Optional). If you want to be able to run the `genai_releaf` DAG that uses OpenAI to generate a message, you need to provide your own `OPENAI_API_KEY`. Add a file called `.env` in the root of your repository and enter `OPENAI_API_KEY="<your OpenAI API KEY>"`.
-6. Run `astro dev start` in the root of the cloned repository to start the Airflow environment.
-7. Access the Airflow UI at `localhost:8080` in your browser.
-8. Run the `releaf_database_setup` DAG to create your database and populate it with sample data.
+1. Run the following command in your terminal to install the Astro CLI.
 
-#### Option 2: GitHub Codespaces
+	```sh
+	brew install astro
+	```
+
+2. Verify the installation and check your Astro CLI version. You need to be at least on version **1.34.0** to run the quickstart. 
+
+	```sh
+	astro version
+	```
+
+3. (Optional). Upgrade the Astro CLI to the latest version.
+
+	```sh
+	brew upgrade astro
+	```
+
+:::note
+
+If you can't install the Astro CLI locally, skip to [Run the quickstart without the Astro CLI](#run-the-quickstart-without-the-astro-cli) to deploy and run the project with a [free trial of Astro](https://www.astronomer.io/lp/signup/?utm_source=website&utm_medium=learn-guides&utm_campaign=quickstart-etl-7-25) or use [GitHub codespaces](#run-the-quickstart-using-github-codespaces).
+
+:::
+
+## Step 2: Clone and open the project
+
+1. [Clone](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository) the quickstart code from its [branch on GitHub](https://github.com/astronomer/devrel-public-workshops). This command will create a folder called `devrel-public-workshops` on your computer.
+
+	```sh
+	git clone -b airflow-quickstart-complete --single-branch https://github.com/astronomer/devrel-public-workshops.git
+	```
+
+2. Open the project folder in your IDE of choice. You should see the files and folders that make up your Airflow project in the file browser to the right (1). Open a terminal within your IDE by clicking on **Terminal** and then **New Terminal** (2) (if you are using [Visual Studio Code](https://code.visualstudio.com/) or [Cursor](https://cursor.com/), the default shortcut to open a terminal is Control + Shift + ```). The terminal should open at the bottom of the window (3).
+
+	![Screenshot of the Cursor interface having opened the quickstart repository](/img/tutorials/3-0_airflow-quickstart-etl_cursor.png)
+
+:::tip
+
+If you quickly need a new Astro CLI project in the future you can always create one in any empty directory by running `astro dev init`.
+
+:::
+
+## Step 3: Start the project
+
+The code you cloned from GitHub already contains a fully functional Airflow project! Let's start it!
+
+
+1. Run the following command in the terminal within your IDE to start the quickstart:
+
+	```sh
+	astro dev start
+	```
+
+2. As soon as the starting process is complete, the Airflow UI opens in your default browser. As long as the Airflow project is running, your can access it in another browser or additional tab by going to `localhost:8080`.
+
+	![Airflow UI home screen](/img/tutorials/3-0_airflow-quickstart-etl_home_screen.png)
+
+3. Click on the **Dags** button (1) in the Airflow UI to get to the DAG overview page to see the DAGs contained in this project. 
+
+## Step 4: Run the setup DAG
+
+You can now see the 3 DAGs in this project, they are all paused with no runs yet. To setup up the database used in the ETL DAG you can run the `releaf_database_setup` DAG. 
+
+1. Click on the play button (2) of the `releaf_database_setup` DAG (1) to open the DAG Trigger form.
+
+	![Screenshot of the Airflow UI showing the Dags overview with 3 paused DAGs](/img/tutorials/3-0_airflow-quickstart-etl_dags_overview.png)
+
+	Note that there is an Import Error (3) for a fourth DAG. This DAG performs a call to a Large Language Model (LLM) to generate personalized messages based on a tree recommendation and needs a little bit more setup to use. See the [Airflow Quickstart - GenAI](airflow-quickstart-genai.md) for instructions. For now you don't have to worry about this import error it does not affect the DAGs needed for this Quickstart.
+
+2. On the DAG Trigger form, make sure that **Single Run** (1) is selected and the Checkbox for **Unpause releaf_database_setup on trigger** is checked (2). Then click on the blue **Trigger** button (3) to create a DAG run.
+
+	![Screenshot of the Airflow UI showing the DAG Trigger form](/img/tutorials/3-0_airflow-quickstart-etl_trigger_form.png)
+
+3. After a few seconds the DAG run should be complete and you'll see a dark green bar in the Airflow UI for the successful DAG run (1). 
+
+	![Screenshot of the Airflow UI showing Dags overview with 1 successful run of the releaf_database_setup DAG](/img/tutorials/3-0_airflow-quickstart-etl_succssful_run.png)
+
+	In your IDE you can open the include folder (1) see that a new file was created, the `releaf.db` [DuckDB](https://duckdb.org/) database (2). 
+
+	![Screenshot of Cursor showing where to see the duckdb file.](/img/tutorials/3-0_airflow-quickstart-etl_cursor_with_db.png)
+
+## Step 5: Run the ETL DAGs
+
+The `releaf_database_setup` DAG created the `releaf.db` and filled it with some sample data. Now it is time for you to run the ETL pipeline consisting of two DAGs `etl_releaf`, which loads an additional record to the database with tree recommendations for you, and the `releaf_analytics` DAG which summarizes the database contents.
+
+These two DAGs depend on each other using an [Airflow Asset](airflow-datasets.md). Which means as soon as a specific task in the first DAG (`etl_releaf`) completes successfully, the second DAG `releaf_analytics` will run.
+
+1. Unpause both DAGs by clicking their pause toggle to turn them blue (1 and 2). Unpaused DAGs will run on their defined [schedule](scheduling-in-airflow.md), which can be time-based (for example run once per day at midnight UTC) or data-aware like in this example. Next, open the DAG trigger form for the `etl_releaf` DAG by clicking on its play button (3).
+
+	![Screenshot of the Airflow UI showing Dags overview with all DAGs unpaused](/img/tutorials/3-0_airflow-quickstart-etl_trigger_etl_dag.png)
+
+2. The `etl_releaf` DAG runs with [params](airflow-params.md). If the DAG runs based on its schedule the given defaults are used in the code, but on a manual run, like right now, you can provide your own values. Enter your name (1) and your location (2), then trigger (3) a DAG run.
+
+	![Screenshot of the Airflow UI showing the DAG Trigger form](/img/tutorials/3-0_airflow-quickstart-etl_trigger_form_etl_dag.png)
+
+3. After 10-20 seconds both, the `etl_releaf` and the `releaf_analytics` DAG have completed one successful one.
+
+	![Screenshot of the Airflow UI with successful DAG runs](/img/tutorials/3-0_airflow-quickstart-etl_succssful_run_all_three_dags.png)
+
+## Step 6: Explore the ETL DAG
+
+Let's explore the ETL DAG in more detail.
+
+1. Click on the DAG name (3 in screenshot of step 5.3) to get to the DAG overview. From here you can access a lot of detailed information about this specific DAG. 
+
+	![Screenshot of the Airflow UI showing the Grid view](/img/tutorials/3-0_airflow-quickstart-etl_dag_overview.png)
+
+2. To navigate to the logs of individual task instance you can click on the squares in the grid view. Open the logs for the `summarize_onboarding` task to see your tree recommendations!
+3. Next, to view the dependencies between your DAGs your can toggle between the **Grid** and **Graph** view in the top left corner of the DAG overview (2). Each node in the graph corresponds to one task. The edges between the nodes denote how the tasks depend on each other, by default the DAG graph is read from left to right. 
+
+	![Screenshot of the Graph view of a DAG.](/img/tutorials/3-0_airflow-quickstart-etl_dag_graph.png)
+
+	In the screenshot above you can see the graph of the ETL DAG, it consists of 6 tasks:
+
+	- `extract_user_data`: This task extracts user data. In this quickstart example the DAG uses the data entered in the DAG Trigger form, the name and location of one user. In a real-world use case it would likely extract several users' records at the same time through calling an API or reading from a database.
+	- `transform_user_data`: This task uses the data the first task extracted and creates a comprehensive user record from it using modularized functions stored in the `include` folder.
+	- `generate_tree_recommendations`: The third task generates the tree recommendations based on the transformed data about the user.
+	- `check_tables_exist`: Before loading data into the database, this tasks makes sure that the needed tables exist in the database.
+	- `load_user_data`: This task loads data into the database, it can only run after both `generate_tree_recommendations` and `check_tables_exist` have completed successfully.
+	- `summarize_onboarding`: The final task summarizes the data that was just loaded to the database and prints it to the logs.
+
+4. Lastly, let's check out the code that defines this DAG by clicking on the Code tab (1). Note that while you can view the DAG code in the Airflow UI, you can only make changes to it in your IDE, not directly in the UI. You can see how each task in your DAG corresponds to one function that has been turned into an Airflow task using the [`@task` decorator](airflow-decorators.md). This one several options Airflow offers you to define your DAGs, two other common options are [traditional operators](what-is-an-operator.md) and the [`@asset` decorator](airflow-datasets.md#asset-syntax), which was used to define the `releaf_analytics` DAG. 
+
+5. (Optional). Make a small change to your DAG code, for example by adding a print statement in one of the `@task` decorated functions. After the change has taken effect, run your DAG again and see the view the added print statement in the task logs.
+
+:::tip
+
+When running Airflow with default settings, it can take up to 30 seconds for DAG changes to be visible in the UI and up to 5 minutes for a new DAG (with a new DAG ID) to show up in the UI. If you don't want to wait your can run the following command to parse all existing and new DAG files in your `dags` folder.
+
+```sh
+astro dev run dags reserialize
+```
+
+:::
+
+## Step 7: Deploy your project
+
+It is time to move the project to production!
+
+1. If you don't have access to Astro already, sign up for a free [Astro trial](https://www.astronomer.io/lp/signup/?utm_source=website&utm_medium=learn-guides&utm_campaign=quickstart-etl-7-25). 
+
+2. [Create a new Deployment](https://www.astronomer.io/docs/astro/create-deployment) in your Astro workspace.
+
+3. Run the following command in your local CLI to authenticate your computer to Astro. Follow the login instructions in the window that opens in your browser.
+
+	```sh
+	astro login
+	```
+
+4. Run the command to the deploy to Astro.
+
+	```sh
+	astro deploy -f
+	```
+
+5. Once the deploy has completed, click the blue `Open Airflow` button on your Deployment to see the DAGs running in the cloud. Unpause all 3 DAGs in your Astro environment and run the `releaf_database_setup` DAG manually. This will trigger a run of all 3 DAGs since they depend on each other using an `Asset` schedule.
+
+## Next steps
+
+Awesome! You an ETL pipeline locally and in the cloud. To continue your learning we recommend the following resources:
+
+- If you are curious about the DAG currently showing as an import error and GenAI workflows in general, check out the [Airflow quickstart GenAI](airflow-quickstart-genai.md).
+- To get a structured video-based introduction to Apache Airflow and its concepts, sign up for the [Airflow 101 (Airflow 3) Learning Path](https://academy.astronomer.io/path/airflow-101) in the Astronomer Academy.
+- For a short step-by-step walkthrough of the most important Airflow features, complete our [Airflow tutorial](get-started-with-airflow.md).
+
+## Other ways to run this quickstart
+
+### Run the quickstart without the Astro CLI
+
+If you cannot install the Astro CLI on your local computer you can still run the pipeline in this example.
+
+1. Sign up for a free trial of [Astro](https://www.astronomer.io/lp/signup/?utm_source=website&utm_medium=learn-guides&utm_campaign=quickstart-etl-7-25).
+2. [Create a new Deployment](https://www.astronomer.io/docs/astro/create-deployment) in your Astro workspace.
+3. [Fork](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/working-with-forks/fork-a-repo) the [Airflow quickstart](https://github.com/astronomer/devrel-public-workshops) repository to your GitHub account. Make sure to **uncheck** the `Copy the main branch only` box!
+4. [Set up the Astro GitHub integration](https://www.astronomer.io/docs/astro/deploy-github-integration/) to map your Deployment to the `airflow-quickstart-complete` branch of your forked repository.
+5. Select **Trigger Git Deploy** from the **More actions** menu in your Deployment settings to trigger the first deploy for the mapped repository.
+
+	![Screenshot of the Astro UI showing how to Trigger a Git Deploy](/img/tutorials/3-0_airflow-quickstart-etl_astro.png)
+
+6. Once the deploy has completed, click the blue `Open Airflow` button on your Deployment to see the DAGs running in the cloud. From here you can jump back to [Step 4](#step-4-run-the-setup-dag) and complete the quickstart up to and including [Step 6](#step-6-explore-the-etl-dag).
+
+### Run the quickstart using GitHub Codespaces
 
 If you can't install the CLI, you can run the project from your forked repo using GitHub Codespaces.
 
@@ -75,144 +250,3 @@ If you can't install the CLI, you can run the project from your forked repo usin
 > If, when accessing the forward URL, you get an error like `{"detail":"Invalid or unsafe next URL"}`, you will need to modify the forwarded URL. Delete everything forward of `next=....` (this should be after `/login?`). The URL will update. After the URL has updated, remove `:8080`, so your URL ends in `.app.github.dev`. Now you should be able to access it.
 
 7. It is possible that instead of the Airflow UI you see an error, in this case you have to open the URL again from the ports tab.
-
-# Exercises Part 1: Introduction to Airflow
-
-Part 1 of this workshop focuses on helping you become familiar with Airflow - writing and running DAGs, and using the UI. The use case is using Airflow to run ETL and analytics pipelines. You will work with an ETL DAG that onboards new users with personalized tree recommendations, transforms the data, and loads it into a DuckDB instance. You will also create a second DAG that analyzes the data in your database. No connections to external systems are required for the main exercises in this workshop.
-
-Consider using the following guides to help with the exercises:
-
-- [The Airflow UI](https://www.astronomer.io/docs/learn/airflow-ui)
-- [Introduction to Airflow DAGs](https://www.astronomer.io/docs/learn/dags)
-- [Schedule DAGs](https://www.astronomer.io/docs/learn/scheduling-in-airflow)
-- [Rerun DAGs and tasks](https://www.astronomer.io/docs/learn/rerunning-dags)
-- [Assets and data-aware scheduling](https://www.astronomer.io/docs/learn/airflow-datasets)
-
-
-## Exercise 1: Explore the Airflow UI
-
-Most Airflow users use the UI to monitor their pipelines. Exploring the UI is the easiest way to become familiar with how Airflow works. If you completed the setup steps above, you should have Airflow running locally at `localhost:8080`, or in GitHub codespaces at your forwarded URL. Go the UI, and start exploring!
-
-1. Review the Home page. There won't be much here to start, but you'll change that momentarily!
-2. You should see a `Dag import error`. Review the error, by clicking on the red icon showing a file with an `!` and a `1` beside it, and see if you can match the error message to an issue with a dag in your `dags/` folder. Note that the error is expected, and you will fix it in a later exercise - you don't need to do anything right now!
-3. Look at the Dags page - you should see several dags including `etl_releaf`. You'll look at that more in the next exercise.
-4. Review the options in the admin tab. You won't need these for this workshop - but they are often used for real-world Airflow pipelines. Make note of any questions you have about these, and ask them during the Q&A portion of the workshop!
-5. Switch to dark mode 😎
-
-
-## Exercise 2: Review dags and tasks
-
-Let's dig into dags and tasks in more detail.
-
-1. Go back to the Dags page and click on the `etl_releaf` dag.
-2. This dag has parameters that need to be set when triggering it manually. Click the blue `Trigger` button in the upper right corner.
-   - When you trigger the dag, a window pops up with some options. Choose `Single Run`, and set the Run Parameters to include a `user_name` (e.g., "Chris") and `user_location` (e.g., "Liverpool, UK").
-   - You also need to leave the `Unpause etl_releaf on trigger` box checked - this will unpause the dag so it can complete its manual run and will run based on any scheduled provided going forward until you manually pause it again.
-3. After you trigger the dag, notice what happens in the grid to the left side of the dag overview. After a few seconds you should see a successful run as a green bar, with green boxes for each sucessfully completed task instance. (A task instance is a run of a task in a specific dag run.)
-4. Click on the green box for the latest `summarize_onboarding` task instance - you should see the logs, with a summary of the user onboarding and tree recommendations you just created.
-5. Take a closer look at the structure and code of this dag. Review the graph and the code in the Airflow UI, and see if you can understand how the dag works. The screenshot below shows you how to navigate the Airflow UI to switch to the DAG graph (1), see the logs of an individalual task instance (2) and view the code of the DAG (3).
-
-![Screenshot of the Airflow UI showing how to access the dag graph and dag code](/img/switch_view.png)
-
-Every Python function in the code decorated with `@task` corresponds to a node in the graph. The code you see in the `Code` tab in the UI should match what is in your `dags/` folder in the `etl_releaf.py` file.
-
-## Exercise 3: Use basic orchestration functionality
-
-Now let's get hands-on and make some changes to the `etl_releaf` dag. This dag is already implementing an ETL pipeline, but there is some basic orchestration functionality that it is not currently leveraging.
-
-Note that while in the last exercise you were reviewing the dag code in the Airflow UI, the code can only be changed directly in the Python files in your Airflow project (i.e. the UI is view-only).
-
-1. The `etl_releaf` dag currently does not have a schedule - let's change that! Update the dag so that it will run daily at midnight.
-2. You can have Airflow manage retrying any tasks that fail by using retries. The dag currently has one retry set as the default for every task (based on the value provided to all tasks using the `default_args` parameter of the dag decorator), but you can override this if you want a particular task to have different retry settings. Update the `check_tables_exist` task to retry 3 times in case of failure. 
-3. Dependency management is another bread and butter feature of Airflow. Review the current dependencies in the dag and observe `check_tables_exist` needs to complete successfully before `extract_user_data` runs, which allows `transform_user_data`, `generate_tree_recommendations`, `load_user_data` and finally `summarize_onboarding` to run. Your graph should look like this:
-
-   ![Dependency graph](img/exercise_3_graph.png)
-
-   But the `check_tables_exist` task does not need to be first, it just needs to run before data is loaded to the duckdb instance. Change the dependency of the `check_tables_exist` task to be directly before the `load_user_data` to get a graph like this:
-
-   ![Updated graph](img/updated_dag.png)
-
-   Changing the dependency structure of a DAG is a structural change that creates a new DAG version. Click on **Options** indicated by the arrow in the screenshot above to be able to select different versions of your DAG and see their graphs.
-
-4. Since you changed the structure of the dag in Step 3, you will now have multiple versions of this dag. In the Airflow UI, toggle between V1 and V2 and see how the graph changes.
-
-
-## Exercise 4: Create a new DAG using @asset
-
-In the previous exercise, you updated an ETL dag that uses the `@task` decorator to turn Python functions into Airflow tasks. This is one way to define dags, but you can also use @asset. Conceptually, in Airflow, Assets represent a collection of logically related data. You can have asset-oriented dags, or task-oriented dags (like `etl_releaf`). 
-
-Every @asset you define will create one DAG, with one task that produces updates to one Asset. Tasks in dag written with the task-oriented approach can also produce updates to Assets (via the `outlets` parameters) and task-oriented DAGs can be scheduled to run based on Asset updates.
-
-Next, you will create an analytics dag that will analyze your reforestation data using the asset-oriented way to define dags.
-
-1. In your `dags/` folder, go to the `releaf_analytics.py` file. Remember this is the dag that currently has an import error - you're about to fix that! Review the existing code.
-2. Add the following function underneath the `@asset()` decorator:
-
-```python
-def releaf_analytics():
-
-    sql_file_path = f"{SQL_PATH}/releaf_analytics.sql"
-
-    with open(sql_file_path, "r") as file:
-        analytics_query = file.read()
-
-    cursor = duckdb.connect(_DUCKDB_INSTANCE_NAME)
-    results = cursor.execute(analytics_query).fetchall()
-    cursor.close()
-
-    for result in results:
-        print(result)
-
-```
-
-3. The analytics dag should not run until all of the reforestation data is available (i.e. after the ETL dag has completed). To implement this dependency, you need to do two things:
-   - Modify the `etl_releaf` dag so that the `summarize_onboarding` task produces to an Asset called `reforestation_data` (remember you can do this with the `outlets` parameter).
-   - Add a schedule to the `releaf_analytics` dag so it runs when the `reforestation_data` Asset has been updated.
-
-4. In the Airflow UI, review the Assets page to see whether your changes successfully implemented a dependency between `etl_releaf` and `releaf_analytics`.
-5. Trigger the `etl_releaf` dag again, and you should see `releaf_analytics` run as well, as soon as the `etl_releaf` dag has completed successfully. Check the task logs for `releaf_analytics` to see the results of your analysis. 
-
-
-# Exercises Part 2: Running in production on Astro
-
-Now that you have a working ETL and analytics pipeline, the next step is to deploy it to production! You will do this using Astro, Astronomer's managed DataOps platform. If you do not already have an Astro account, a free trial link will be provided during the workshop.
-
-## Exercise 5: Create a new Deployment
-
-In Astro, create a new Airflow Deployment. You can use `Hosted Execution` mode, a `Standard Cluster`, and choose the cloud provider and region that you prefer. Under `Execution` settings, make sure to choose Astro Runtime `3.0-5 (based on Airflow v3.0.3)`. For now, you can leave all other settings at their defaults.
-
-If you need help, see [Create a Deployment](https://www.astronomer.io/docs/astro/create-deployment).
-
-Check that your Deployment spins up and reaches a `Healthy` status.
-
-Note that you will get an import error for the `genai_releaf` DAG even if you have added your `OPENAI_API_KEY` to `.env`, since the content of `.env` are _not_ pushed to Astro. You will need to set the environment variable on your deployment, see [Exercise 8](#exercise-8-add-an-environment-variable). 
-
-## Exercise 6: Set up a worker queue
-
-One of the benefits of Astro is you can use worker queues to distribute your Airflow tasks amongst workers that are properly sized, allowing for greater resource optimization. For this use case, let's say the `generate_tree_recommendations` task in `etl_releaf` might require more compute than your other tasks. You don't want to assign every task to a bigger worker (that would be wasteful!), but you want to ensure that task has the resources required to run successfully.
-
-For this, you will add a worker queue to your Deployment and assign that task to it. Note that you can also create a worker queue at the time you create your Deployment, but here we will add it to an existing one.
-
-1. Go to the Deployment you created in Exercise 6, go to the `Details` tab, and under `Execution`, click `Edit`.
-2. Under `Worker Queues` click `Add Queue`. Give it a name, and choose a worker type. Note that for this workshop the tree recommendation task is actually quite small, so you can choose a small worker type.
-3. Click `Update Deployment` to add the worker queue to your Deployment.
-4. Go to your `dags` folder and open the `etl_releaf.py` file. In the `generate_tree_recommendations`, add `queue='<name-of-your-new-queue>'` to the `@task()` decorator. For an example, see [Assign a task to a worker queue](https://www.astronomer.io/docs/astro/configure-worker-queues/#step-2-assign-the-task-in-your-dag-code).
-
-
-## Exercise 7: Deploy your project
-
-Now your project is ready to deploy using the Astro CLI!
-
-1. From your terminal, make sure you are logged in to Astro using `astro login`. Confirm you have selected the right workspace with `astro workspace list`.
-2. Deploy your project using `astro deploy -f`. You might be asked to choose which Deployment - make sure to select the one you created in Exercise 5.
-3. Confirm your deploy was successful by checking the Deploy History in the Astro UI. Open Airflow and you should see the dags you just worked on locally!
-
-## Exercise 8: Add an environment variable
-
-For this workshop, no connections are required, and the reforestation DAGs are designed to work with user parameters and generated data. The `etl_releaf` dag uses parameters like `USER_NAME` and `USER_LOCATION` where the default can be changed based on an environment variable. Additionally the `genai_releaf` DAG requires the `OPENAI_API_KEY` environment variable to be set to function.
-
-1. In your Astro Deployment, go to the Environment tab, then Environment Variables, and click `+ Environment Variable`.
-2. You can add environment variables if needed for your specific deployment, but none are required for the basic reforestation pipeline to function. If you are adding your `OPENAI_API_KEY` make sure to mark the environment variable as secret!
-3. Click `Update Environment Variables`, then wait a couple of minutes for it to be applied to your Airflow instance.
-4. In Airflow, trigger the `etl_releaf` DAG with different user parameters and review the logs of the `summarize_onboarding` task. You should see personalized tree recommendations generated for the user and user location you provided.
-
