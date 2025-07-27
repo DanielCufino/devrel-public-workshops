@@ -49,11 +49,8 @@ The free Astro CLI is the easiest way to run Airflow locally in a containerized 
 	brew upgrade astro
 	```
 
-:::note
-
-If you can't install the Astro CLI locally, skip to [Run the quickstart without the Astro CLI](#run-the-quickstart-without-the-astro-cli) to deploy and run the project with a [free trial of Astro](https://www.astronomer.io/lp/signup/?utm_source=website&utm_medium=learn-guides&utm_campaign=quickstart-etl-7-25) or use [GitHub codespaces](#run-the-quickstart-using-github-codespaces).
-
-:::
+> [!NOTE]
+> If you can't install the Astro CLI locally, skip to [Run the quickstart without the Astro CLI](#run-the-quickstart-without-the-astro-cli) to deploy and run the project with a [free trial of Astro](https://www.astronomer.io/lp/signup/?utm_source=website&utm_medium=learn-guides&utm_campaign=quickstart-etl-7-25) or use [GitHub codespaces](#run-the-quickstart-using-github-codespaces).
 
 ## Step 2: Clone and open the project
 
@@ -67,11 +64,8 @@ If you can't install the Astro CLI locally, skip to [Run the quickstart without 
 
 	![Screenshot of the Cursor interface having opened the quickstart repository](/img/tutorials/3-0_airflow-quickstart-etl_cursor.png)
 
-:::tip
-
-If you quickly need a new Astro CLI project in the future you can always create one in any empty directory by running `astro dev init`.
-
-:::
+> [!TIP]
+> If you quickly need a new Astro CLI project in the future you can always create one in any empty directory by running `astro dev init`.
 
 ## Step 3: Start the project
 
@@ -156,15 +150,12 @@ Let's explore the ETL DAG in more detail.
 
 5. (Optional). Make a small change to your DAG code, for example by adding a print statement in one of the `@task` decorated functions. After the change has taken effect, run your DAG again and see the view the added print statement in the task logs.
 
-:::tip
+> [!TIP]
+> When running Airflow with default settings, it can take up to 30 seconds for DAG changes to be visible in the UI and up to 5 minutes for a new DAG (with a new DAG ID) to show up in the UI. If you don't want to wait your can run the following command to parse all existing and new DAG files in your `dags` folder.
 
-When running Airflow with default settings, it can take up to 30 seconds for DAG changes to be visible in the UI and up to 5 minutes for a new DAG (with a new DAG ID) to show up in the UI. If you don't want to wait your can run the following command to parse all existing and new DAG files in your `dags` folder.
-
-```sh
-astro dev run dags reserialize
-```
-
-:::
+> ```sh
+> astro dev run dags reserialize
+> ```
 
 ## Step 7: Deploy your project
 
