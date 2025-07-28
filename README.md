@@ -99,7 +99,7 @@ The code you cloned from GitHub already contains a fully functional Airflow proj
 
 > [!INFO]
 > If port 8080 or 5432 are in use on your machine, Airflow won't be able to start. To run Airflow on alternative ports, run:
->
+
 > ```sh
 > astro config set webserver.port <available-port>
 > astro config set postgres.port <available-port>
