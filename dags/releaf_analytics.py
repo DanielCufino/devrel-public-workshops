@@ -1,8 +1,9 @@
-from airflow.sdk import asset, Asset
-import duckdb
 import logging
-from pathlib import Path
 import os
+from pathlib import Path
+
+import duckdb
+from airflow.sdk import Asset, asset
 
 t_log = logging.getLogger("airflow.task")
 

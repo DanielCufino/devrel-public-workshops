@@ -1,11 +1,12 @@
-from airflow.sdk import dag, task, Asset    
-from airflow.models.baseoperator import chain
-import duckdb
 import logging
-from pendulum import datetime, duration
 import os
-import pandas as pd
 from pathlib import Path
+
+import duckdb
+import pandas as pd
+from airflow.models.baseoperator import chain
+from airflow.sdk import Asset, dag, task
+from pendulum import datetime, duration
 
 t_log = logging.getLogger("airflow.task")
 

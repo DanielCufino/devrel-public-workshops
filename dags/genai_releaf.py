@@ -1,21 +1,24 @@
-from airflow.sdk import dag, task, Param
-from pathlib import Path
 import os
+from pathlib import Path
+
+from airflow.sdk import Param, dag, task
 
 # Define variables used in the DAG
 _INCLUDE_PATH = Path(os.getenv("AIRFLOW_HOME")) / "include"
+_USER_NAME = os.getenv("USER_NAME", "Kenten")
+_USER_LOCATION = os.getenv("USER_LOCATION", "Seattle, WA, USA")
 
 
 @dag(
     params={
         "user_name": Param(
-            "Kenten",
+            _USER_NAME,
             type="string",
             title="User Name",
             description="Full name of the user to onboard (e.g., 'Jane Smith')",
         ),
         "user_location": Param(
-            "Seattle, WA, USA",
+            _USER_LOCATION,
             type="string",
             title="User Location",
             description="User's location for tree recommendations (e.g., 'Austin, TX, USA' or 'London, UK')",

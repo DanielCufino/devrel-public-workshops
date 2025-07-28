@@ -1,11 +1,11 @@
-from airflow.sdk import dag, task, Param, Asset
-from airflow.models.baseoperator import chain
-import duckdb
 import logging
-from pendulum import duration, datetime
+import os
 import uuid
 from pathlib import Path
-import os
+
+import duckdb
+from airflow.sdk import Asset, Param, chain, dag, task
+from pendulum import datetime, duration
 
 t_log = logging.getLogger("airflow.task")
 
@@ -43,7 +43,7 @@ _USER_LOCATION = os.getenv("USER_LOCATION", "Seattle, WA, USA")
 )
 def etl_releaf():
 
-    @task()
+    @task(retries=3)
     def check_tables_exist(duckdb_instance_name: str = _DUCKDB_INSTANCE_NAME) -> bool:
         cursor = duckdb.connect(duckdb_instance_name)
         tables = cursor.sql("SHOW TABLES").fetchall()
