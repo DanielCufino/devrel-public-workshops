@@ -11,7 +11,7 @@ You will set up and run a fully functional Airflow project for **ReLeaf**, a Taa
 
 ## Time to complete
 
-This quickstart takes approximately 15 minutes to complete.
+This quickstart takes approximately 25 minutes to complete.
 
 ## Assumed knowledge
 
