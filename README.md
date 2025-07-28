@@ -193,7 +193,7 @@ Let's explore the ETL DAG in more detail.
 > astro dev run dags reserialize
 > ```
 
-## Step 8: Run the GenAI DAGs
+## Step 8: Run the GenAI DAG
 
 Next, you will run the GenAI DAG to create a description of your future garden!
 
@@ -289,19 +289,19 @@ If you can't install the CLI, you can run the project from your forked repo usin
 
 1. Fork this repository. Make sure you uncheck the `Copy the main branch only` option when forking.
 
-   ![Forking the repository](img/fork_repo.png)
+   ![Forking the repository](/img/fork_repo.png)
 
 2. Make sure you are on the `intro-to-airflow-astro` branch.
 3. Click on the green "Code" button and select the "Codespaces" tab. 
 4. Click on the 3 dots and then `+ New with options...` to create a new Codespace with a configuration, make sure to select a Machine type of at least `4-core`.
 
-   ![Start GH Codespaces](img/start_codespaces.png)
+   ![Start GH Codespaces](/img/start_codespaces.png)
 
 5. (Optional). If you want to be able to run the `genai_releaf` DAG that uses OpenAI to generate a message, you need to provide your own `OPENAI_API_KEY`. Add a file called `.env` in the root of your repository and enter `OPENAI_API_KEY="<your OpenAI API KEY>"`.
 
 6. Run `astro dev start -n --wait 5m` in the Codespaces terminal to start the Airflow environment using the Astro CLI. This can take a few minutes.
 
-   ![Start the Astro CLI in Codespaces](img/codespaces_start_astro.png)
+   ![Start the Astro CLI in Codespaces](/img/codespaces_start_astro.png)
 
    Once you see the following printed to your terminal, the Airflow environment is ready to use:
 
