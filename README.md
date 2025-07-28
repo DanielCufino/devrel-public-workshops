@@ -25,6 +25,7 @@ To get the most out of this quickstart, make sure you have an understanding of:
 - [Homebrew](https://brew.sh/) installed on your local machine. 
 - An integrated development environment (IDE) for Python development, such as [Visual Studio Code](https://code.visualstudio.com/).
 - (Optional) A local installation of [Python 3](https://www.python.org/downloads/) to improve your Python developer experience.
+- (Optional) An [OpenAI API Key](https://platform.openai.com/docs/api-reference/authentication) to run the GenAI DAG.
 
 > [!NOTE]
 > If you can't install the prerequisites or the Astro CLI locally, skip to [Other ways to run the quickstart](#other-ways-to-run-this-quickstart) for information on other options to run this Airflow project.
