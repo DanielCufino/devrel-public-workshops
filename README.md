@@ -4,7 +4,7 @@ Welcome to Astronomer's [Apache Airflow®](https://airflow.apache.org/) ETL Quic
 
 You will set up and run a fully functional Airflow project for **ReLeaf**, a TaaS (Trees-as-a-Service) business that provides personalized, hyperlocal recommendations for which trees to plant in an area. This quickstart contains both, an ETL (extract-transform-load) pattern and a GenAI DAG to generate tree planting recommendations for anyone from individuals to large corporations 🌲🌳🌴!
 
-![Screenshot of the Airflow UI showing the ETL DAG contained in this Quickstart](/img/tutorials/3-0_airflow-quickstart-etl_full_dag.png)
+![Screenshot of the Airflow UI showing the ETL DAG contained in this Quickstart](/img/3-0_airflow-quickstart-etl_full_dag.png)
 
 > [!TIP]
 > Optionally, you can choose to use the [workshop version](https://github.com/astronomer/devrel-public-workshops/tree/airflow-quickstart-workshop) of this quickstart with hands-on exercises in the README to practice using key Airflow features.
@@ -65,7 +65,7 @@ The free Astro CLI is the easiest way to run Airflow locally in a containerized 
 
 	You should see the files and folders that make up your Airflow project in the file browser to the right (1). Open a terminal within your IDE by clicking on **Terminal** and then **New Terminal** (2) (the default shortcut to open a terminal is Control + Shift + `). The terminal should open at the bottom of the window (3).
 
-	![Screenshot of the Cursor IDE having opened the quickstart repository and a new terminal](/img/tutorials/3-0_airflow-quickstart-etl_cursor.png)
+	![Screenshot of the Cursor IDE having opened the quickstart repository and a new terminal](/img/3-0_airflow-quickstart-etl_cursor.png)
 
 > [!TIP]
 > If you quickly need a new Airflow project in the future you can always create one in any empty directory by running `astro dev init`.
@@ -77,7 +77,7 @@ In order to be able to send requests to a Large Language Model (LLM) via the Air
 
 1. In the root of your repository, create a new file called `.env` (1). This file is ignored by git and a good place to define your (secret) environment variables
 
-	![Screenshot of Cursor showing an added .env file for the OpenAI API Key.](/img/tutorials/3-0_airflow-quickstart-genai_openai.png)
+	![Screenshot of Cursor showing an added .env file for the OpenAI API Key.](/img/3-0_airflow-quickstart-genai_openai.png)
 
 2. In the `.env` file, define a variable called `OPENAI_API_KEY` and set it to your [OpenAI API Key](https://platform.openai.com/docs/api-reference/authentication) (2). 
 3. To use the AI SDK you also need to install the [Airflow AI SDK Python package](https://github.com/astronomer/airflow-ai-sdk) with the extra relevant to your model provider by adding it to the `requirements.txt` file. This has already been done for you in the quickstart repository.
@@ -107,7 +107,7 @@ The code you cloned from GitHub already contains a fully functional Airflow proj
 
 2. As soon as the starting process is complete, the Airflow UI opens in your default browser. When running the starting command for the first time this might take a couple of minutes. Note that, as long as the Airflow project is running, you can always access the UI in another browser or additional tab by going to `localhost:8080`. 
 
-	![Airflow UI home screen](/img/tutorials/3-0_airflow-quickstart-etl_home_screen.png)
+	![Airflow UI home screen](/img/3-0_airflow-quickstart-etl_home_screen.png)
 
 3. Click on the **Dags** button (1) in the Airflow UI to get to the Dags overview page to see all the DAGs contained in this project. 
 
@@ -117,21 +117,21 @@ You can now see 3 DAGs of this project, they are all paused with no runs yet. In
 
 1. Click on the play button (2) of the `releaf_database_setup` DAG (1) to open its DAG Trigger form.
 
-	![Screenshot of the Airflow UI showing the Dags overview with 3 paused DAGs](/img/tutorials/3-0_airflow-quickstart-etl_dags_overview.png)
+	![Screenshot of the Airflow UI showing the Dags overview with 3 paused DAGs](/img/3-0_airflow-quickstart-etl_dags_overview.png)
 
 	Note that there is an Import Error (3) for a fourth DAG. This DAG performs a call to a Large Language Model (LLM) to generate personalized messages based on a tree recommendation and needs a little bit more setup to use. See the [Airflow Quickstart - GenAI](airflow-quickstart-genai.md) for instructions. For this ETL quickstart you don't have to worry about this import error it does not affect the DAGs in the ETL pipeline.
 
 2. On the DAG Trigger form, make sure that **Single Run** (1) is selected and the Checkbox for **Unpause releaf_database_setup on trigger** is checked (2). Then click on the blue **Trigger** button (3) to create a DAG run.
 
-	![Screenshot of the Airflow UI showing the DAG Trigger form](/img/tutorials/3-0_airflow-quickstart-etl_trigger_form.png)
+	![Screenshot of the Airflow UI showing the DAG Trigger form](/img/3-0_airflow-quickstart-etl_trigger_form.png)
 
 3. After a few seconds the DAG run should be complete and you'll see a dark green bar in the Airflow UI (1). 
 
-	![Screenshot of the Airflow UI showing Dags overview with 1 successful run of the releaf_database_setup DAG](/img/tutorials/3-0_airflow-quickstart-etl_succssful_run.png)
+	![Screenshot of the Airflow UI showing Dags overview with 1 successful run of the releaf_database_setup DAG](/img/3-0_airflow-quickstart-etl_succssful_run.png)
 
 	In your IDE you can open the include folder (1) to see that a new file was created, the `releaf.db` [DuckDB](https://duckdb.org/) database (2). This is the database the ETL DAG interacts with.
 
-	![Screenshot of Cursor showing where to see the duckdb file.](/img/tutorials/3-0_airflow-quickstart-etl_cursor_with_db.png)
+	![Screenshot of Cursor showing where to see the duckdb file.](/img/3-0_airflow-quickstart-etl_cursor_with_db.png)
 
 ## Step 6: Run the ETL DAGs
 
@@ -141,15 +141,15 @@ These two DAGs depend on each other using an [Airflow Asset](airflow-datasets.md
 
 1. Unpause both DAGs by clicking their pause toggle to turn them blue (1 and 2). Unpaused DAGs will run on their defined [schedule](scheduling-in-airflow.md), which can be time-based (for example run once per day at midnight UTC) or data-aware like in this example. Next, open the DAG trigger form for the `etl_releaf` DAG by clicking on its play button (3).
 
-	![Screenshot of the Airflow UI showing Dags overview with all DAGs unpaused](/img/tutorials/3-0_airflow-quickstart-etl_trigger_etl_dag.png)
+	![Screenshot of the Airflow UI showing Dags overview with all DAGs unpaused](/img/3-0_airflow-quickstart-etl_trigger_etl_dag.png)
 
 2. The `etl_releaf` DAG runs with [params](airflow-params.md). If the DAG runs based on its schedule the given defaults are used, but on a manual run, like right now, you can provide your own values. Enter your name (1) and your location (2), then trigger (3) a DAG run.
 
-	![Screenshot of the Airflow UI showing the DAG Trigger form](/img/tutorials/3-0_airflow-quickstart-etl_trigger_form_etl_dag.png)
+	![Screenshot of the Airflow UI showing the DAG Trigger form](/img/3-0_airflow-quickstart-etl_trigger_form_etl_dag.png)
 
 3. After 10-20 seconds both the `etl_releaf` and the `releaf_analytics` DAG have completed successfully (1 and 2).
 
-	![Screenshot of the Airflow UI with successful DAG runs](/img/tutorials/3-0_airflow-quickstart-etl_succssful_run_all_three_dags.png)
+	![Screenshot of the Airflow UI with successful DAG runs](/img/3-0_airflow-quickstart-etl_succssful_run_all_three_dags.png)
 
 ## Step 7: Explore the ETL DAG
 
@@ -157,12 +157,12 @@ Let's explore the ETL DAG in more detail.
 
 1. Click on the DAG name (3 in screenshot of step 5.3) to get to the DAG overview. From here you can access a lot of detailed information about this specific DAG. 
 
-	![Screenshot of the Airflow UI showing the Grid view](/img/tutorials/3-0_airflow-quickstart-etl_dag_overview.png)
+	![Screenshot of the Airflow UI showing the Grid view](/img/3-0_airflow-quickstart-etl_dag_overview.png)
 
 2. To navigate to the logs of individual task instances, click on the squares in the grid view. Open the logs for the `summarize_onboarding` task (1) to see your tree recommendations!
 3. Next, to view the dependencies between your DAGs you can toggle between the **Grid** and **Graph** view in the top left corner of the DAG overview (2). Each node in the graph corresponds to one task. The edges between the nodes denote how the tasks depend on each other, and by default the DAG graph is read from left to right. 
 
-	![Screenshot of the Graph view of a DAG.](/img/tutorials/3-0_airflow-quickstart-etl_dag_graph.png)
+	![Screenshot of the Graph view of a DAG.](/img/3-0_airflow-quickstart-etl_dag_graph.png)
 
 	In the screenshot above you can see the graph of the ETL DAG, it consists of 6 tasks:
 
@@ -180,7 +180,7 @@ Let's explore the ETL DAG in more detail.
 
 5. The second DAG in this ETL pipeline, `releaf_analytics`, is defined with the [`@asset` decorator](airflow-datasets.md#asset-syntax), a shorthand to create one DAG with one task updating one [Asset](airflow-datasets.md). 
 
-	![Screenshot of the task logs of the releaf_analytics task showing 501 users in the database.](/img/tutorials/3-0_airflow-quickstart-etl_analytics.png)
+	![Screenshot of the task logs of the releaf_analytics task showing 501 users in the database.](/img/3-0_airflow-quickstart-etl_analytics.png)
 
 	Click on the DAG name in the DAG overview page, and then on the square for the `releaf_analytics` task (1) to view the logs containing summary analytics about your tree recommendations. Since the setup DAG adds 500 users to the database, and you just added yourself with the ETL DAG, you should see `501` users in the log output (2). Viewing the DAG code (3) you can see how the `@asset` decorator quickly turns a Python function into an Airflow DAG with one task.
 
@@ -199,15 +199,15 @@ Next, you will run the GenAI DAG to create a description of your future garden!
 
 1. Open the Trigger DAG form of the `genai_releaf` DAG by clicking on its play button (1). 
 
-	![DAGs overview showing the play button for the genai_releaf DAG.](/img/tutorials/3-0_airflow-quickstart-genai_dags_overview.png)
+	![DAGs overview showing the play button for the genai_releaf DAG.](/img/3-0_airflow-quickstart-genai_dags_overview.png)
 
 2. The `genai_releaf` DAG runs with the same [params](airflow-params.md) as the ETL DAG. If the DAG were to run based on a schedule the given defaults are used, but on a manual run, like right now, you can provide your own values. In the Trigger DAG form, enter your name (1) and your location (2), then trigger (3) a DAG run. Make sure the **Unpause genai_releaf on trigger** checkbox (4) is selected.
 
-	![Screenshot of the Airflow UI showing the DAG Trigger form](/img/tutorials/3-0_airflow-quickstart-genai_trigger_dag.png)
+	![Screenshot of the Airflow UI showing the DAG Trigger form](/img/3-0_airflow-quickstart-genai_trigger_dag.png)
 
 3. After 20-30 seconds the `genai_releaf` DAG has completed successfully (1).
 
-	![DAGs overview showing a successful run of the genai_releaf DAG.](/img/tutorials/3-0_airflow-quickstart-genai_overview_successful_run.png)
+	![DAGs overview showing a successful run of the genai_releaf DAG.](/img/3-0_airflow-quickstart-genai_overview_successful_run.png)
 
 ## Step 9: Explore the GenAI DAG
 
@@ -215,12 +215,12 @@ Let's explore the ETL DAG in more detail.
 
 1. Click on the DAG name (2 in screenshot of step 5.3) to get to the DAG overview. From here you can access a lot of detailed information about this specific DAG. 
 
-	![Screenshot of the Airflow UI showing the Grid view](/img/tutorials/3-0_airflow-quickstart-genai_grid.png)
+	![Screenshot of the Airflow UI showing the Grid view](/img/3-0_airflow-quickstart-genai_grid.png)
 
 2. To navigate to the logs of individual task instances, click on the squares in the grid view. Open the logs for the `print_llm_output` task (1) to see your garden description!
 3. Next, to view the dependencies between your DAGs you can toggle between the **Grid** and **Graph** view in the top left corner of the DAG overview (2). Each node in the graph corresponds to one task. The edges between the nodes denote how the tasks depend on each other, and by default the DAG graph is read from left to right. 
 
-	![Screenshot of the Graph view of a DAG.](/img/tutorials/3-0_airflow-quickstart-genai_graph_view_dag.png)
+	![Screenshot of the Graph view of a DAG.](/img/3-0_airflow-quickstart-genai_graph_view_dag.png)
 
 	In the screenshot above you can see the graph of the ETL DAG, it consists of 6 tasks:
 
@@ -252,7 +252,7 @@ It is time to move the project to production!
 
 5. Since environment variables often contain secrets, they are not deployed from `.env` with the rest of your project code. To add environment variables like your `OPENAI_API_KEY` to an Astro Deployment, use the `Environment` tab (1) on your Deployment. Make sure to mark the environment variables as secret!
 
-	![Astro UI showing the Environment tab.](/img/tutorials/3-0_airflow-quickstart-genai_environment_astro.png)
+	![Astro UI showing the Environment tab.](/img/3-0_airflow-quickstart-genai_environment_astro.png)
 
 6. Once the deploy has completed, click the blue `Open Airflow` button on your Deployment to see the DAGs running in the cloud. Here, you can run all the DAGs again, starting with the `releaf_database_setup` setup DAG.
 
@@ -274,12 +274,12 @@ If you cannot install the Astro CLI on your local computer, you can still run th
 2. [Create a new Deployment](https://www.astronomer.io/docs/astro/create-deployment) in your Astro workspace.
 3. [Fork](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/working-with-forks/fork-a-repo) the [Airflow quickstart](https://github.com/astronomer/devrel-public-workshops) repository to your GitHub account. Make sure to **uncheck** the `Copy the main branch only` box!
 
-	![Screenshot of GitHub showing how to fork the respository and the box to uncheck](/img/tutorials/3-0-airflow-quickstart-etl_fork_repo.png)
+	![Screenshot of GitHub showing how to fork the respository and the box to uncheck](/img/3-0-airflow-quickstart-etl_fork_repo.png)
 
 4. [Set up the Astro GitHub integration](https://www.astronomer.io/docs/astro/deploy-github-integration/) to map your Deployment to the `airflow-quickstart-complete` branch of your forked repository.
 5. Select **Trigger Git Deploy** from the **More actions** menu in your Deployment settings to trigger the first deploy for the mapped repository.
 
-	![Screenshot of the Astro UI showing how to Trigger a Git Deploy](/img/tutorials/3-0_airflow-quickstart-etl_astro.png)
+	![Screenshot of the Astro UI showing how to Trigger a Git Deploy](/img/3-0_airflow-quickstart-etl_astro.png)
 
 6. Once the deploy has completed, click the blue `Open Airflow` button on your Deployment to see the DAGs running in the cloud. From here you can jump back to [Step 4](#step-4-run-the-setup-dag) and complete the quickstart, skipping over the deploy instructions in [Step 7](#step-7-deploy-your-project), since you already deployed your project!
 
