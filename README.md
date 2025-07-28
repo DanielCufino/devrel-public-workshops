@@ -274,7 +274,7 @@ If you cannot install the Astro CLI on your local computer, you can still run th
 2. [Create a new Deployment](https://www.astronomer.io/docs/astro/create-deployment) in your Astro workspace.
 3. [Fork](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/working-with-forks/fork-a-repo) the [Airflow quickstart](https://github.com/astronomer/devrel-public-workshops) repository to your GitHub account. Make sure to **uncheck** the `Copy the main branch only` box!
 
-	![Screenshot of GitHub showing how to fork the respository and the box to uncheck](/img/3-0-airflow-quickstart-etl_fork_repo.png)
+	![Screenshot of GitHub showing how to fork the respository and the box to uncheck](/img/fork_repo.png)
 
 4. [Set up the Astro GitHub integration](https://www.astronomer.io/docs/astro/deploy-github-integration/) to map your Deployment to the `airflow-quickstart-complete` branch of your forked repository.
 5. Select **Trigger Git Deploy** from the **More actions** menu in your Deployment settings to trigger the first deploy for the mapped repository.
