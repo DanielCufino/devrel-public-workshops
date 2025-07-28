@@ -97,7 +97,7 @@ The code you cloned from GitHub already contains a fully functional Airflow proj
 	astro dev start
 	```
 
-> [!INFO]
+> [!NOTE]
 > If port 8080 or 5432 are in use on your machine, Airflow won't be able to start. To run Airflow on alternative ports, run:
 
 > ```sh
