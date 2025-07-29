@@ -1,6 +1,6 @@
 # Airflow Quickstart - Complete version
 
-Welcome to Astronomer's [Apache Airflow®](https://airflow.apache.org/) ETL Quickstart! 🚀 
+Welcome to Astronomer's [Apache Airflow®](https://airflow.apache.org/) Quickstart! 🚀 
 
 You will set up and run a fully functional Airflow project for a TaaS (Trees-as-a-Service) business that provides personalized, hyperlocal recommendations for which trees to plant in an area. This quickstart contains both, an ETL (extract-transform-load) pattern and a GenAI DAG to generate tree planting recommendations for anyone from individuals to large corporations 🌲🌳🌴!
 
@@ -108,9 +108,9 @@ The code you cloned from GitHub already contains a fully functional Airflow proj
 
 2. As soon as the starting process is complete, the Airflow UI opens in your default browser. When running the starting command for the first time this might take a couple of minutes. Note that, as long as the Airflow project is running, you can always access the UI in another browser or additional tab by going to `localhost:8080`. 
 
-	![Airflow UI home screen](/img/3-0_airflow-quickstart-etl_home_screen.png)
-
 3. Click on the **Dags** button (1) in the Airflow UI to get to the Dags overview page to see all the DAGs contained in this project. 
+
+	![Airflow UI home screen](/img/3-0_airflow-quickstart-etl_home_screen.png)
 
 ## Step 5: Run the setup DAG
 
@@ -156,7 +156,7 @@ These two DAGs depend on each other using an [Airflow Asset](airflow-datasets.md
 
 Let's explore the ETL DAG in more detail.
 
-1. Click on the DAG name (3 in screenshot of step 5.3) to get to the DAG overview. From here you can access a lot of detailed information about this specific DAG. 
+1. Click on the DAG name (`etl_trees`) to get to the DAG overview. From here you can access a lot of detailed information about this specific DAG. 
 
 	![Screenshot of the Airflow UI showing the Grid view](/img/3-0_airflow-quickstart-etl_dag_overview.png)
 
@@ -214,7 +214,7 @@ Next, you will run the GenAI DAG to create a description of your future garden!
 
 Let's explore the ETL DAG in more detail.
 
-1. Click on the DAG name (2 in screenshot of step 5.3) to get to the DAG overview. From here you can access a lot of detailed information about this specific DAG. 
+1. Click on the DAG name (`genai_trees`) to get to the DAG overview. From here you can access a lot of detailed information about this specific DAG. 
 
 	![Screenshot of the Airflow UI showing the Grid view](/img/3-0_airflow-quickstart-genai_grid.png)
 
