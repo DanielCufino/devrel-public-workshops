@@ -2,7 +2,9 @@
 
 Welcome to Astronomer's Apache Airflow® Quickstart workshop! 🚀
 
-You will set up and run a fully functional Airflow project for a TaaS (Trees-as-a-Service) business that provides personalized, hyperlocal recommendations for which trees to plant in an area. This quickstart contains both, an ETL (extract-transform-load) pattern and a GenAI DAG to generate tree planting recommendations for anyone from individuals to large corporations 🌲🌳🌴!
+You will set up and expand on an Airflow project for a TaaS (Trees-as-a-Service) business that provides personalized, hyperlocal recommendations for which trees to plant in an area. This quickstart contains both, an ETL (extract-transform-load) pattern and a GenAI DAG to generate tree planting recommendations for anyone from individuals to large corporations 🌲🌳🌴!
+
+Along the way you get to complete exercises teaching your about core Airflow features!
 
 ## How to use this repo
 
@@ -21,17 +23,16 @@ To set up a local Airflow environment you have two options, you can either use t
 
 #### Option 1: Astro CLI
 
-1. Make sure you have [Docker](https://docs.docker.com/get-docker/) or Podman installed and running on your machine.
-2. Install the free [Astro CLI](https://www.astronomer.io/docs/astro/cli/install-cli).
-3. [Fork](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/working-with-forks/fork-a-repo) this repository and [clone](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository) it to your local machine. Make sure you uncheck the `Copy the main branch only` option when forking as shown in the screenshot below.
+1. Install the free [Astro CLI](https://www.astronomer.io/docs/astro/cli/install-cli).
+2. [Fork](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/working-with-forks/fork-a-repo) this repository and [clone](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository) it to your local machine. Make sure you uncheck the `Copy the main branch only` option when forking as shown in the screenshot below.
 
    ![Forking the repository](img/fork_repo.png)
 
-4. Clone the repository and run `git checkout intro-to-airflow-astro` to switch to the correct workshop branch.
-5. (Optional). If you want to be able to run the `genai_trees` DAG that uses OpenAI to generate a message, you need to provide your own `OPENAI_API_KEY`. Add a file called `.env` in the root of your repository and enter `OPENAI_API_KEY="<your OpenAI API KEY>"`.
-6. Run `astro dev start` in the root of the cloned repository to start the Airflow environment.
-7. Access the Airflow UI at `localhost:8080` in your browser.
-8. Run the `trees_database_setup` DAG to create your database and populate it with sample data.
+3. Clone the repository and run `git checkout airflow-quickstart-workshop` to switch to the correct workshop branch.
+4. (Optional). If you want to be able to run the `genai_trees` DAG that uses OpenAI to generate a message, you need to provide your own `OPENAI_API_KEY`. Add a file called `.env` in the root of your repository and enter `OPENAI_API_KEY="<your OpenAI API KEY>"`.
+5. Run `astro dev start` in the root of the cloned repository to start the Airflow environment.
+6. Access the Airflow UI at `localhost:8080` in your browser.
+7. Run the `trees_database_setup` DAG to create your database at `include/trees.db` and populate it with sample data.
 
 #### Option 2: GitHub Codespaces
 
@@ -41,7 +42,7 @@ If you can't install the CLI, you can run the project from your forked repo usin
 
    ![Forking the repository](img/fork_repo.png)
 
-2. Make sure you are on the `intro-to-airflow-astro` branch.
+2. Make sure you are on the `airflow-quickstart-workshop` branch.
 3. Click on the green "Code" button and select the "Codespaces" tab. 
 4. Click on the 3 dots and then `+ New with options...` to create a new Codespace with a configuration, make sure to select a Machine type of at least `4-core`.
 
@@ -65,12 +66,13 @@ If you can't install the CLI, you can run the project from your forked repo usin
 
 7. Once the Airflow project has started, access the Airflow UI by clicking on the Ports tab and opening the forward URL for port `8080`.
 
-8. Run the `trees_database_setup` DAG to create your database and populate it with sample data.
+8. Run the `trees_database_setup` DAG to create your database at `include/trees.db` and populate it with sample data.
 
 > [!TIP]
 > If, when accessing the forward URL, you get an error like `{"detail":"Invalid or unsafe next URL"}`, you will need to modify the forwarded URL. Delete everything forward of `next=....` (this should be after `/login?`). The URL will update. After the URL has updated, remove `:8080`, so your URL ends in `.app.github.dev`. Now you should be able to access it.
 
 7. It is possible that instead of the Airflow UI you see an error, in this case you have to open the URL again from the ports tab.
+
 
 # Exercises Part 1: Introduction to Airflow
 
@@ -108,7 +110,7 @@ Let's dig into dags and tasks in more detail.
 4. Click on the green box for the latest `summarize_onboarding` task instance - you should see the logs, with a summary of the user onboarding and tree recommendations you just created.
 5. Take a closer look at the structure and code of this dag. Review the graph and the code in the Airflow UI, and see if you can understand how the dag works. The screenshot below shows you how to navigate the Airflow UI to switch to the DAG graph (1), see the logs of an individalual task instance (2) and view the code of the DAG (3).
 
-![Screenshot of the Airflow UI showing how to access the dag graph and dag code](/img/switch_view.png)
+![Screenshot of the Airflow UI showing how to access the dag graph and dag code](/img/3-0_airflow-quickstart-etl_dag_overview.png)
 
 Every Python function in the code decorated with `@task` corresponds to a node in the graph. The code you see in the `Code` tab in the UI should match what is in your `dags/` folder in the `etl_trees.py` file.
 
@@ -147,7 +149,7 @@ Next, you will create an analytics dag that will analyze your reforestation data
 ```python
 def trees_analytics():
 
-    sql_file_path = f"{SQL_PATH}/trees_analytics.sql"
+    sql_file_path = f"{_INCLUDE_PATH}/sql/trees_analytics.sql"
 
     with open(sql_file_path, "r") as file:
         analytics_query = file.read()
@@ -162,8 +164,8 @@ def trees_analytics():
 ```
 
 3. The analytics dag should not run until all of the reforestation data is available (i.e. after the ETL dag has completed). To implement this dependency, you need to do two things:
-   - Modify the `etl_trees` dag so that the `summarize_onboarding` task produces to an Asset called `reforestation_data` (remember you can do this with the `outlets` parameter).
-   - Add a schedule to the `trees_analytics` dag so it runs when the `reforestation_data` Asset has been updated.
+   - Modify the `etl_trees` dag so that the `summarize_onboarding` task produces to an Asset called `trees_data` (remember you can do this with the `outlets` parameter).
+   - Add a schedule to the `trees_analytics` dag so it runs when the `trees_data` Asset has been updated.
 
 4. In the Airflow UI, review the Assets page to see whether your changes successfully implemented a dependency between `etl_trees` and `trees_analytics`.
 5. Trigger the `etl_trees` dag again, and you should see `trees_analytics` run as well, as soon as the `etl_trees` dag has completed successfully. Check the task logs for `trees_analytics` to see the results of your analysis. 
@@ -175,7 +177,7 @@ Now that you have a working ETL and analytics pipeline, the next step is to depl
 
 ## Exercise 5: Create a new Deployment
 
-In Astro, create a new Airflow Deployment. You can use `Hosted Execution` mode, a `Standard Cluster`, and choose the cloud provider and region that you prefer. Under `Execution` settings, make sure to choose Astro Runtime `3.0-5 (based on Airflow v3.0.3)`. For now, you can leave all other settings at their defaults.
+In Astro, create a new Airflow Deployment. You can use `Hosted Execution` mode, a `Standard Cluster`, and choose the cloud provider and region that you prefer. Under `Execution` settings, make sure to choose Astro Runtime `3.0-6 (based on Airflow v3.0.3)`. For now, you can leave all other settings at their defaults.
 
 If you need help, see [Create a Deployment](https://www.astronomer.io/docs/astro/create-deployment).
 

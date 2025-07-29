@@ -151,7 +151,7 @@ def etl_trees():
 
         return final_data
 
-    @task(outlets=[Asset(name="etl_complete")])
+    @task(outlets=[Asset(name="trees_data")])
     def summarize_onboarding(final_data: dict, **context):
         user_name = context["params"]["user_name"]
         user_location = context["params"]["user_location"]

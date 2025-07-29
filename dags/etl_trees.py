@@ -150,7 +150,7 @@ def etl_trees():
 
         return final_data
 
-    @task(outlets=[Asset(name="etl_complete")])
+    @task()
     def summarize_onboarding(final_data: dict, **context):
         user_name = context["params"]["user_name"]
         user_location = context["params"]["user_location"]
@@ -183,16 +183,12 @@ def etl_trees():
     _summarize_onboarding = summarize_onboarding(_load_user_data)
 
     chain(
+        _check_tables_exist,
         _extract_user_data,
         _transform_user_data,
         _generate_tree_recommendations,
         _load_user_data,
         _summarize_onboarding,
-    )
-
-    chain(
-        _check_tables_exist,
-        _load_user_data,
     )
 
 

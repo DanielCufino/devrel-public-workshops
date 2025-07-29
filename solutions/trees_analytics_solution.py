@@ -12,7 +12,7 @@ _INCLUDE_PATH = Path(os.getenv("AIRFLOW_HOME")) / "include"
 _DUCKDB_INSTANCE_NAME = os.getenv("DUCKDB_INSTANCE_NAME", f"{_INCLUDE_PATH}/trees.db")
 
 
-@asset(schedule=[Asset(name="etl_complete")])
+@asset(schedule=[Asset(name="trees_data")])
 def trees_analytics():
 
     sql_file_path = f"{_INCLUDE_PATH}/sql/trees_analytics.sql"
