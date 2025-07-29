@@ -1,5 +1,5 @@
 """
-Utility functions for the releaf recommendation system.
+Utility functions for the trees recommendation system.
 Contains geocoding, hardiness zone estimation, and confidence calculation functions.
 """
 
@@ -36,7 +36,7 @@ def get_coordinates_for_location(location_string: str) -> dict:
 
     time.sleep(2)
 
-    geolocator = Nominatim(user_agent="releafApp/1.0 (Demo Project)")
+    geolocator = Nominatim(user_agent="treesApp/1.0 (Demo Project)")
     location_object = geolocator.geocode(location_string)
 
     if location_object is None:
@@ -95,21 +95,28 @@ def calculate_recommendation_confidence(species: pd.Series, location: dict) -> f
     return min(0.95, max(0.1, confidence))
 
 
-def create_user_record(user_data: dict, timestamp: str) -> dict:
+def create_user_record(user_data: dict, run_id: str) -> dict:
     """
     Create a user record dictionary for database insertion.
     
     Args:
         user_data: Dictionary containing user information (user_id, name, latitude, longitude)
-        timestamp: ISO timestamp for record creation
+        run_id: Run ID of the DAG
         
     Returns:
         Dictionary formatted for users table insertion
     """
+    import re
     from faker import Faker
     
     fake = Faker()
     email = f"{user_data['name'].lower().replace(' ', '.')}@example.com"
+
+    # Extract ISO timestamp from run_id using regex
+    # Pattern: prefix__YYYY-MM-DDTHH:MM:SS.microseconds+timezone_suffix
+    timestamp_match = re.search(r'__(\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d+[+-]\d{2}:\d{2})', run_id)
+    timestamp = timestamp_match.group(1) if timestamp_match else run_id
+
     
     return {
         "user_id": user_data["user_id"],
@@ -203,7 +210,7 @@ def filter_suitable_species(tree_species_df: pd.DataFrame, location: dict) -> pd
 
 
 def generate_recommendation_records(suitable_species: pd.DataFrame, location: dict, 
-                                   user_data: dict, timestamp: str) -> list:
+                                   user_data: dict, run_id: str) -> list:
     """
     Generate tree recommendation records from suitable species.
     
@@ -211,13 +218,19 @@ def generate_recommendation_records(suitable_species: pd.DataFrame, location: di
         suitable_species: DataFrame of filtered suitable species
         location: Location data dictionary
         user_data: User data dictionary  
-        timestamp: ISO timestamp for the recommendations
+        run_id: Run ID of the DAG
         
     Returns:
         List of recommendation dictionaries ready for database insertion
     """
+    import re
     import uuid
     import random
+
+    # Extract ISO timestamp from run_id using regex
+    # Pattern: prefix__YYYY-MM-DDTHH:MM:SS.microseconds+timezone_suffix
+    timestamp_match = re.search(r'__(\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d+[+-]\d{2}:\d{2})', run_id)
+    timestamp = timestamp_match.group(1) if timestamp_match else run_id
     
     num_recommendations = random.randint(3, 5)
     recommendations = []
@@ -347,5 +360,4 @@ def insert_recommendations_to_database(recommendations_data: list, cursor) -> No
     t_log.info(f"✓ Inserted {len(recommendations_data)} tree recommendations")
     if recommendations_data:
         t_log.info(f"📋 Top recommendation: {recommendations_data[0]['common_name']} (confidence: {recommendations_data[0]['confidence_score']})")
-
 

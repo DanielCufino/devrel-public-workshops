@@ -1,22 +1,24 @@
-from airflow.sdk import dag, task, Param
-from airflow.models.baseoperator import chain
-import duckdb
 import logging
-from pendulum import duration
+import os
 import uuid
 from pathlib import Path
-import os
+
+import duckdb
+from airflow.sdk import Asset, Param, chain, dag, task
+from pendulum import datetime, duration
 
 t_log = logging.getLogger("airflow.task")
 
 # Define variables used in the DAG
 _INCLUDE_PATH = Path(os.getenv("AIRFLOW_HOME")) / "include"
-_DUCKDB_INSTANCE_NAME = os.getenv("DUCKDB_INSTANCE_NAME", f"{_INCLUDE_PATH}/releaf.db")
+_DUCKDB_INSTANCE_NAME = os.getenv("DUCKDB_INSTANCE_NAME", f"{_INCLUDE_PATH}/trees.db")
 _USER_NAME = os.getenv("USER_NAME", "Kenten")
 _USER_LOCATION = os.getenv("USER_LOCATION", "Seattle, WA, USA")
 
 
 @dag(
+    start_date=datetime(2025, 7, 1),
+    schedule="@daily",
     max_consecutive_failed_dag_runs=5,
     max_active_runs=1,
     default_args={
@@ -39,9 +41,9 @@ _USER_LOCATION = os.getenv("USER_LOCATION", "Seattle, WA, USA")
         ),
     },
 )
-def etl_releaf():
+def etl_trees():
 
-    @task()
+    @task(retries=3)
     def check_tables_exist(duckdb_instance_name: str = _DUCKDB_INSTANCE_NAME) -> bool:
         cursor = duckdb.connect(duckdb_instance_name)
         tables = cursor.sql("SHOW TABLES").fetchall()
@@ -55,7 +57,7 @@ def etl_releaf():
         for table in needed_tables:
             if table not in tables:
                 raise Exception(
-                    f"Table {table} does not exist in the database. Run the releaf_database_setup DAG to create the necessary tables."
+                    f"Table {table} does not exist in the database. Run the trees_database_setup DAG to create the necessary tables."
                 )
         cursor.close()
 
@@ -63,18 +65,29 @@ def etl_releaf():
     def extract_user_data(**context) -> dict:
         user_name = context["params"]["user_name"].strip()
         user_location = context["params"]["user_location"].strip()
+        run_id = context["run_id"]
 
-        t_log.info(f"Onboarding user: {user_name}")
-        t_log.info(f"Location: {user_location}")
 
-        from include.custom_functions.releaf_utils import (
+
+
+        return {"user_name": user_name, "user_location": user_location, "run_id": run_id}
+
+    @task
+    def transform_user_data(user_data: dict) -> dict:
+        from include.custom_functions.trees_utils import (
+            create_user_record,
+            create_location_record,
             get_coordinates_for_location,
             get_hardiness_zone_for_location,
         )
 
+        user_name = user_data["user_name"]
+        user_location = user_data["user_location"]
+        run_id = user_data["run_id"]
+
         coordinates = get_coordinates_for_location(user_location)
 
-        user_data = {
+        enriched_user_data = {
             "user_id": str(uuid.uuid4()),
             "name": user_name,
             "location_string": user_location,
@@ -85,27 +98,14 @@ def etl_releaf():
             ),
         }
 
-        return user_data
+        user_record = create_user_record(enriched_user_data, run_id)
+        location_record = create_location_record(enriched_user_data)
 
-    @task
-    def transform_user_data(user_data: dict, **context) -> dict:
-        from include.custom_functions.releaf_utils import (
-            create_user_record,
-            create_location_record,
-        )
-
-        ts = context["ts"]
-
-        user_record = create_user_record(user_data, ts)
-        location_record = create_location_record(user_data)
-
-        transformed_data = {"user": user_record, "location": location_record}
-
-        return transformed_data
+        return {"user": user_record, "location": location_record}
 
     @task
     def generate_tree_recommendations(transformed_data: dict, **context) -> dict:
-        from include.custom_functions.releaf_utils import (
+        from include.custom_functions.trees_utils import (
             load_tree_species_catalog,
             filter_suitable_species,
             generate_recommendation_records,
@@ -113,12 +113,12 @@ def etl_releaf():
 
         location = transformed_data["location"]
         user_data = transformed_data["user"]
-        ts = context["ts"]
+        run_id = context["run_id"]
 
         tree_species_df = load_tree_species_catalog()
         suitable_species = filter_suitable_species(tree_species_df, location)
         recommendations = generate_recommendation_records(
-            suitable_species, location, user_data, ts
+            suitable_species, location, user_data, run_id
         )
 
         result = {
@@ -133,7 +133,7 @@ def etl_releaf():
     def load_user_data(
         final_data: dict, duckdb_instance_name: str = _DUCKDB_INSTANCE_NAME
     ):
-        from include.custom_functions.releaf_utils import (
+        from include.custom_functions.trees_utils import (
             insert_user_to_database,
             insert_location_to_database,
             insert_recommendations_to_database,
@@ -151,7 +151,7 @@ def etl_releaf():
 
         return final_data
 
-    @task
+    @task(outlets=[Asset(name="etl_complete")])
     def summarize_onboarding(final_data: dict, **context):
         user_name = context["params"]["user_name"]
         user_location = context["params"]["user_location"]
@@ -184,7 +184,6 @@ def etl_releaf():
     _summarize_onboarding = summarize_onboarding(_load_user_data)
 
     chain(
-        _check_tables_exist,
         _extract_user_data,
         _transform_user_data,
         _generate_tree_recommendations,
@@ -192,4 +191,10 @@ def etl_releaf():
         _summarize_onboarding,
     )
 
-etl_releaf()
+    chain(
+        _check_tables_exist,
+        _load_user_data,
+    )
+
+
+etl_trees()

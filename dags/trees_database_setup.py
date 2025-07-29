@@ -1,18 +1,19 @@
-from airflow.sdk import dag, task
-from airflow.models.baseoperator import chain
-import duckdb
 import logging
-from pendulum import datetime, duration
 import os
-import pandas as pd
 from pathlib import Path
+
+import duckdb
+import pandas as pd
+from airflow.models.baseoperator import chain
+from airflow.sdk import Asset, dag, task
+from pendulum import datetime, duration
 
 t_log = logging.getLogger("airflow.task")
 
 # Define variables used in the DAG
 _INCLUDE_PATH = Path(os.getenv("AIRFLOW_HOME")) / "include"
 _DATA_PATH = f"{_INCLUDE_PATH}/data"
-_DUCKDB_INSTANCE_NAME = os.getenv("DUCKDB_INSTANCE_NAME", f"{_INCLUDE_PATH}/releaf.db")
+_DUCKDB_INSTANCE_NAME = os.getenv("DUCKDB_INSTANCE_NAME", f"{_INCLUDE_PATH}/trees.db")
 
 
 @dag(
@@ -21,15 +22,14 @@ _DUCKDB_INSTANCE_NAME = os.getenv("DUCKDB_INSTANCE_NAME", f"{_INCLUDE_PATH}/rele
     max_active_runs=1,
     max_active_tasks=1,
     max_consecutive_failed_dag_runs=5,
-    doc_md=__doc__,
     default_args={
         "owner": "Astro",
         "retries": 1,
         "retry_delay": duration(seconds=30),
     },
-    tags=["setup", "releaf", "database"],
+    tags=["Run this DAG first!"]
 )
-def releaf_database_setup():
+def trees_database_setup():
 
     @task
     def create_users_table(duckdb_instance_name: str = _DUCKDB_INSTANCE_NAME) -> None:
@@ -232,7 +232,7 @@ def releaf_database_setup():
             f"Tree recommendations table now has {count} total records (duplicates skipped if any)."
         )
 
-    @task
+    @task(outlets=[Asset(name="database_setup_complete")])
     def verify_data_loaded(duckdb_instance_name: str = _DUCKDB_INSTANCE_NAME) -> None:
         t_log.info("Verifying all data was loaded successfully...")
 
@@ -319,4 +319,4 @@ def releaf_database_setup():
     )
 
 
-releaf_database_setup()
+trees_database_setup()
