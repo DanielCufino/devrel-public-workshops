@@ -13,7 +13,7 @@ t_log = logging.getLogger("airflow.task")
 # Define variables used in the DAG
 _INCLUDE_PATH = Path(os.getenv("AIRFLOW_HOME")) / "include"
 _DATA_PATH = f"{_INCLUDE_PATH}/data"
-_DUCKDB_INSTANCE_NAME = os.getenv("DUCKDB_INSTANCE_NAME", f"{_INCLUDE_PATH}/releaf.db")
+_DUCKDB_INSTANCE_NAME = os.getenv("DUCKDB_INSTANCE_NAME", f"{_INCLUDE_PATH}/trees.db")
 
 
 @dag(
@@ -29,7 +29,7 @@ _DUCKDB_INSTANCE_NAME = os.getenv("DUCKDB_INSTANCE_NAME", f"{_INCLUDE_PATH}/rele
     },
     tags=["Run this DAG first!"]
 )
-def releaf_database_setup():
+def trees_database_setup():
 
     @task
     def create_users_table(duckdb_instance_name: str = _DUCKDB_INSTANCE_NAME) -> None:
@@ -319,4 +319,4 @@ def releaf_database_setup():
     )
 
 
-releaf_database_setup()
+trees_database_setup()

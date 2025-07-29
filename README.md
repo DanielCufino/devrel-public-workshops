@@ -2,7 +2,7 @@
 
 Welcome to Astronomer's [Apache Airflow®](https://airflow.apache.org/) ETL Quickstart! 🚀 
 
-You will set up and run a fully functional Airflow project for **ReLeaf**, a TaaS (Trees-as-a-Service) business that provides personalized, hyperlocal recommendations for which trees to plant in an area. This quickstart contains both, an ETL (extract-transform-load) pattern and a GenAI DAG to generate tree planting recommendations for anyone from individuals to large corporations 🌲🌳🌴!
+You will set up and run a fully functional Airflow project for a TaaS (Trees-as-a-Service) business that provides personalized, hyperlocal recommendations for which trees to plant in an area. This quickstart contains both, an ETL (extract-transform-load) pattern and a GenAI DAG to generate tree planting recommendations for anyone from individuals to large corporations 🌲🌳🌴!
 
 ![Screenshot of the Airflow UI showing the ETL DAG contained in this Quickstart](/img/3-0_airflow-quickstart-etl_full_dag.png)
 
@@ -114,41 +114,41 @@ The code you cloned from GitHub already contains a fully functional Airflow proj
 
 ## Step 5: Run the setup DAG
 
-You can now see 3 DAGs of this project, they are all paused with no runs yet. In this step you'll run the `releaf_database_setup` DAG to set up the database used in the ETL DAG in [Step 5](#step-5-run-the-etl-dags).
+You can now see 3 DAGs of this project, they are all paused with no runs yet. In this step you'll run the `trees_database_setup` DAG to set up the database used in the ETL DAG in [Step 5](#step-5-run-the-etl-dags).
 
-1. Click on the play button (2) of the `releaf_database_setup` DAG (1) to open its DAG Trigger form.
+1. Click on the play button (2) of the `trees_database_setup` DAG (1) to open its DAG Trigger form.
 
 	![Screenshot of the Airflow UI showing the Dags overview with 3 paused DAGs](/img/3-0_airflow-quickstart-etl_dags_overview.png)
 
 	Note that there is an Import Error (3) for a fourth DAG. This DAG performs a call to a Large Language Model (LLM) to generate personalized messages based on a tree recommendation and needs a little bit more setup to use. See the [Airflow Quickstart - GenAI](airflow-quickstart-genai.md) for instructions. For this ETL quickstart you don't have to worry about this import error it does not affect the DAGs in the ETL pipeline.
 
-2. On the DAG Trigger form, make sure that **Single Run** (1) is selected and the Checkbox for **Unpause releaf_database_setup on trigger** is checked (2). Then click on the blue **Trigger** button (3) to create a DAG run.
+2. On the DAG Trigger form, make sure that **Single Run** (1) is selected and the Checkbox for **Unpause trees_database_setup on trigger** is checked (2). Then click on the blue **Trigger** button (3) to create a DAG run.
 
 	![Screenshot of the Airflow UI showing the DAG Trigger form](/img/3-0_airflow-quickstart-etl_trigger_form.png)
 
 3. After a few seconds the DAG run should be complete and you'll see a dark green bar in the Airflow UI (1). 
 
-	![Screenshot of the Airflow UI showing Dags overview with 1 successful run of the releaf_database_setup DAG](/img/3-0_airflow-quickstart-etl_succssful_run.png)
+	![Screenshot of the Airflow UI showing Dags overview with 1 successful run of the trees_database_setup DAG](/img/3-0_airflow-quickstart-etl_succssful_run.png)
 
-	In your IDE you can open the include folder (1) to see that a new file was created, the `releaf.db` [DuckDB](https://duckdb.org/) database (2). This is the database the ETL DAG interacts with.
+	In your IDE you can open the include folder (1) to see that a new file was created, the `trees.db` [DuckDB](https://duckdb.org/) database (2). This is the database the ETL DAG interacts with.
 
 	![Screenshot of Cursor showing where to see the duckdb file.](/img/3-0_airflow-quickstart-etl_cursor_with_db.png)
 
 ## Step 6: Run the ETL DAGs
 
-The `releaf_database_setup` DAG created the `releaf.db` and filled it with some sample data. Now it is time for you to run the ETL pipeline consisting of two DAGs `etl_releaf`, which loads an additional record to the database with tree recommendations for you, and the `releaf_analytics` DAG which summarizes the database contents.
+The `trees_database_setup` DAG created the `trees.db` and filled it with some sample data. Now it is time for you to run the ETL pipeline consisting of two DAGs `etl_trees`, which loads an additional record to the database with tree recommendations for you, and the `trees_analytics` DAG which summarizes the database contents.
 
-These two DAGs depend on each other using an [Airflow Asset](airflow-datasets.md), which means that as soon as a specific task in the first DAG (the `summarize_onboarding` task in the `etl_releaf` DAG) completes successfully, the second DAG (`releaf_analytics`) will run automatically.
+These two DAGs depend on each other using an [Airflow Asset](airflow-datasets.md), which means that as soon as a specific task in the first DAG (the `summarize_onboarding` task in the `etl_trees` DAG) completes successfully, the second DAG (`trees_analytics`) will run automatically.
 
-1. Unpause both DAGs by clicking their pause toggle to turn them blue (1 and 2). Unpaused DAGs will run on their defined [schedule](scheduling-in-airflow.md), which can be time-based (for example run once per day at midnight UTC) or data-aware like in this example. Next, open the DAG trigger form for the `etl_releaf` DAG by clicking on its play button (3).
+1. Unpause both DAGs by clicking their pause toggle to turn them blue (1 and 2). Unpaused DAGs will run on their defined [schedule](scheduling-in-airflow.md), which can be time-based (for example run once per day at midnight UTC) or data-aware like in this example. Next, open the DAG trigger form for the `etl_trees` DAG by clicking on its play button (3).
 
 	![Screenshot of the Airflow UI showing Dags overview with all DAGs unpaused](/img/3-0_airflow-quickstart-etl_trigger_etl_dag.png)
 
-2. The `etl_releaf` DAG runs with [params](airflow-params.md). If the DAG runs based on its schedule the given defaults are used, but on a manual run, like right now, you can provide your own values. Enter your name (1) and your location (2), then trigger (3) a DAG run.
+2. The `etl_trees` DAG runs with [params](airflow-params.md). If the DAG runs based on its schedule the given defaults are used, but on a manual run, like right now, you can provide your own values. Enter your name (1) and your location (2), then trigger (3) a DAG run.
 
 	![Screenshot of the Airflow UI showing the DAG Trigger form](/img/3-0_airflow-quickstart-etl_trigger_form_etl_dag.png)
 
-3. After 10-20 seconds both the `etl_releaf` and the `releaf_analytics` DAG have completed successfully (1 and 2).
+3. After 10-20 seconds both the `etl_trees` and the `trees_analytics` DAG have completed successfully (1 and 2).
 
 	![Screenshot of the Airflow UI with successful DAG runs](/img/3-0_airflow-quickstart-etl_succssful_run_all_three_dags.png)
 
@@ -179,11 +179,11 @@ Let's explore the ETL DAG in more detail.
 > [!NOTE]
 > The [`@task` decorator](airflow-decorators.md) is one of several options to define your DAGs, the two other options are using [traditional operators](what-is-an-operator.md) or the [`@asset` decorator](airflow-datasets.md#asset-syntax).
 
-5. The second DAG in this ETL pipeline, `releaf_analytics`, is defined with the [`@asset` decorator](airflow-datasets.md#asset-syntax), a shorthand to create one DAG with one task updating one [Asset](airflow-datasets.md). 
+5. The second DAG in this ETL pipeline, `trees_analytics`, is defined with the [`@asset` decorator](airflow-datasets.md#asset-syntax), a shorthand to create one DAG with one task updating one [Asset](airflow-datasets.md). 
 
-	![Screenshot of the task logs of the releaf_analytics task showing 501 users in the database.](/img/3-0_airflow-quickstart-etl_analytics.png)
+	![Screenshot of the task logs of the trees_analytics task showing 501 users in the database.](/img/3-0_airflow-quickstart-etl_analytics.png)
 
-	Click on the DAG name in the DAG overview page, and then on the square for the `releaf_analytics` task (1) to view the logs containing summary analytics about your tree recommendations. Since the setup DAG adds 500 users to the database, and you just added yourself with the ETL DAG, you should see `501` users in the log output (2). Viewing the DAG code (3) you can see how the `@asset` decorator quickly turns a Python function into an Airflow DAG with one task.
+	Click on the DAG name in the DAG overview page, and then on the square for the `trees_analytics` task (1) to view the logs containing summary analytics about your tree recommendations. Since the setup DAG adds 500 users to the database, and you just added yourself with the ETL DAG, you should see `501` users in the log output (2). Viewing the DAG code (3) you can see how the `@asset` decorator quickly turns a Python function into an Airflow DAG with one task.
 
 6. (Optional). Make a small change to your DAG code, for example by adding a print statement in one of the `@task` decorated functions. After the change has taken effect, run your DAG again and see the added print statement in the task logs.
 
@@ -198,17 +198,17 @@ Let's explore the ETL DAG in more detail.
 
 Next, you will run the GenAI DAG to create a description of your future garden!
 
-1. Open the Trigger DAG form of the `genai_releaf` DAG by clicking on its play button (1). 
+1. Open the Trigger DAG form of the `genai_trees` DAG by clicking on its play button (1). 
 
-	![DAGs overview showing the play button for the genai_releaf DAG.](/img/3-0_airflow-quickstart-genai_dags_overview.png)
+	![DAGs overview showing the play button for the genai_trees DAG.](/img/3-0_airflow-quickstart-genai_dags_overview.png)
 
-2. The `genai_releaf` DAG runs with the same [params](airflow-params.md) as the ETL DAG. If the DAG were to run based on a schedule the given defaults are used, but on a manual run, like right now, you can provide your own values. In the Trigger DAG form, enter your name (1) and your location (2), then trigger (3) a DAG run. Make sure the **Unpause genai_releaf on trigger** checkbox (4) is selected.
+2. The `genai_trees` DAG runs with the same [params](airflow-params.md) as the ETL DAG. If the DAG were to run based on a schedule the given defaults are used, but on a manual run, like right now, you can provide your own values. In the Trigger DAG form, enter your name (1) and your location (2), then trigger (3) a DAG run. Make sure the **Unpause genai_trees on trigger** checkbox (4) is selected.
 
 	![Screenshot of the Airflow UI showing the DAG Trigger form](/img/3-0_airflow-quickstart-genai_trigger_dag.png)
 
-3. After 20-30 seconds the `genai_releaf` DAG has completed successfully (1).
+3. After 20-30 seconds the `genai_trees` DAG has completed successfully (1).
 
-	![DAGs overview showing a successful run of the genai_releaf DAG.](/img/3-0_airflow-quickstart-genai_overview_successful_run.png)
+	![DAGs overview showing a successful run of the genai_trees DAG.](/img/3-0_airflow-quickstart-genai_overview_successful_run.png)
 
 ## Step 9: Explore the GenAI DAG
 
@@ -255,7 +255,7 @@ It is time to move the project to production!
 
 	![Astro UI showing the Environment tab.](/img/3-0_airflow-quickstart-genai_environment_astro.png)
 
-6. Once the deploy has completed, click the blue `Open Airflow` button on your Deployment to see the DAGs running in the cloud. Here, you can run all the DAGs again, starting with the `releaf_database_setup` setup DAG.
+6. Once the deploy has completed, click the blue `Open Airflow` button on your Deployment to see the DAGs running in the cloud. Here, you can run all the DAGs again, starting with the `trees_database_setup` setup DAG.
 
 ## Next steps
 
@@ -298,7 +298,7 @@ If you can't install the CLI, you can run the project from your forked repo usin
 
    ![Start GH Codespaces](/img/start_codespaces.png)
 
-5. (Optional). If you want to be able to run the `genai_releaf` DAG that uses OpenAI to generate a message, you need to provide your own `OPENAI_API_KEY`. Add a file called `.env` in the root of your repository and enter `OPENAI_API_KEY="<your OpenAI API KEY>"`.
+5. (Optional). If you want to be able to run the `genai_trees` DAG that uses OpenAI to generate a message, you need to provide your own `OPENAI_API_KEY`. Add a file called `.env` in the root of your repository and enter `OPENAI_API_KEY="<your OpenAI API KEY>"`.
 
 6. Run `astro dev start -n --wait 5m` in the Codespaces terminal to start the Airflow environment using the Astro CLI. This can take a few minutes.
 
@@ -316,7 +316,7 @@ If you can't install the CLI, you can run the project from your forked repo usin
 
 7. Once the Airflow project has started, access the Airflow UI by clicking on the Ports tab and opening the forward URL for port `8080`.
 
-8. Run the `releaf_database_setup` DAG to create your database and populate it with sample data.
+8. Run the `trees_database_setup` DAG to create your database and populate it with sample data.
 
 > [!TIP]
 > If, when accessing the forward URL, you get an error like `{"detail":"Invalid or unsafe next URL"}`, you will need to modify the forwarded URL. Delete everything forward of `next=....` (this should be after `/login?`). The URL will update. After the URL has updated, remove `:8080`, so your URL ends in `.app.github.dev`. Now you should be able to access it.

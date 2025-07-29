@@ -25,7 +25,7 @@ _USER_LOCATION = os.getenv("USER_LOCATION", "Seattle, WA, USA")
         ),
     },
 )
-def genai_releaf():
+def genai_trees():
 
     @task
     def extract_user_data(**context) -> dict:
@@ -34,7 +34,7 @@ def genai_releaf():
         user_name = context["params"]["user_name"].strip()
         user_location = context["params"]["user_location"].strip()
 
-        from include.custom_functions.releaf_utils import (
+        from include.custom_functions.trees_utils import (
             get_coordinates_for_location,
             get_hardiness_zone_for_location,
         )
@@ -56,7 +56,7 @@ def genai_releaf():
 
     @task
     def transform_user_data(user_data: dict, **context) -> dict:
-        from include.custom_functions.releaf_utils import (
+        from include.custom_functions.trees_utils import (
             create_user_record,
             create_location_record,
         )
@@ -72,7 +72,7 @@ def genai_releaf():
 
     @task
     def generate_tree_recommendations(transformed_data: dict, **context) -> dict:
-        from include.custom_functions.releaf_utils import (
+        from include.custom_functions.trees_utils import (
             load_tree_species_catalog,
             filter_suitable_species,
             generate_recommendation_records,
@@ -127,11 +127,12 @@ def genai_releaf():
 
         t_log = logging.getLogger("airflow.task")
 
-        t_log.info("🤖 LLM GENERATED releaf VISION:")
+        t_log.info("🤖 LLM GENERATED trees VISION:")
         t_log.info("=" * 80)
         user_name = context["params"]["user_name"]
         ds = context["ds"]
 
+        os.makedirs(_INCLUDE_PATH / "garden_descriptions", exist_ok=True)
         file_name = f"{_INCLUDE_PATH}/garden_descriptions/{ds}_{user_name}_garden_description.txt"
 
         with open(file_name, "w") as f:
@@ -158,4 +159,4 @@ def genai_releaf():
     print_llm_output(_llm_task)
 
 
-genai_releaf()
+genai_trees()

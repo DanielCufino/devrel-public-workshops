@@ -1,5 +1,5 @@
 """
-Generate realistic fake data for the releaf database.
+Generate realistic fake data for the trees database.
 This script creates interconnected data for users, locations, and tree recommendations
 with proper foreign key relationships.
 """

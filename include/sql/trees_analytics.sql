@@ -1,4 +1,4 @@
--- Simplified releaf Analytics
+-- Simplified trees Analytics
 -- Shows total users and top 5 tree recommendations
 
 -- Total number of users
