@@ -25,7 +25,7 @@ t_log = logging.getLogger("airflow.task")
 # to standardize your DAGs.
 _DUCKDB_INSTANCE_NAME = os.getenv("DUCKDB_INSTANCE_NAME", "include/astronomy.db")
 _DUCKDB_TABLE_NAME = os.getenv("DUCKDB_TABLE_NAME", "galaxy_data")
-_NUM_GALAXIES_TOTAL = os.getenv("NUM_GALAXIES_TOTAL", 10)
+_NUM_GALAXIES_TOTAL = int(os.getenv("NUM_GALAXIES_TOTAL", 10))
 _CLOSENESS_THRESHOLD_LY_DEFAULT = os.getenv("CLOSENESS_THRESHOLD_LY_DEFAULT", 500000)
 _CLOSENESS_THRESHOLD_LY_PARAMETER_NAME = "closeness_threshold_light_years"
 
@@ -103,7 +103,7 @@ def etl_galaxies():
 
         return galaxy_df
 
-    @task
+    @task(queue='transformation-queue')
     def transform_galaxy_data(galaxy_df: pd.DataFrame, **context):
         """
         Filter the galaxy data based on the distance from the Milky Way.
