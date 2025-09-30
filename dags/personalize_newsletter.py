@@ -108,6 +108,7 @@ def personalize_newsletter():
 
     _get_weather_info = get_weather_info.expand(user=_get_user_info)
 
+
     @task(outlets=[Asset("personalized_newsletters")])
     def create_personalized_newsletter(
         user: dict,
@@ -121,6 +122,7 @@ def personalize_newsletter():
             ][0].extra["run_date"]
         else:
             run_date = context["dag_run"].logical_date.strftime("%Y-%m-%d")
+
         id = user["id"]
         name = user["name"]
         location = user["location"]
