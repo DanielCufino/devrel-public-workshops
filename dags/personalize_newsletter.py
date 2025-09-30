@@ -11,12 +11,8 @@ _WEATHER_URL = (
     "apparent_temperature"
 )
 
-OBJECT_STORAGE_SYSTEM = os.getenv(
-    "OBJECT_STORAGE_SYSTEM", default="file"
-)
-OBJECT_STORAGE_CONN_ID = os.getenv(
-    "OBJECT_STORAGE_CONN_ID", default=None
-)
+OBJECT_STORAGE_SYSTEM = os.getenv("OBJECT_STORAGE_SYSTEM", default="file")
+OBJECT_STORAGE_CONN_ID = os.getenv("OBJECT_STORAGE_CONN_ID", default=None)
 OBJECT_STORAGE_PATH_NEWSLETTER = os.getenv(
     "OBJECT_STORAGE_PATH_NEWSLETTER",
     default="include/newsletter",
@@ -24,7 +20,7 @@ OBJECT_STORAGE_PATH_NEWSLETTER = os.getenv(
 OBJECT_STORAGE_PATH_USER_INFO = os.getenv(
     "OBJECT_STORAGE_PATH_USER_INFO",
     default="include/user_data",
-)  
+)
 OBJECT_STORAGE_LOCATIONS_FILE = os.getenv(
     "OBJECT_STORAGE_LOCATIONS_FILE",
     default="include/locations.json",
@@ -76,7 +72,7 @@ from airflow.sdk import dag
     default_args={
         "retries": 2,
         "retry_delay": duration(minutes=3),
-    },  
+    },
 )
 def personalize_newsletter():
     @task
@@ -86,10 +82,9 @@ def personalize_newsletter():
         from airflow.sdk import ObjectStoragePath
 
         object_storage_path = ObjectStoragePath(
-            f"{OBJECT_STORAGE_SYSTEM}://"
-            f"{OBJECT_STORAGE_PATH_USER_INFO}",
+            f"{OBJECT_STORAGE_SYSTEM}://" f"{OBJECT_STORAGE_PATH_USER_INFO}",
             conn_id=OBJECT_STORAGE_CONN_ID,
-        )  
+        )
 
         user_info = []
         for file in object_storage_path.iterdir():
@@ -99,23 +94,19 @@ def personalize_newsletter():
 
         return user_info
 
-    _get_user_info = get_user_info()  
+    _get_user_info = get_user_info()
 
-    @task(max_active_tis_per_dag=1, retries=4)  
-    def get_weather_info(user: dict) -> dict:  
+    @task(max_active_tis_per_dag=1, retries=4)
+    def get_weather_info(user: dict) -> dict:
         import requests
 
-        lat, long = _get_lat_long(user["location"])  
-        r = requests.get(
-            _WEATHER_URL.format(lat=lat, long=long)
-        )
+        lat, long = _get_lat_long(user["location"])
+        r = requests.get(_WEATHER_URL.format(lat=lat, long=long))
         user["weather"] = r.json()
 
-        return user  
+        return user
 
-    _get_weather_info = get_weather_info.expand(
-        user=_get_user_info
-    )  
+    _get_weather_info = get_weather_info.expand(user=_get_user_info)
 
     @task(outlets=[Asset("personalized_newsletters")])
     def create_personalized_newsletter(
@@ -124,24 +115,18 @@ def personalize_newsletter():
     ) -> None:
         from airflow.sdk import ObjectStoragePath
 
-        # fetch the run date of the pipeline from the triggering asset event
-        run_date = (
-            context["triggering_asset_events"][Asset("formatted_newsletter")][0]
-            .extra["run_date"]
-        )
-
+        if context["dag_run"].run_type == "asset_triggered":
+            run_date = context["triggering_asset_events"][
+                Asset("formatted_newsletter")
+            ][0].extra["run_date"]
+        else:
+            run_date = context["dag_run"].logical_date.strftime("%Y-%m-%d")
         id = user["id"]
         name = user["name"]
         location = user["location"]
-        actual_temp = user["weather"]["current"][
-            "temperature_2m"
-        ]
-        apparent_temp = user["weather"]["current"][
-            "apparent_temperature"
-        ]
-        rel_humidity = user["weather"]["current"][
-            "relative_humidity_2m"
-        ]
+        actual_temp = user["weather"]["current"]["temperature_2m"]
+        apparent_temp = user["weather"]["current"]["apparent_temperature"]
+        rel_humidity = user["weather"]["current"]["relative_humidity_2m"]
 
         new_greeting = (
             f"Hi {name}! \n\nIf you venture outside right now "
@@ -152,19 +137,13 @@ def personalize_newsletter():
         )
 
         object_storage_path = ObjectStoragePath(
-            f"{OBJECT_STORAGE_SYSTEM}://"
-            f"{OBJECT_STORAGE_PATH_NEWSLETTER}",
+            f"{OBJECT_STORAGE_SYSTEM}://" f"{OBJECT_STORAGE_PATH_NEWSLETTER}",
             conn_id=OBJECT_STORAGE_CONN_ID,
         )
 
-        daily_newsletter_path = (
-            object_storage_path
-            / f"{run_date}_newsletter.txt"
-        )
+        daily_newsletter_path = object_storage_path / f"{run_date}_newsletter.txt"
 
-        generic_content = (
-            daily_newsletter_path.read_text()
-        )
+        generic_content = daily_newsletter_path.read_text()
 
         personalized_content = generic_content.replace(
             "Hello Cosmic Traveler,",
@@ -172,16 +151,12 @@ def personalize_newsletter():
         )
 
         personalized_newsletter_path = (
-            object_storage_path
-            / f"{run_date}_newsletter_userid_{id}.txt"
+            object_storage_path / f"{run_date}_newsletter_userid_{id}.txt"
         )
 
-        personalized_newsletter_path.write_text(
-            personalized_content
-        )
+        personalized_newsletter_path.write_text(personalized_content)
 
-    create_personalized_newsletter.expand(
-        user=_get_weather_info
-    )
+    create_personalized_newsletter.expand(user=_get_weather_info)
+
 
 personalize_newsletter()
