@@ -37,10 +37,10 @@ def selected_quotes(context: dict):
 
     raw_zen_quotes = context["ti"].xcom_pull(
         dag_id="raw_zen_quotes",
-        task_ids="raw_zen_quotes",
+        task_ids=["raw_zen_quotes"], 
         key="return_value",
         include_prior_dates=True,
-    )
+    )[0]
 
     quotes_character_counts = [int(quote["c"]) for quote in raw_zen_quotes]
     median = np.median(quotes_character_counts)
@@ -84,10 +84,10 @@ def formatted_newsletter(context: dict):
 
     selected_quotes = context["ti"].xcom_pull(
         dag_id="selected_quotes",
-        task_ids="selected_quotes",
+        task_ids=["selected_quotes"],
         key="return_value",
         include_prior_dates=True,
-    )
+    )[0]
 
     # fetch the run date of the pipeline
     run_date = context["triggering_asset_events"][Asset("selected_quotes")][0].extra[

@@ -113,11 +113,11 @@ In this repo, `raw_zen_quotes` and `selected_quotes` are part of an asset-orient
    )
 
    selected_quotes = context["ti"].xcom_pull(
-      dag_id="selected_quotes",
-      task_ids="selected_quotes",
-      key="return_value",
-      include_prior_dates=True,
-   )
+        dag_id="selected_quotes",
+        task_ids=["selected_quotes"],
+        key="return_value",
+        include_prior_dates=True,
+    )[0]
 
    # fetch the run date of the pipeline
    run_date = context["triggering_asset_events"][Asset("selected_quotes")][0].extra[
@@ -202,7 +202,7 @@ To demonstrate a more realistic version of this pipeline, we have also included 
 You can run this version of the pipeline yourself if you have access to an AWS account:
 
 1. Replace the contents of `dags/personalize_newsletter.py` with the code in `solutions/personalize_newsletter_genai.py` (this will create a new DAG version!). 
-2. Add the contents of `.env_example` to `.env`, making sure to update `AIRFLOW_CONN_AWS_DEFAULT` with the credentials for your AWS account.
+2. Add the contents of `.env_example` to `.env`, making sure to update `AIRFLOW_CONN_AWS_DEFAULT` with the credentials for your AWS account. If you do this, MAKE SURE to add the `.env` file to `.gitignore` so you do not push your credentials to GitHub.
 3. Create a new SQS queue, and add the URL to `SQS_QUEUE_URL` in your `.env` file.
 4. Restart your Airflow project with `astro dev restart` for the `.env` changes to take effect.
 5. Run the new `personalize_newsletter` DAG by adding a message to your SQS queue with the following format:

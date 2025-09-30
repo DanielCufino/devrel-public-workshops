@@ -71,7 +71,7 @@ from airflow.sdk import dag
 
 
 @dag(
-    start_date=datetime(2025, 3, 1),
+    start_date=datetime(2025, 9, 1),
     schedule=(Asset("formatted_newsletter")),
     default_args={
         "retries": 2,

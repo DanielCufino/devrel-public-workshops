@@ -1,9 +1,7 @@
+from airflow.sdk import asset, Asset, Metadata
 import os
 
-from airflow.sdk import asset, Asset, Metadata
-
-
-# set these enviroment variables in order to store the newsletter 
+# set these enviroment variables in order to store the newsletter
 # in cloud object storage instead of the local filesystem
 OBJECT_STORAGE_SYSTEM = os.getenv("OBJECT_STORAGE_SYSTEM", default="file")
 OBJECT_STORAGE_CONN_ID = os.getenv("OBJECT_STORAGE_CONN_ID", default=None)
@@ -11,8 +9,6 @@ OBJECT_STORAGE_PATH_NEWSLETTER = os.getenv(
     "OBJECT_STORAGE_PATH_NEWSLETTER",
     default="include/newsletter",
 )
-
-
 
 @asset(schedule="@daily")
 def raw_zen_quotes(context: dict):
@@ -41,10 +37,10 @@ def selected_quotes(context: dict):
 
     raw_zen_quotes = context["ti"].xcom_pull(
         dag_id="raw_zen_quotes",
-        task_ids="raw_zen_quotes",  # FIXED: use string, not list
+        task_ids=["raw_zen_quotes"], 
         key="return_value",
         include_prior_dates=True,
-    )
+    )[0]
 
     quotes_character_counts = [int(quote["c"]) for quote in raw_zen_quotes]
     median = np.median(quotes_character_counts)
@@ -62,7 +58,7 @@ def selected_quotes(context: dict):
         "run_date"
     ]
 
-    # attach the run date to the asset event
+    # attach the run date to the asset
     yield Metadata(Asset("selected_quotes"), {"run_date": run_date})
 
     return {
@@ -70,4 +66,3 @@ def selected_quotes(context: dict):
         "short_q": short_quote,
         "long_q": long_quote,
     }
-
