@@ -110,14 +110,36 @@ In this repo, `raw_zen_quotes` and `selected_quotes` are part of an asset-orient
 5. Now that your ETL pipeline is complete, take a look at the `personalize_newsletter` DAG. This DAG is currently set to run daily, but it will actually fail if the `formatted_newsletter` asset has not been updated. Change the schedule of `personalize_newsletter` so that it actually runs only when the right data is available.
 6. This pipeline will generate a newsletter with motivational quotes and personalized weather information. In the `include/user_data` folder, update `user_100.json` to include your own name and location.
    - Bonus: try adding additional user files in `include/user_data` and see how that changes the pipeline when it runs.
-7. Run your full pipeline by materializing the `raw_zen_quotes` DAG. This should trigger all downstream assets and tasks to complete. Check that everything worked by reviewing the DAG runs in the Airflow UI, and checking your local `include/newsletter` folder for your personalized newsletter.
-
-> [!TIP]
-> The open-meteo weather API is occasionally flaky. If you get a failure in your `get_weather_info` task, let it retry, it will usually resolve. If you added additional users, you may need to implement a pool so you don't hit API rate limits. Ask one of your workshop leaders for help with this.
 
 ## Exercise 3: Add a human-in-the-loop
 
-## Exercise 4: Deploy your changes
+Airflow 3.1 introduced human-in-the-loop (HITL) operators, which allow you to manually intervene in your dags mid-dag run. In this use case, you might want a human to review the results of the newsletter personalization before sending. For more on HITL, see [Human-in-the-loop workflows with Airflow](https://www.astronomer.io/docs/learn/airflow-human-in-the-loop).
+
+1. In the Astro IDE code editor, open the `personalize_newsletter.py` file.
+2. Add a HITL operator to this dag that approves or rejects the output of the `get_weather_info` task. It should look like this:
+
+   ```python
+   approve_personalization = ApprovalOperator(
+      task_id="approve_personalization",
+      subject="Your task:",
+      body="{{ ti.xcom_pull(task_ids='get_weather_info') }}",
+      defaults="Approve", # other option: "Reject"
+    )
+   ```
+
+3. Make sure to also adjust the task dependencies in the dag, so that this task comes after `get_weather_info` but before `create_personalized_newsletter`.
+
+
+## Exercise 4: Test your changes
+
+Now you can test the changes you made in exercises 3 and 4 by syncing them to your test Deployment.
+
+1. Click `Sync to Test` in the upper right. This will send the changes you made to your two dags to your test Deployment. Note that syncing may take a few minutes.
+2. Run your full pipeline by materializing the `raw_zen_quotes` DAG. This should trigger all downstream assets and tasks to complete.
+3. Approve (or reject!) the results of your newsletter personalization by reviewing the `Required Actions` from your HITL operator.
+
+> [!TIP]
+> The open-meteo weather API is occasionally flaky. If you get a failure in your `get_weather_info` task, let it retry, it will usually resolve. If you added additional users, you may need to implement a pool so you don't hit API rate limits. Ask one of your workshop leaders for help with this.
 
 
 ## Exercise 5: Run a Backfill
