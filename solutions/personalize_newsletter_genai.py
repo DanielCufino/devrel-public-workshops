@@ -90,11 +90,10 @@ def personalize_newsletter_genai():
 
             print("The triggering asset event is: ", asset_event_name)
 
-
         if asset_event_name == "sqs_queue_asset":
             print("Triggered by SQS queue asset...")
             print("Processing the message from the SQS queue: ", asset_extra)
-            user_info = process_asset_event(asset_extra) # ToDo: update for RC3
+            user_info = process_asset_event(asset_extra)
 
         else:
             print("Triggered by formatted_newsletter asset...")
@@ -171,7 +170,6 @@ def personalize_newsletter_genai():
         )
         user_prompt = "The quotes to modify are:\n" + "\n".join(quotes)
 
-
         # Build the request for the model
         body = {
             "prompt": f"\n\nHuman: {formatted_system_prompt}\n\n{user_prompt}\n\nAssistant:",
@@ -223,11 +221,12 @@ def personalize_newsletter_genai():
 
         from airflow.io.path import ObjectStoragePath
 
-        # fetch the run date of the pipeline from the triggering asset event
-        run_date = (
-            context["triggering_asset_events"][Asset("formatted_newsletter")][0]
-            .extra["run_date"]
-        )
+        if context["dag_run"].run_type == "asset_triggered":
+            run_date = context["triggering_asset_events"][
+                Asset("formatted_newsletter")
+            ][0].extra["run_date"]
+        else:
+            run_date = context["dag_run"].logical_date.strftime("%Y-%m-%d")
 
         id = user["id"]
         name = user["name"]
