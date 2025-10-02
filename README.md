@@ -33,9 +33,22 @@ For this workshop, you will use a free trial of Astro to run Airflow and the Ast
 6. Ensure you are authenticated to your Astro trial by running `astro login` in your terminal. It will prompt you to go to your browser to sign in.
 7. Export your project to the Astro IDE by running `astro ide project export` in your terminal. Choose `y` to create a new project, and give your project a name when prompted. Your new Astro IDE project should automatically open in a browser.
 8. To start Airflow, click the `Start test deployment` button. This will create a small Airflow Deployment for you to run your dags. It may take a few minutes to spin up.
-9. To enable scheduled dag runs in your new Airflow Deployment, click on the drop down next to `Sync to test`, and click `Test Deployment Details`. In the details tab, you need to perform 2 changes:
-   - Update the minimum workers by going to the `Execution` tab and clicking `Edit`. Set `Min # Workers` to 0, and click `Update Deployment`.
+9. To enable scheduled dag runs in your new Airflow Deployment, click on the drop down next to `Sync to test`, and click `Test Deployment Details`.
+
+   ![Test deployment details](img/deployment-change-1.png)
+
+In the Deployment, you need to perform 2 changes:
+
+   - Update the minimum workers by going to the `Details` tab, then `Execution` and click `Edit`.
+   ![Execution](img/deployment-change-2.png)
+
+   Set `Min # Workers` to 0, and click `Update Deployment`.
+   ![Min workers](img/deployment-change-3.png)
+
    - Go to the `Environment` tab, click `Edit Deployment Variables`, and delete the `AIRFLOW__SCHEDULER__USE_JOB_SCHEDULE` variable.
+
+   ![Env var](img/deployment-change-4.png)
+
 10. Go back to the Astro IDE, and in the drop down next to `Sync to Test`, click on `Open Airflow`.
 
 
@@ -132,14 +145,14 @@ Airflow 3.1 introduced human-in-the-loop (HITL) operators, which allow you to ma
 1. In the Astro IDE code editor, open the `personalize_newsletter.py` file.
 2. Add a HITL operator to this dag that approves or rejects the output of the `get_weather_info` task. It should look like this:
 
-   ```python
-   approve_personalization = ApprovalOperator(
-      task_id="approve_personalization",
-      subject="Your task:",
-      body="{{ ti.xcom_pull(task_ids='get_weather_info') }}",
-      defaults="Approve", # other option: "Reject"
-    )
-   ```
+```python
+approve_personalization = ApprovalOperator(
+   task_id="approve_personalization",
+   subject="Your task:",
+   body="{{ ti.xcom_pull(task_ids='get_weather_info') }}",
+   defaults="Approve", # other option: "Reject"
+   )
+```
 
 3. Make sure to also adjust the task dependencies in the dag, so that this task comes after `get_weather_info` but before `create_personalized_newsletter`.
 4. Deploy your changes by clicking `Sync to Test` in the upper right. This will send the changes you made to your two dags to your test Deployment. Note that syncing may take a few minutes.
