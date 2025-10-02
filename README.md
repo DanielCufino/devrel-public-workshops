@@ -54,7 +54,7 @@ In the Deployment, you need to perform 2 changes:
 
 # Exercises
 
-The use case for this workshop is using Airflow to create an automated personalized newsletter. There is an ETL pipeline for retrieving the data, formatting it, and creating the newsletter template. Then there is another pipeline that personalizes the newsletter based on user input. The personalization pipeline is simplified to not require access to external systems - but there is a more complex GenAI version (used in the future work Exercise 7) that shows inference execution with event-driven scheduling and LLM-driven personalization. This exercise requires an AWS account with access to SQS and Bedrock to complete.
+The use case for this workshop is using Airflow to create an automated personalized newsletter. There is an ETL pipeline for retrieving the data, formatting it, and creating the newsletter template. Then there is another pipeline that personalizes the newsletter based on user input. The personalization pipeline is simplified to not require access to external systems - but there is a more complex GenAI version (used in the future work Exercise 6) that shows inference execution with event-driven scheduling and LLM-driven personalization. This exercise requires an AWS account with access to SQS and Bedrock to complete.
 
 ![Demo architecture diagram](img/etl_genai_newsletter_architecture_diagram_bedrock.png)
 
@@ -171,7 +171,7 @@ Let's say you just deployed these pipelines, and you need to create newsletters 
 4. Notice what happened to the other downstream DAGs in your environment. Were they triggered as well? 
 5. You might notice that with the HITL operator we added, you have to interact with the reprocessed runs. Try out the instance-wide view for HITL via Browse -> Required Actions.
 
-## Exercise 6: Use DAG versioning
+## Exercise 5: Use DAG versioning
 
 DAG versioning is a new feature in Airflow 3 that allows you to track changes to your DAG code over time in the Airflow UI. DAG versioning using the `LocalDagBundle` is set up automatically. For more background on dag versioning, see [DAG Versioning and DAG Bundles](https://www.astronomer.io/docs/learn/airflow-dag-versioning/).
 
@@ -185,7 +185,7 @@ Changes to your DAG's structure will prompt a new version to be recorded by Airf
 > New DAG versions are only created when the DAG's structure changes since the last run. Making a change to the task code will not prompt a new version.
 
 
-## (Future work) Exercise 7: Run a GenAI DAG with event-driven scheduling
+## (Future work) Exercise 6: Run a GenAI DAG with event-driven scheduling
 
 The `personalize_newsletter` pipeline in this workshop is designed to not require connections to any external systems. While this is helpful for workshop participants who may not all use the same tech stack, it is not representative of real-world Airflow usage.
 
