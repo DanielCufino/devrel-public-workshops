@@ -109,13 +109,6 @@ def personalize_newsletter():
 
     _get_weather_info = get_weather_info.expand(user=_get_user_info)
 
-    approve_personalization = ApprovalOperator(
-        task_id="approve_personalization",
-        subject="Your task:",
-        body="{{ ti.xcom_pull(task_ids='get_weather_info') }}",
-        defaults="Approve", # other option: "Reject"
-    )
-
     @task(outlets=[Asset("personalized_newsletters")])
     def create_personalized_newsletter(
         user: dict,
@@ -164,8 +157,16 @@ def personalize_newsletter():
         )
 
         personalized_newsletter_path.write_text(personalized_content)
+        return personalized_content
 
-    _get_weather_info >> approve_personalization >> create_personalized_newsletter.expand(user=_get_weather_info)
+    approve_personalization = ApprovalOperator(
+        task_id="approve_personalization",
+        subject="Your task:",
+        body="{{ ti.xcom_pull(task_ids='create_personalized_newsletter') }}",
+        defaults="Approve", # other option: "Reject"
+    )
+
+    create_personalized_newsletter.expand(user=_get_weather_info) >> approve_personalization
 
 
 personalize_newsletter()

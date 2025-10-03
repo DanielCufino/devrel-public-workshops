@@ -143,18 +143,18 @@ yield Metadata(Asset("formatted_newsletter"), {"run_date": run_date})
 Airflow 3.1 introduced human-in-the-loop (HITL) operators, which allow you to manually intervene in your dags mid-dag run. In this use case, you might want a human to review the results of the newsletter personalization before sending. For more on HITL, see [Human-in-the-loop workflows with Airflow](https://www.astronomer.io/docs/learn/airflow-human-in-the-loop).
 
 1. In the Astro IDE code editor, open the `personalize_newsletter.py` file.
-2. Add a HITL operator to this dag that approves or rejects the output of the `get_weather_info` task. It should look like this:
+2. Add a HITL operator to this dag that approves or rejects the output of the `create_personalized_newsletter` task. It should look like this:
 
 ```python
 approve_personalization = ApprovalOperator(
    task_id="approve_personalization",
    subject="Your task:",
-   body="{{ ti.xcom_pull(task_ids='get_weather_info') }}",
+   body="{{ ti.xcom_pull(task_ids='create_personalized_newsletter') }}",
    defaults="Approve", # other option: "Reject"
-   )
+)
 ```
 
-3. Make sure to also adjust the task dependencies in the dag, so that this task comes after `get_weather_info` but before `create_personalized_newsletter`.
+3. Make sure to also adjust the task dependencies in the dag, so that this task comes after `create_personalized_newsletter``.
 4. Deploy your changes by clicking `Sync to Test` in the upper right. This will send the changes you made to your two dags to your test Deployment. Note that syncing may take a few minutes.
 5. Run the `personalize_newsletter` dag again, and approve (or reject!) the results of your newsletter personalization by reviewing the `Required Actions` from your HITL operator.
 
