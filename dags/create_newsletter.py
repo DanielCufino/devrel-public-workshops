@@ -10,7 +10,6 @@ OBJECT_STORAGE_PATH_NEWSLETTER = os.getenv(
     default="include/newsletter",
 )
 
-
 @asset(schedule="@daily")
 def raw_zen_quotes(context: dict):
     """
@@ -38,7 +37,7 @@ def selected_quotes(context: dict):
 
     raw_zen_quotes = context["ti"].xcom_pull(
         dag_id="raw_zen_quotes",
-        task_ids=["raw_zen_quotes"],
+        task_ids=["raw_zen_quotes"], 
         key="return_value",
         include_prior_dates=True,
     )[0]
@@ -54,12 +53,10 @@ def selected_quotes(context: dict):
     short_quote = [quote for quote in raw_zen_quotes if int(quote["c"]) < median][0]
     long_quote = [quote for quote in raw_zen_quotes if int(quote["c"]) > median][0]
 
-    if context["dag_run"].run_type == "asset_triggered":
-        run_date = context["triggering_asset_events"][Asset("raw_zen_quotes")][0].extra[
-            "run_date"
-        ]
-    else:
-        run_date = context["dag_run"].logical_date.strftime("%Y-%m-%d")
+    # fetch the run date of the pipeline
+    run_date = context["triggering_asset_events"][Asset("raw_zen_quotes")][0].extra[
+        "run_date"
+    ]
 
     # attach the run date to the asset
     yield Metadata(Asset("selected_quotes"), {"run_date": run_date})

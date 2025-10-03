@@ -157,6 +157,7 @@ def personalize_newsletter():
         )
 
         personalized_newsletter_path.write_text(personalized_content)
+        return personalized_content
 
     create_personalized_newsletter.expand(user=_get_weather_info)
 
