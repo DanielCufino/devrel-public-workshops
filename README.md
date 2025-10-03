@@ -4,7 +4,6 @@ Welcome! 🚀
 
 This is the repository for Astronomer's Discover Airflow 3 hands-on workshop. The workshop is designed to get you familiar with some of the biggest new features in Airflow 3.X.
 
-
 ## How to use this repo
 
 Set up your environment by following the instructions in the [Setup](#setup) section below. All DAGs in this repository can be run locally and on Astro without connecting to external systems. The exercises are designed to get you exposure to new features in Airflow 3. There are also optional exercises that require an AWS account.
@@ -28,7 +27,7 @@ For this workshop, you will use a free trial of Astro to run Airflow and the Ast
 
    ![Forking the repository](img/fork_repo.png)
 
-4. Clone your fork. Get the URL by clicking on Code -> Copy to clipboard. Then run git clone <url>.
+4. Clone your fork. Get the URL by clicking on Code -> Copy to clipboard. Then run `git clone <url>`.
 5. Run `git checkout airflow-3-ide` to switch to the airflow 3 branch.
 6. Ensure you are authenticated to your Astro trial by running `astro login` in your terminal. It will prompt you to go to your browser to sign in.
 7. Export your project to the Astro IDE by running `astro ide project export` in your terminal. Choose `y` to create a new project, and give your project a name when prompted. Your new Astro IDE project should automatically open in a browser.
@@ -51,7 +50,6 @@ In the Deployment, you need to perform 2 changes:
 
 10. Go back to the Astro IDE, and in the drop down next to `Sync to Test`, click on `Open Airflow`.
 
-
 # Exercises
 
 The use case for this workshop is using Airflow to create an automated personalized newsletter. There is an ETL pipeline for retrieving the data, formatting it, and creating the newsletter template. Then there is another pipeline that personalizes the newsletter based on user input. The personalization pipeline is simplified to not require access to external systems - but there is a more complex GenAI version (used in the future work Exercise 6) that shows inference execution with event-driven scheduling and LLM-driven personalization. This exercise requires an AWS account with access to SQS and Bedrock to complete.
@@ -71,7 +69,6 @@ Airflow 3 has a completely refreshed UI that is React-based and easier to naviga
 5. Try unpausing the `personalize_newsletter` DAG. It should run automatically once, but it will fail. The failure is expected, and you will fix it in the next exercise. The Airflow 3 UI makes it easier to navigate to task logs. See if you can figure out what went wrong with `personalize_newsletter`.
 6. Switch between light mode and dark mode 😎
 7. Try a different language from the `User` menu.
-
 
 ## Exercise 2: Use Assets
 
@@ -154,10 +151,9 @@ approve_personalization = ApprovalOperator(
 )
 ```
 
-3. Make sure to also adjust the task dependencies in the dag, so that this task comes after `create_personalized_newsletter``.
+3. Make sure to also adjust the task dependencies in the dag, so that this task comes after `create_personalized_newsletter`.
 4. Deploy your changes by clicking `Sync to Test` in the upper right. This will send the changes you made to your two dags to your test Deployment. Note that syncing may take a few minutes.
 5. Run the `personalize_newsletter` dag again, and approve (or reject!) the results of your newsletter personalization by reviewing the `Required Actions` from your HITL operator.
-
 
 ## Exercise 4: Run a Backfill
 
@@ -168,14 +164,14 @@ Let's say you just deployed these pipelines, and you need to create newsletters 
 1. Start a backfill of the `raw_zen_quotes` DAG using the UI, by clicking the blue `Trigger` button and selecting `Backfill`. (see: [Backfill](https://www.astronomer.io/docs/learn/rerunning-dags#backfill))
 2. In the `Backfill` form, choose a date range and reprocessing behavior for your backfill. The form will show you how many runs will be triggered based on your selections. See if you can select setting that will trigger 2 dag runs.
 3. Start the backfill, and notice the progress bar in the UI (you may need to refresh the page). What is different about these runs in the grid?
-4. Notice what happened to the other downstream DAGs in your environment. Were they triggered as well? 
+4. Notice what happened to the other downstream DAGs in your environment. Were they triggered as well?
 5. You might notice that with the HITL operator we added, you have to interact with the reprocessed runs. Try out the instance-wide view for HITL via Browse -> Required Actions.
 
 ## Exercise 5: Use DAG versioning
 
 DAG versioning is a new feature in Airflow 3 that allows you to track changes to your DAG code over time in the Airflow UI. DAG versioning using the `LocalDagBundle` is set up automatically. For more background on dag versioning, see [DAG Versioning and DAG Bundles](https://www.astronomer.io/docs/learn/airflow-dag-versioning/).
 
-Changes to your DAG's structure will prompt a new version to be recorded by Airflow. In Exercises 2 and 3, you made changes to the `personalize_newsletter` dag - let's start there. 
+Changes to your DAG's structure will prompt a new version to be recorded by Airflow. In Exercises 2 and 3, you made changes to the `personalize_newsletter` dag - let's start there.
 
 1. In the Airflow UI, go to the Graph of your `personalize_newsletter` DAG, click on `Options` and notice the Dag Version drop down. How many versions are there?
 2. Toggle the graph between the different versions. You should see changes in the graph for when you added a new task.
@@ -183,7 +179,6 @@ Changes to your DAG's structure will prompt a new version to be recorded by Airf
 
 > [!TIP]
 > New DAG versions are only created when the DAG's structure changes since the last run. Making a change to the task code will not prompt a new version.
-
 
 ## (Future work) Exercise 6: Run a GenAI DAG with event-driven scheduling
 
@@ -193,7 +188,7 @@ To demonstrate a more realistic version of this pipeline, we have also included 
 
 You can run this version of the pipeline yourself if you have access to an AWS account:
 
-1. Replace the contents of `dags/personalize_newsletter.py` with the code in `solutions/personalize_newsletter_genai.py` (this will create a new DAG version!). 
+1. Replace the contents of `dags/personalize_newsletter.py` with the code in `solutions/personalize_newsletter_genai.py` (this will create a new DAG version!).
 2. Add the contents of `.env_example` to `.env`, making sure to update `AIRFLOW_CONN_AWS_DEFAULT` with the credentials for your AWS account. If you do this, MAKE SURE to add the `.env` file to `.gitignore` so you do not push your credentials to GitHub.
 3. Create a new SQS queue, and add the URL to `SQS_QUEUE_URL` in your `.env` file.
 4. Restart your Airflow project with `astro dev restart` for the `.env` changes to take effect.
@@ -209,4 +204,3 @@ You can run this version of the pipeline yourself if you have access to an AWS a
    ```
 6. Check to see that your `personalize_newsletter` DAG started running. Note that you can change the Bedrock model used by the DAG, and you may need to request access to a particular model from within your AWS account if you have not already used it.
 7. Review your personalized newsletter in `include/newsletters`.
-
