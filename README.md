@@ -4,7 +4,7 @@ Welcome! 🚀
 
 This is the repository for Astronomer's [Productionising dbt Core with Airflow workshop](https://airflowsummit.org/sessions/2025/productionising-dbt-core/) given at Airflow Summit 2025. The 2.5 hour workshop is designed to get you familiar with some of the main features in [Astronomer Cosmos](https://github.com/astronomer/astronomer-cosmos).
 
-The worksho slides can be found [here](https://docs.google.com/presentation/d/1QlOrxCoPUtmrBceY_yZAyhAEg7qZVUd__wzje1gNnKw/edit?slide=id.g3878061f0be_0_170#slide=id.g3878061f0be_0_170).
+The workshop slides can be found [here](https://docs.google.com/presentation/d/1QlOrxCoPUtmrBceY_yZAyhAEg7qZVUd__wzje1gNnKw/edit?slide=id.g3878061f0be_0_170#slide=id.g3878061f0be_0_170).
 
 # Goal
 
