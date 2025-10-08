@@ -10,7 +10,6 @@ OBJECT_STORAGE_PATH_NEWSLETTER = os.getenv(
     default="include/newsletter",
 )
 
-
 @asset(schedule="@daily")
 def raw_zen_quotes(context: dict):
     """
@@ -54,6 +53,7 @@ def selected_quotes(context: dict):
     short_quote = [quote for quote in raw_zen_quotes if int(quote["c"]) < median][0]
     long_quote = [quote for quote in raw_zen_quotes if int(quote["c"]) > median][0]
 
+    # fetch the run date of the pipeline
     if context["dag_run"].run_type == "asset_triggered":
         run_date = context["triggering_asset_events"][Asset("raw_zen_quotes")][0].extra[
             "run_date"

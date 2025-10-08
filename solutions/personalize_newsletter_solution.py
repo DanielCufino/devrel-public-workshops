@@ -1,6 +1,7 @@
 import os
 
 from airflow.sdk import Asset, dag
+from airflow.providers.standard.operators.hitl import ApprovalOperator
 from airflow.decorators import task
 from pendulum import datetime
 
@@ -156,14 +157,16 @@ def personalize_newsletter():
         )
 
         personalized_newsletter_path.write_text(personalized_content)
+        return personalized_content
 
-    create_personalized_newsletter.expand(user=_get_weather_info)
+    approve_personalization = ApprovalOperator(
+        task_id="approve_personalization",
+        subject="Your task:",
+        body="{{ ti.xcom_pull(task_ids='create_personalized_newsletter') }}",
+        defaults="Approve", # other option: "Reject"
+    )
 
-    @task
-    def add_a_task():
-        return 2 + 2
-
-    add_a_task()
+    create_personalized_newsletter.expand(user=_get_weather_info) >> approve_personalization
 
 
 personalize_newsletter()
